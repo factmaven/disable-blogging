@@ -1,0 +1,53 @@
+=== Disable Blogging ===
+Contributors: factmaven
+Tags: disable, blog, posts, comments
+Requires at least: 3.0.1
+Tested up to: 4.5.2
+Stable tag: 1.1.4
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+Simple-n-quick, disable and hide access to all blogging functionalities on WordPress, 'nuff said.
+
+== Description ==
+If you don't use the blogging functionality of WordPress, this helps simplify the website by:
+
+* Disable and hide access to the `Posts` and `Comments` menu items
+* Remove blogging menu items from toolbar (admin bar)
+* Remove Comments columns from pages
+* Redirect `Dashboard` to `Pages`
+* Remove feed links and related types
+* Remove query strings from static resources
+
+== Installation ==
+1. Upload the plugin to the `/wp-content/plugins/` directory.
+1. Activate the plugin through the `Plugins` menu in WordPress.
+1. Let it settle in a for a minute and be amazed.
+
+No settings or configuration needed, activate and enjoy.
+
+== Frequently Asked Questions ==
+= Why is this the only question? =
+The better is question is why are you on this FAQ page?
+
+== Screenshots ==
+1. Before
+2. After
+
+== Changelog ==
+= 1.1.4 (05/16/16) =
+* Disable `Appearance` > `Editor` menu
+* Disable `Plugins` > `Editor` menu
+
+= 1.1.3 (05/16/16) =
+* Enabled **`Tools`** menu again
+* Also remove `ver=` query strings
+
+= 1.1.0 (05/15/16) =
+* Cleaned up code format
+* Updated documentation
+* **FEATURE**: Remove feeds
+* **FEATURE**: Remove `?ver` query strings
+
+= 1.0 (05/14/16) =
+* Initial release, yay!
