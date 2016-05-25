@@ -2,11 +2,11 @@
 /*
 Plugin Name: Disable Blogging
 Plugin URI: https://wordpress.org/plugins/disable-blogging/
-Description: Simply disables blogging functionality & removes the links from menu, 'nuff said.
-Version: 1.0.0
+Description: Disables posts, comments, and other related the blogging features from WordPress, 'nuff said.
+Version: 1.1.0
 Author: Fact Maven Corp.
 Author URI: http://www.factmaven.com/
-License: GPL2 or later
+License: GPL2
 */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -20,8 +20,10 @@ add_action( 'wp_loaded', 'dsbl_feeds' );
 add_action( 'personal_options','dsbl_user_profile' );
 
 // ADD FILTERS
+add_filter( 'plugin_row_meta', 'dsbl_plugin_row_meta', 10, 2 );
 add_filter( 'script_loader_src', 'dsbl_remove_script_version' );
 add_filter( 'style_loader_src', 'dsbl_remove_script_version' );
+add_filter( 'editable_roles', 'dsbl_exclude_role' );
 
 /* ACTIONS
 -------------------------------------------------------------- */
@@ -72,26 +74,31 @@ function dsbl_feeds() { // Remove feed links
     remove_action( 'wp_head', 'wp_generator' ); // wordpress version
 }
 
-function dsbl_user_profile() {
-    remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
-    
+function dsbl_user_profile() { // Hide certain fields from user profile
     echo "\n" . '
     <script type="text/javascript">
-    jQuery(document).ready(function($) {
-        $(\'form#your-profile > h3:first\').hide(); $(\'form#your-profile > table:first\').hide();
+    jQuery( document ).ready( function($) {
+        $(\'form#your-profile > h2\').hide();
+        $(\'form#your-profile > table:first\').hide();
         $(\'form#your-profile\').show();
+        $(\'#nickname, #display_name, #url, #description\').parent().parent().hide();
     });
     </script>' . "\n";
 }
 
-function add_twitter_contactmethod( $contactmethods ) {
-  unset($contactmethods['description']);
-  return $contactmethods;
-}
-add_filter('user_contactmethods','add_twitter_contactmethod',10,1);
-
 /* FILTERS
 -------------------------------------------------------------- */
+
+function dsbl_plugin_row_meta( $links, $file ) {
+    if ( strpos( $file, 'disable-blogging.php' ) !== false ) {
+        $new_links = array(
+        'support' => '<a href="https://wordpress.org/support/plugin/disable-blogging" target="_blank">Support</a>',
+        'github' => '<a href="https://github.com/factmaven/disable-blogging" target="_blank">GitHub</a>'
+        );
+        $links = array_merge( $links, $new_links );
+    }
+    return $links;
+}
 
 function dsbl_remove_script_version( $src ) { // Remove query strings from static resources
     if( strpos( $src, '?ver=' ) || strpos( $src, '&ver=' ) ) {
@@ -99,5 +106,21 @@ function dsbl_remove_script_version( $src ) { // Remove query strings from stati
     }
     return $src;
 }
+
+function dsbl_exclude_role( $roles ) { // Hide default user roles (except admin)
+    if ( isset( $roles['author'] ) ) {
+        unset( $roles['author'] );
+    }
+    if ( isset( $roles['editor'] ) ) {
+        unset( $roles['editor'] );
+    }
+    if ( isset( $roles['subscriber'] ) ) {
+        unset( $roles['subscriber'] );
+    }
+    if ( isset( $roles['contributor'] ) ) {
+        unset( $roles['contributor'] );
+    }
+    return $roles;
+ }
 
 ?>
