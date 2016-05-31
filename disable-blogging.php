@@ -24,7 +24,7 @@ add_action( 'admin_menu', 'dsbl_sidebar_menu', 10, 1 );
 add_action( 'wp_before_admin_bar_render', 'dsbl_toolbar_menu', 10, 1 );
 add_action( 'init', 'dsbl_page_comments', 10, 1 );
 add_action( 'personal_options', 'dsbl_user_profile', 10, 1 );
-add_action( 'pre_ping', 'dsbl_pingback', 10, 1 );
+add_action( 'pre_ping', 'dsbl_pings_trackbacks', 10, 1 );
 add_action( 'wp_loaded', 'dsbl_feeds', 1, 1 );
 add_action( 'widgets_init', 'dsbl_widgets', 11, 1 );
 add_action( 'admin_head', 'dsbl_help_tabs', 999, 1 );
@@ -34,6 +34,7 @@ add_action( 'load-press-this.php', 'dsbl_press_this', 10, 1 );
 add_filter( 'xmlrpc_enabled', '__return_false', 10, 1 ); // Doesn't need a function
 add_filter( 'plugin_row_meta', 'dsbl_plugin_links', 10, 2 );
 add_filter( 'admin_bar_menu', 'dsbl_howdy', 25, 1 );
+add_filter( 'comments_template', 'dsbl_comments_template', 20, 1 );
 add_filter( 'script_loader_src', 'dsbl_script_version', 10, 1 );
 add_filter( 'style_loader_src', 'dsbl_script_version', 10, 1 );
 add_filter( 'editable_roles', 'dsbl_exclude_role', 10, 1 );
@@ -42,23 +43,23 @@ add_filter( 'editable_roles', 'dsbl_exclude_role', 10, 1 );
 -------------------------------------------------------------- */
 
 function dsbl_sidebar_menu() { // Remove menu items & redirect to page menu
-    remove_menu_page( 'index.php' ); // dashboard
-    remove_menu_page( 'edit.php' ); // posts
-    remove_menu_page( 'edit-comments.php' ); // comments
-    remove_submenu_page( 'tools.php', 'tools.php' ); // tools > available tools
-    remove_submenu_page( 'options-general.php', 'options-writing.php' ); // settings > writing
-    remove_submenu_page( 'options-general.php', 'options-discussion.php' ); // settings > discussion
+    remove_menu_page( 'index.php' ); // Dashboard
+    remove_menu_page( 'edit.php' ); // Posts
+    remove_menu_page( 'edit-comments.php' ); // Comments
+    remove_submenu_page( 'tools.php', 'tools.php' ); // Tools > Available Tools
+    remove_submenu_page( 'options-general.php', 'options-writing.php' ); // Settings > Writing
+    remove_submenu_page( 'options-general.php', 'options-discussion.php' ); // Settings > Discussion
 
     global $pagenow;
-    if ( in_array( $pagenow, array( 'index.php', 'edit.php', 'post-new.php', 'edit-tags.php', 'edit-comments.php' ), true ) && ( ! isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) { // dashboard, posts, comments
+    if ( in_array( $pagenow, array( 'index.php', 'edit.php', 'post-new.php', 'edit-tags.php', 'edit-comments.php' ), true ) && ( ! isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) { // Dashboard, Posts, Comments
         wp_redirect( admin_url( 'edit.php?post_type=page' ), 301 );
         exit;
     }
-    if ( in_array( $pagenow, array( 'tools.php' ), true ) ) { // tools
+    if ( in_array( $pagenow, array( 'tools.php' ), true ) ) { // Tools
         wp_redirect( admin_url( 'import.php' ), 301 );
         exit;
     }
-    if ( in_array( $pagenow, array( 'options-writing.php', 'options-discussion.php' ), true ) ) { // settings
+    if ( in_array( $pagenow, array( 'options-writing.php', 'options-discussion.php' ), true ) ) { // Settings
         wp_redirect( admin_url( 'options-general.php' ), 301 );
         exit;
     }
@@ -85,12 +86,12 @@ function dsbl_user_profile() { // Hide certain fields from user profile
         $(\'form#your-profile > h3\').hide();
         $(\'form#your-profile > table:first\').hide();
         $(\'form#your-profile\').show();
-        $(\'#nickname, #display_name, #url, #aim, #yim, #jabber, #facebook, #twitter, #googleplus, #description, #wpseo_author_title, #wpseo_author_metadesc\').parent().parent().hide();
+        $(\'#nickname, #display_name, #url, #aim, #yim, #jabber, #googleplus, #twitter, #facebook, #description, #wpseo_author_title, #wpseo_author_metadesc\').parent().parent().hide();
     });
     </script>' . "\n";
 }
 
-function dsbl_pingback( &$links ) { // Disable pings and trackbacks
+function dsbl_pings_trackbacks( &$links ) { // Disable pings and trackbacks
     $home = get_option( 'home' );
     foreach ( $links as $l => $link ) {
         if ( 0 === strpos( $link, $home ) ) {
@@ -153,8 +154,9 @@ function dsbl_help_tabs() { // Remove help tabs
     $screen->remove_help_tabs();
 }
 
-function dsbl_press_this() { // Disables "Press This"
-    wp_die('"Press This" functionality has been disabled.');
+function dsbl_press_this() { // Disables "Press This" and redirect to dashboard
+    // wp_die('"Press This" functionality has been disabled.');
+    wp_redirect( admin_url( '/' ), 301 );
 }
 
 /* FILTERS
@@ -178,6 +180,10 @@ function dsbl_howdy( $wp_admin_bar ) { // Removed "Howdy," from the admin bar, w
         'id' => 'my-account',
         'title' => $no_howdy,
     ) );
+}
+
+function dsbl_comments_template() { // Replaces theme's comments template with empty page
+        return dirname( __FILE__ ) . '/includes/comments-template.php';
 }
 
 function dsbl_script_version( $src ) { // Remove query strings from static resources

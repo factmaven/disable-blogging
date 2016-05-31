@@ -2,28 +2,58 @@
 
 Disables posts, comments, and other related the blogging features from WordPress, 'nuff said.
 
-
 ## Description 
-If you don't use the blogging functionality of WordPress, this plugin helps simplify the website by:
+**Disable Blogging** is a plugin that disables all blogging-related functionalities on WordPress on the front-end and the back-end. This makes for a cleaner and simpler WordPress platform to be used for static websites.
 
-* Disable and hide access to the `Posts` and `Comments` menu items
-* Redirects `Posts` and `Comments` menu to `Pages` menu
-* Remove blogging menu items from toolbar (admin bar)
-* Remove Comments columns from pages
-* Redirect `Dashboard` to `Pages`
-* Remove feed links and related types
-* Remove query strings from static resources
+### Menu, Submenu & Toolbar Items 
+Remove items from sidebar and toolbar and redirect to _Page_ menu.
 
+* **Main**: Dashboard (home), Posts, Comments
+* **Tools**: Available Tools
+* **Settings**: Writing, Discussion
+* **Toolbar**: WordPress logo, Posts, Comments, Search
 
-### Disclaimer 
+### Disable Post & Comments 
+* Remove comments function from pages
+* Remove blog related widgets
+
+### Disable Feeds & Related 
+* Disable pingbacks and trackbacks
+* Disable XMLRPC
+* Remove all feed links & redirect to homepage
+* Remove blog related widgets
+
+### Simplify User Profile 
+Remove certain fields and options from the _User Profile_ making less clutter.
+
+* **Personal Options**: Remove Visual Editor, Admin Color Scheme, Keyboard Shortcuts, Toolbar
+* **Name**: Nickname, Display Name
+* **Contact Info**: Website, Aim, Yahoo IM, Jabber, Google+, Twitter, Facebook
+* **About Yourself**: Description
+* **[Yoast SEO](https://wordpress.org/plugins/wordpress-seo)**: Google+, Twitter, Facebook, Author Page Title, Author Description
+
+### Other Features 
+* Disable themes & plugins editor
+* Disable post revisions
+* Remove "Howdy," on the upper right of the toolbar
+* Remove "Help" tabs in upper right in the dashboard
+* Disables "Press This" function
+* Remove query strings (`ver=`) from static resources
+* Hide default user roles (except admin)
+
+### Notice 
 This plugin does not delete any information, scripts, data, etc. on WordPress' core files and database. It simply hides and disables those features that are blog related.
-
 
 ## Frequently Asked Questions 
 
 ### Are these changes permanent? 
 No, this plugin simply disables, hides, and redirects all of the blogging functions. You can easily revert back by simply disabling the plugin.
 
+### So these blogging functions are just hidden from view? 
+No, they are also disabled from being access as well for added security. If someone were to access the *Posts* menu:
+`wordpress.org/wp-admin/post.php`
+They would be redirected to the *Pages* menu:
+`wordpress.org/wp-admin/edit.php?post_type=page`
 
 ### I like all of the features in this plugin except for (insert_feature_here), how can I disable it? 
 It's fairly simple. You can disable the function by doing the following:
@@ -35,15 +65,13 @@ It's fairly simple. You can disable the function by doing the following:
 
 **Note**: This needs to be done every time the plugin updates.
 
-
-### I notice that there are still some blogging functions that I still see 
-This plugin tries its best to disable all related features, if something is missed. Please mention it in our [Support forum](https://wordpress.org/support/plugin/disable-blogging)
+### I notice that there are still some blogging functions on WordPress, such as (insert_blogging_function_here) 
+This plugin tries its best to disable all blogging related features, if something is missed, please mention it in our [support forum](https://wordpress.org/support/plugin/disable-blogging).
 
 ## Changelog 
-
 ### 1.1.0 
-* 00/00/16
-* Updated `readme.txt` and added `README.md` (GitHub)
+* 05/31/16
+* Updated `readme.txt`
 * Added plugin meta links
 * Removes "Howdy," from the admin bar
 * Hide certain fields from user profile
@@ -53,8 +81,9 @@ This plugin tries its best to disable all related features, if something is miss
 * Disable "Press This"
 * Disable blog related widgets
 * Disable pings & trackbacks
-* Disable post revisions
 * Disable XML-RPC
+* Disable post revisions
+* Disable theme's comment template
 * Various code improvements
 
 
