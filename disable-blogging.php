@@ -47,12 +47,19 @@ if( ! class_exists( 'Disable_Blogging' ) )
 
         /* ACTIONS
         -------------------------------------------------------------- */
-        
-        function dsbl_admin_notice() {
+
+        function dsbl_admin_notice() { // Disable conflicting plugins and display admin notice
             if( is_plugin_active( 'disable-blogging/disable-blogging.php' ) ) {
                 global $pagenow;
                 if( $pagenow == 'plugins.php' ) {
-                    deactivate_plugins( 'disable-blog/disable-blog.php' );
+                    $plugins = array(
+                        'disable-blog/disable-blog.php', // Disable Blog
+                        'disable-comments/disable-comments.php', // Disable Comments
+                        'disable-comments-wpz/disable-comments-wpz.php'
+                        );
+                    foreach ( $plugins as $item ) {
+                        deactivate_plugins( $item );
+                    }
                     if ( current_user_can( 'install_plugins' ) ) {
                         echo '<div id="message" class="updated notice is-dismissible"><p>Please make sure to <strong>deactivate</strong> other blog disabling plugins to prevent conflicts.</p></div>';
                     }
@@ -64,8 +71,7 @@ if( ! class_exists( 'Disable_Blogging' ) )
             $menu = array(
                 'index.php', // Dashboard
                 'edit.php', // Posts
-                'edit-comments.php', // Comments
-                'options-general.php'
+                'edit-comments.php' // Comments
                 );
             foreach ( $menu as $main ) {
                 remove_menu_page( $main );
