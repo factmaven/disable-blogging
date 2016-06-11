@@ -14,8 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 if( ! class_exists( 'Disable_Blogging' ) )
 {
-    class Disable_Blogging
-    {
+    class Disable_Blogging {
+
         public function __construct() {
             // HOOKS
             do_action( 'dsbl_hook' );
@@ -25,6 +25,7 @@ if( ! class_exists( 'Disable_Blogging' ) )
             define( 'WP_POST_REVISIONS', false ); // Disable post revisions
 
             // ADD ACTIONS
+            add_action( 'admin_notices', array( $this, 'dsbl_admin_notice' ), 10, 1 );
             add_action( 'admin_menu', array( $this, 'dsbl_sidebar_menu' ), 10, 1 );
             add_action( 'wp_before_admin_bar_render', array( $this, 'dsbl_toolbar_menu' ), 10, 1 );
             add_action( 'init', array( $this, 'dsbl_page_comments' ), 10, 1 );
@@ -42,19 +43,22 @@ if( ! class_exists( 'Disable_Blogging' ) )
             add_filter( 'comments_template', array( $this, 'dsbl_comments_template' ), 20, 1 );
             add_filter( 'script_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
             add_filter( 'style_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
-
-        }
-
-        public static function activate() {
-            // Nada!
-        }
-
-        public static function deactivate() {
-            // Nada!
         }
 
         /* ACTIONS
         -------------------------------------------------------------- */
+        
+        function dsbl_admin_notice() {
+            if( is_plugin_active( 'disable-blogging/disable-blogging.php' ) ) {
+                global $pagenow;
+                if( $pagenow == 'plugins.php' ) {
+                    deactivate_plugins( 'disable-blog/disable-blog.php' );
+                    if ( current_user_can( 'install_plugins' ) ) {
+                        echo '<div id="message" class="updated notice is-dismissible"><p>Please make sure to <strong>deactivate</strong> other blog disabling plugins to prevent conflicts.</p></div>';
+                    }
+                }
+            }
+        }
 
         function dsbl_sidebar_menu() { // Remove menu/submenu items & redirect to page menu
             $menu = array(
