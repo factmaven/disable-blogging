@@ -12,7 +12,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-if(!class_exists('Disable_Blogging'))
+if( ! class_exists( 'Disable_Blogging' ) )
 {
     class Disable_Blogging
     {

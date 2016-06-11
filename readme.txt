@@ -1,7 +1,7 @@
 === Disable Blogging ===
 Contributors: factmaven
 Tags: disable wordpress blogging, disable blogging, disable blog, blog, posts, comments, remove query strings, query strings
-Requires at least: 3.0.1
+Requires at least: 4.5
 Tested up to: 4.5.2
 Stable tag: 1.1.0
 License: GPLv2
