@@ -4,9 +4,7 @@
     Plugin URI: https://wordpress.org/plugins/disable-blogging/
     Description: Disables posts, comments, and other related the blogging features in WordPress, 'nuff said.
     Version: 1.1.1
-    Author: Fact Maven Corp.
-    Author URI: https://www.factmaven.com/
-    GitHub Plugin URI: https://github.com/factmaven/disable-blogging/
+    Author: <a href="https://www.factmaven.com/">Fact Maven Corp.</a>
     License: GPLv2
 */
 
@@ -37,7 +35,6 @@ if( ! class_exists( 'Disable_Blogging' ) )
             add_action( 'load-press-this.php', array( $this, 'dsbl_press_this' ), 10, 1 );
 
             // ADD FILTERS
-            add_filter( 'xmlrpc_enabled', array( $this, '__return_false' ), 10, 1 ); // Doesn't need a function
             add_filter( 'plugin_row_meta', array( $this, 'dsbl_plugin_links' ), 10, 2 );
             add_filter( 'admin_bar_menu', array( $this, 'dsbl_howdy' ), 25, 1 );
             add_filter( 'comments_template', array( $this, 'dsbl_comments_template' ), 20, 1 );
@@ -55,7 +52,13 @@ if( ! class_exists( 'Disable_Blogging' ) )
                     $plugins = array(
                         'disable-blog/disable-blog.php', // Disable Blog
                         'disable-comments/disable-comments.php', // Disable Comments
-                        'disable-comments-wpz/disable-comments-wpz.php'
+                        'disable-comments-wpz/dc-wpzest.php', // Disable Comments | WPZest
+                        'wp-disable-comments/bootstrap.php', // WP Disable Comments
+                        'comments-disable-accesspress/comments-disable-accesspress.php', // Comments Disable - AccessPress
+                        'crudlab-disable-comments/crudlab-disable-comments.php', // CRUDLab Disable Comments
+                        'disable-feeds/disable-feeds.php', // Disable Feeds
+                        'disabler/disabler.php', // Disabler
+                        'postless/postless.php' // Postless
                         );
                     foreach ( $plugins as $item ) {
                         deactivate_plugins( $item );
@@ -76,14 +79,37 @@ if( ! class_exists( 'Disable_Blogging' ) )
             foreach ( $menu as $main ) {
                 remove_menu_page( $main );
             }
+            // $submenu = array(
+            //     'tools.php' => 'tools.php', // Tools > Available Tools
+            //     'options-general.php' => 'options-writing.php', // Settings > Writing
+            //     'options-general.php' => 'options-discussion.php' // Settings > Discussion
+            //     );
+            // foreach ( $submenu as $main => $sub ) {
+            //     remove_submenu_page( $main, $sub );
+            // }
+
             $submenu = array(
                 'tools.php' => 'tools.php', // Tools > Available Tools
-                'options-general.php' => 'options-writing.php', // Settings > Writing
-                'options-general.php' => 'options-discussion.php' // Settings > Discussion
+                array( // Settings > Writing
+                    'parent' => 'options-general.php',
+                    'remove' => 'options-writing.php'
+                    ),
+                array( // Settings > Discussion
+                    'parent' => 'options-general.php',
+                    'remove' => 'options-discussion.php'
+                    )
                 );
             foreach ( $submenu as $main => $sub ) {
-                remove_submenu_page( $main, $sub );
+                if ( is_array( $sub ) ) {
+                    foreach ($sub as $main1 => $sub1 ) {
+                        remove_submenu_page( $main1, $sub1 );
+                    }
+                }
+                else {
+                    remove_submenu_page( $main, $sub );
+                }
             }
+
 
             global $pagenow;
             $page = array(
