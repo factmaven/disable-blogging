@@ -40,6 +40,16 @@ if( ! class_exists( 'Disable_Blogging' ) )
             add_filter( 'comments_template', array( $this, 'dsbl_comments_template' ), 20, 1 );
             add_filter( 'script_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
             add_filter( 'style_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
+
+            add_action( 'template_redirect', array( $this, 'dsbl_test' ), 10, 1 ); // TEST: Redirect wlwmanifest.xml to homepage
+        }
+
+        function dsbl_test() { // TEST: Redirect wlwmanifest.xml to homepage
+            if( is_page( '/wp-includes/wlwmanifest.xml' ) )
+            {
+                wp_redirect( site_url() );
+                exit;
+            }
         }
 
         /* ACTIONS
@@ -79,37 +89,9 @@ if( ! class_exists( 'Disable_Blogging' ) )
             foreach ( $menu as $main ) {
                 remove_menu_page( $main );
             }
-            // $submenu = array(
-            //     'tools.php' => 'tools.php', // Tools > Available Tools
-            //     'options-general.php' => 'options-writing.php', // Settings > Writing
-            //     'options-general.php' => 'options-discussion.php' // Settings > Discussion
-            //     );
-            // foreach ( $submenu as $main => $sub ) {
-            //     remove_submenu_page( $main, $sub );
-            // }
-
-            $submenu = array(
-                'tools.php' => 'tools.php', // Tools > Available Tools
-                array( // Settings > Writing
-                    'parent' => 'options-general.php',
-                    'remove' => 'options-writing.php'
-                    ),
-                array( // Settings > Discussion
-                    'parent' => 'options-general.php',
-                    'remove' => 'options-discussion.php'
-                    )
-                );
-            foreach ( $submenu as $main => $sub ) {
-                if ( is_array( $sub ) ) {
-                    foreach ($sub as $main1 => $sub1 ) {
-                        remove_submenu_page( $main1, $sub1 );
-                    }
-                }
-                else {
-                    remove_submenu_page( $main, $sub );
-                }
-            }
-
+            remove_submenu_page( 'tools.php', 'tools.php' ); // Tools > Available Tools
+            remove_submenu_page( 'options-general.php', 'options-writing.php' ); // Settings > Writing
+            remove_submenu_page( 'options-general.php', 'options-discussion.php' ); // Settings > Discussion
 
             global $pagenow;
             $page = array(
