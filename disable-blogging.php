@@ -45,9 +45,8 @@ if( ! class_exists( 'Disable_Blogging' ) )
         }
 
         function dsbl_test() { // TEST: Redirect wlwmanifest.xml to homepage
-            if( is_page( '/wp-includes/wlwmanifest.xml' ) )
-            {
-                wp_redirect( site_url() );
+            if( is_page( 'wlwmanifest.xml' ) ) {
+                wp_redirect( site_url(), 301 );
                 exit;
             }
         }
@@ -61,14 +60,7 @@ if( ! class_exists( 'Disable_Blogging' ) )
                 if( $pagenow == 'plugins.php' ) {
                     $plugins = array(
                         'disable-blog/disable-blog.php', // Disable Blog
-                        'disable-comments/disable-comments.php', // Disable Comments
-                        'disable-comments-wpz/dc-wpzest.php', // Disable Comments | WPZest
-                        'wp-disable-comments/bootstrap.php', // WP Disable Comments
-                        'comments-disable-accesspress/comments-disable-accesspress.php', // Comments Disable - AccessPress
-                        'crudlab-disable-comments/crudlab-disable-comments.php', // CRUDLab Disable Comments
                         'disable-feeds/disable-feeds.php', // Disable Feeds
-                        'disabler/disabler.php', // Disabler
-                        'postless/postless.php' // Postless
                         );
                     foreach ( $plugins as $item ) {
                         deactivate_plugins( $item );
