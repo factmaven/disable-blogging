@@ -3,14 +3,14 @@
     Plugin Name: Disable Blogging
     Plugin URI: https://wordpress.org/plugins/disable-blogging/
     Description: Disables posts, comments, and other related the blogging features in WordPress, 'nuff said.
-    Version: 1.1.1
+    Version: 1.2.0
     Author: <a href="https://www.factmaven.com/">Fact Maven Corp.</a>
     License: GPLv2
 */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-if( ! class_exists( 'Disable_Blogging' ) )
+if ( ! class_exists( 'Disable_Blogging' ) )
 {
     class Disable_Blogging {
 
@@ -41,23 +41,30 @@ if( ! class_exists( 'Disable_Blogging' ) )
             add_filter( 'script_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
             add_filter( 'style_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
 
-            add_action( 'template_redirect', array( $this, 'dsbl_test' ), 10, 1 ); // TEST: Redirect wlwmanifest.xml to homepage
+            // TESTING
+            add_filter( 'xmlrpc_enabled', array( $this, 'dsbl_xmlrpc_false' ), 10, 1 );
+            add_filter( 'xmlrpc_methods', array( $this, 'dsbl_xmlrpc' ), 10, 1 );
         }
 
-        function dsbl_test() { // TEST: Redirect wlwmanifest.xml to homepage
-            if( is_page( 'wlwmanifest.xml' ) ) {
-                wp_redirect( site_url(), 301 );
-                exit;
-            }
+        /* TESTING
+        -------------------------------------------------------------- */
+
+        function dsbl_xmlrpc_false() {
+            return false;
+        }
+        function dsbl_xmlrpc_methods( $methods ) { // TEST: Disable xmlrpc
+            unset( $methods['pingback.ping'] );
+            return $methods;
         }
 
-        /* ACTIONS
+
+        /* FUNCTIONS
         -------------------------------------------------------------- */
 
         function dsbl_admin_notice() { // Disable conflicting plugins and display admin notice
-            if( is_plugin_active( 'disable-blogging/disable-blogging.php' ) ) {
+            if ( is_plugin_active( 'disable-blogging/disable-blogging.php' ) ) {
                 global $pagenow;
-                if( $pagenow == 'plugins.php' ) {
+                if ( $pagenow == 'plugins.php' ) {
                     $plugins = array(
                         'disable-blog/disable-blog.php', // Disable Blog
                         'disable-feeds/disable-feeds.php', // Disable Feeds
@@ -164,7 +171,7 @@ if( ! class_exists( 'Disable_Blogging' ) )
             }
 
             global $wp_rewrite;
-            if( get_query_var( 'feed' ) !== 'old' ) {
+            if ( get_query_var( 'feed' ) !== 'old' ) {
                 set_query_var( 'feed', '' );
             }
             redirect_canonical();   // Automatically determine appropriate redirect URL
@@ -177,7 +184,7 @@ if( ! class_exists( 'Disable_Blogging' ) )
             $requested_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             $new_url = preg_replace( '#' . $url_struct . '/?$#', '', $requested_url );
 
-            if( $new_url != $requested_url ) {
+            if ( $new_url != $requested_url ) {
                 wp_redirect( $new_url, 301 );
                 exit;
             }
@@ -231,11 +238,11 @@ if( ! class_exists( 'Disable_Blogging' ) )
         }
 
         function dsbl_comments_template() { // Replaces theme's comments template with empty page
-                return dirname( __FILE__ ) . '/includes/comments-template.php';
+                return dirname( __FILE__ ) . '/includes/blank-template.php';
         }
 
         function dsbl_script_version( $src ) { // Remove query strings from static resources
-            if( strpos( $src, '?ver=' ) || strpos( $src, '&ver=' ) ) {
+            if ( strpos( $src, '?ver=' ) || strpos( $src, '&ver=' ) ) {
                 $src = remove_query_arg( 'ver', $src );
             }
             return $src;
