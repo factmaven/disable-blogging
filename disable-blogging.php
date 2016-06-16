@@ -10,56 +10,58 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-if ( ! class_exists( 'Disable_Blogging' ) )
-{
+if ( ! class_exists( 'Disable_Blogging' ) ) {
+    
     class Disable_Blogging {
 
         public function __construct() {
-            // HOOKS
-            do_action( 'dsbl_hook' );
+            // HOOK
+            do_action( 'plugin_disable_blogging' );
 
-            // GLOBAL DEFINES
-            define( 'DISALLOW_FILE_EDIT', true ); // Disable themes & plugins editor
-            define( 'WP_POST_REVISIONS', false ); // Disable post revisions
-
-            // ADD ACTIONS
+            // PLUGIN INFO
+            add_filter( 'plugin_row_meta', array( $this, 'dsbl_plugin_links' ), 10, 2 );
             add_action( 'admin_notices', array( $this, 'dsbl_admin_notice' ), 10, 1 );
+
+            // ADMIN DASHBOARD
             add_action( 'admin_menu', array( $this, 'dsbl_sidebar_menu' ), 10, 1 );
             add_action( 'wp_before_admin_bar_render', array( $this, 'dsbl_toolbar_menu' ), 10, 1 );
             add_action( 'init', array( $this, 'dsbl_page_comments' ), 10, 1 );
-            add_action( 'personal_options', array( $this, 'dsbl_user_profile' ), 10, 1 );
-            add_action( 'pre_ping', array( $this, 'dsbl_pings_trackbacks' ), 10, 1 );
-            add_action( 'wp_loaded', array( $this, 'dsbl_feeds' ), 1, 1 );
             add_action( 'widgets_init', array( $this, 'dsbl_widgets' ), 11, 1 );
-            add_action( 'admin_head', array( $this, 'dsbl_help_tabs' ), 999, 1 );
             add_action( 'load-press-this.php', array( $this, 'dsbl_press_this' ), 10, 1 );
-
-            // ADD FILTERS
-            add_filter( 'plugin_row_meta', array( $this, 'dsbl_plugin_links' ), 10, 2 );
+            add_action( 'admin_head', array( $this, 'dsbl_help_tabs' ), 999, 1 );
+            add_action( 'personal_options', array( $this, 'dsbl_user_profile' ), 10, 1 );
             add_filter( 'admin_bar_menu', array( $this, 'dsbl_howdy' ), 25, 1 );
+
+            // FEEDS & RELATED
+            add_action( 'wp_loaded', array( $this, 'dsbl_feeds' ), 1, 1 );
+            add_action( 'pre_ping', array( $this, 'dsbl_internal_pingbacks' ), 10, 1 );
+            add_filter( 'wp_headers', array( $this, 'dsbl_x_pingback' ), 10, 1 );
+            add_filter( 'bloginfo_url', array( $this, 'dsbl_pingback_url' ), 1, 2 );
+            add_filter( 'bloginfo', array( $this, 'dsbl_pingback_url' ), 1, 2 );
+            add_filter( 'xmlrpc_enabled', array( $this, 'dsbl_xmlrpc_false' ), 10, 1 );
+            add_filter( 'xmlrpc_methods', array( $this, 'dsbl_xmlrpc_methods' ), 10, 1 );
+
+            // OTHER
             add_filter( 'comments_template', array( $this, 'dsbl_comments_template' ), 20, 1 );
             add_filter( 'script_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
             add_filter( 'style_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
-
-            // TESTING
-            add_filter( 'xmlrpc_enabled', array( $this, 'dsbl_xmlrpc_false' ), 10, 1 );
-            add_filter( 'xmlrpc_methods', array( $this, 'dsbl_xmlrpc' ), 10, 1 );
         }
-
-        /* TESTING
-        -------------------------------------------------------------- */
-
-        function dsbl_xmlrpc_false() {
-            return false;
-        }
-        function dsbl_xmlrpc_methods( $methods ) { // TEST: Disable xmlrpc
-            unset( $methods['pingback.ping'] );
-            return $methods;
-        }
-
 
         /* FUNCTIONS
         -------------------------------------------------------------- */
+
+        // PLUGIN INFO
+        function dsbl_plugin_links( $links, $file ) { // Add meta links to plugin page
+            if ( strpos( $file, 'disable-blogging.php' ) !== false ) {
+                $meta = array(
+                    'support' => '<a href="https://wordpress.org/support/plugin/disable-blogging" target="_blank"><span class="dashicons dashicons-sos"></span> ' . __( 'Support' ) . '</a>',
+                    'review' => '<a href="https://wordpress.org/support/view/plugin-reviews/disable-blogging" target="_blank"><span class="dashicons dashicons-nametag"></span> ' . __( 'Review' ) . '</a>',
+                    'github' => '<a href="https://github.com/factmaven/disable-blogging" target="_blank"><span class="dashicons dashicons-randomize"></span> ' . __( 'GitHub' ) . '</a>'
+                );
+                $links = array_merge( $links, $meta );
+            }
+            return $links;
+        }
 
         function dsbl_admin_notice() { // Disable conflicting plugins and display admin notice
             if ( is_plugin_active( 'disable-blogging/disable-blogging.php' ) ) {
@@ -79,6 +81,7 @@ if ( ! class_exists( 'Disable_Blogging' ) )
             }
         }
 
+        // ADMIN DASHBOARD
         function dsbl_sidebar_menu() { // Remove menu/submenu items & redirect to page menu
             $menu = array(
                 'index.php', // Dashboard
@@ -132,6 +135,31 @@ if ( ! class_exists( 'Disable_Blogging' ) )
             }
         }
 
+        function dsbl_widgets() { // Remove blog related widgets
+            $widgets = array(
+                'WP_Widget_Archives', // Archives
+                'WP_Widget_Calendar', // Calendar
+                'WP_Widget_Categories', // Categories
+                'WP_Widget_Links', // Links
+                'WP_Widget_Meta', // Meta
+                'WP_Widget_Recent_Comments', // Recent Comments
+                'WP_Widget_Recent_Posts', // Recent Posts
+                'WP_Widget_RSS', // RSS
+                'WP_Widget_Tag_Cloud' // Tag Cloud
+            );
+            foreach( $widgets as $item ) {
+                unregister_widget( $item );
+            }
+        }
+
+        function dsbl_press_this() { // Disables "Press This" and redirect to homepage
+            wp_redirect( home_url(), 301 );
+        }
+
+        function dsbl_help_tabs() { // Remove help tabs
+            get_current_screen() -> remove_help_tabs();
+        }
+
         function dsbl_user_profile() { // Hide certain fields from user profile
             echo "\n" . '
             <script type="text/javascript">
@@ -146,14 +174,14 @@ if ( ! class_exists( 'Disable_Blogging' ) )
             ' . "\n";
         }
 
-        function dsbl_pings_trackbacks( &$links ) { // Disable pings and trackbacks
-            foreach ( $links as $l => $link ) {
-                if ( 0 === strpos( $link, get_option( 'home' ) ) ) {
-                    unset( $links[$l] );
-                }
-            }
+        function dsbl_howdy( $wp_admin_bar ) { // Removed "Howdy," from the admin bar, we ain't from Texas!
+            $wp_admin_bar -> add_node( array(
+                'id' => 'my-account',
+                'title' => str_replace( 'Howdy, ', '', $wp_admin_bar -> get_node( 'my-account' ) -> title ),
+            ) );
         }
 
+        // FEEDS & RELATED
         function dsbl_feeds() { // Remove feed links & redirect to homepage
             $feed = array(
                 'feed_links' => 2, // General feeds
@@ -190,53 +218,34 @@ if ( ! class_exists( 'Disable_Blogging' ) )
             }
         }
 
-        function dsbl_widgets() { // Remove blog related widgets
-            $widgets = array(
-                'WP_Widget_Archives', // Archives
-                'WP_Widget_Calendar', // Calendar
-                'WP_Widget_Categories', // Categories
-                'WP_Widget_Links', // Links
-                'WP_Widget_Meta', // Meta
-                'WP_Widget_Recent_Comments', // Recent Comments
-                'WP_Widget_Recent_Posts', // Recent Posts
-                'WP_Widget_RSS', // RSS
-                'WP_Widget_Tag_Cloud' // Tag Cloud
-            );
-            foreach( $widgets as $item ) {
-                unregister_widget( $item );
+        function dsbl_internal_pingbacks( &$links ) { // Disable internal pingbacks
+            foreach ( $links as $l => $link ) {
+                if ( 0 === strpos( $link, get_option( 'home' ) ) ) {
+                    unset( $links[$l] );
+                }
             }
         }
 
-        function dsbl_help_tabs() { // Remove help tabs
-            get_current_screen() -> remove_help_tabs();
+        function dsbl_x_pingback( $headers ) { // Disable x-pingback
+            unset( $headers['X-Pingback'] );
+            return $headers;
         }
 
-        function dsbl_press_this() { // Disables "Press This" and redirect to homepage
-            wp_redirect( home_url(), 301 );
+        function dsbl_pingback_url( $output, $show ) { // Remove pingback URLs
+            if ( $show == 'pingback_url' ) $output = '';
+            return $output;
         }
 
-        /* FILTERS
-        -------------------------------------------------------------- */
-
-        function dsbl_plugin_links( $links, $file ) {
-            if ( strpos( $file, 'disable-blogging.php' ) !== false ) { // Adds support and GitHub link to plugin page
-                $meta = array(
-                    'support' => '<a href="https://wordpress.org/support/plugin/disable-blogging" target="_blank"><span class="dashicons dashicons-sos"></span> ' . __( 'Support' ) . '</a>',
-                    'review' => '<a href="https://wordpress.org/support/view/plugin-reviews/disable-blogging" target="_blank"><span class="dashicons dashicons-nametag"></span> ' . __( 'Review' ) . '</a>',
-                    'github' => '<a href="https://github.com/factmaven/disable-blogging" target="_blank"><span class="dashicons dashicons-randomize"></span> ' . __( 'GitHub' ) . '</a>'
-                );
-                $links = array_merge( $links, $meta );
-            }
-            return $links;
+        function dsbl_xmlrpc_false() { // Disable XML-RPC
+            return false;
         }
 
-        function dsbl_howdy( $wp_admin_bar ) { // Removed "Howdy," from the admin bar, we ain't from Texas!
-            $wp_admin_bar -> add_node( array(
-                'id' => 'my-account',
-                'title' => str_replace( 'Howdy, ', '', $wp_admin_bar -> get_node( 'my-account' ) -> title ),
-            ) );
+        function dsbl_xmlrpc_methods( $methods ) { // Disable XML-RPC methods
+            unset( $methods['pingback.ping'] );
+            return $methods;
         }
 
+        // OTHER
         function dsbl_comments_template() { // Replaces theme's comments template with empty page
                 return dirname( __FILE__ ) . '/includes/blank-template.php';
         }

@@ -93,7 +93,7 @@ This plugin tries its best to disable all blogging related features, if somethin
 4. After: user profile
 
 == Changelog ==
-= 1.1.1 =
+= 1.2.0 =
 * 06/10/16
 * Restored "Nickname" and "Display name" fields in user profile
 * Restores default user roles
