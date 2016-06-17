@@ -1,10 +1,10 @@
 === Disable Blogging ===
 Contributors: factmaven
-Tags: disable wordpress blogging, disable blogging, disable blog, blog, posts, comments, remove query strings, query strings
+Tags: disable wordpress blogging, disable blogging, disable blog, disable feeds, feeds, blog, posts, comments, remove query strings, query strings
 Requires at least: 4.5
 Tested up to: 4.5.2
 Stable tag: 1.2.0
-License: GPLv2
+License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Disables posts, comments, and other related the blogging features from WordPress, 'nuff said.
@@ -99,7 +99,8 @@ This plugin tries its best to disable all blogging related features, if somethin
 * Restores default user roles
 * All blog links redirect to "Pages" menu
 * Update meta links on plugin page
-* Deactivate other blog disabling plugins to prevent conflicts
+* Deactivate other related plugins to prevent conflicts
+* Remove comments column from "Media" menu
 * Improved code structure and added plugin class
 
 = 1.1.0 =

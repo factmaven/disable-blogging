@@ -1,12 +1,30 @@
 <?php
-/*
+/**
     Plugin Name: Disable Blogging
     Plugin URI: https://wordpress.org/plugins/disable-blogging/
     Description: Disables posts, comments, and other related the blogging features in WordPress, 'nuff said.
     Version: 1.2.0
     Author: <a href="https://www.factmaven.com/">Fact Maven Corp.</a>
-    License: GPLv2
+    License: GPLv3
 */
+
+/**
+     Disable Blogging Plugin
+     Copyright (C) 2011-2014, Fact Maven Corp. - contact@factmaven.com
+     
+     This program is free software: you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation, either version 3 of the License, or
+     (at your option) any later version.
+     
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+     
+     You should have received a copy of the GNU General Public License
+     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -17,6 +35,11 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
         public function __construct() {
             // HOOK
             do_action( 'plugin_disable_blogging' );
+
+            // DEFINE CONSTANTS
+            define( 'DSBL_FACTMAVEN', 'https://www.factmaven.com/' );         
+            define( 'DSBL_WORDPRESS', 'https://wordpress.org/' );
+            define( 'DSBL_GITHUB', 'https://github.com/factmaven/disable-blogging' );
 
             // PLUGIN INFO
             add_filter( 'plugin_row_meta', array( $this, 'dsbl_plugin_links' ), 10, 2 );
@@ -54,9 +77,9 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
         function dsbl_plugin_links( $links, $file ) { // Add meta links to plugin page
             if ( strpos( $file, 'disable-blogging.php' ) !== false ) {
                 $meta = array(
-                    'support' => '<a href="https://wordpress.org/support/plugin/disable-blogging" target="_blank"><span class="dashicons dashicons-sos"></span> ' . __( 'Support' ) . '</a>',
-                    'review' => '<a href="https://wordpress.org/support/view/plugin-reviews/disable-blogging" target="_blank"><span class="dashicons dashicons-nametag"></span> ' . __( 'Review' ) . '</a>',
-                    'github' => '<a href="https://github.com/factmaven/disable-blogging" target="_blank"><span class="dashicons dashicons-randomize"></span> ' . __( 'GitHub' ) . '</a>'
+                    'support' => '<a href="' . DSBL_WORDPRESS . 'support/plugin/disable-blogging" target="_blank"><span class="dashicons dashicons-sos"></span> ' . __( 'Support' ) . '</a>',
+                    'review' => '<a href="' . DSBL_WORDPRESS . 'support/view/plugin-reviews/disable-blogging" target="_blank"><span class="dashicons dashicons-nametag"></span> ' . __( 'Review' ) . '</a>',
+                    'github' => '<a href="' . DSBL_GITHUB . '" target="_blank"><span class="dashicons dashicons-randomize"></span> ' . __( 'GitHub' ) . '</a>'
                 );
                 $links = array_merge( $links, $meta );
             }
@@ -67,10 +90,7 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             if ( is_plugin_active( 'disable-blogging/disable-blogging.php' ) ) {
                 global $pagenow;
                 if ( $pagenow == 'plugins.php' ) {
-                    $plugins = array(
-                        'disable-blog/disable-blog.php', // Disable Blog
-                        'disable-feeds/disable-feeds.php', // Disable Feeds
-                        );
+                    $plugins = array( file( DSBL_FACTMAVEN . 'wp-content/uploads/disable-blogging.txt', FILE_IGNORE_NEW_LINES ) );
                     foreach ( $plugins as $item ) {
                         deactivate_plugins( $item );
                     }
@@ -128,7 +148,8 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
         function dsbl_page_comments() { // Remove comments column from posts & pages
             $menu = array(
                 'post' => 'comments', // Posts
-                'page' => 'comments' // Pages
+                'page' => 'comments', // Pages
+                'attachment' => 'comments' // Media
                 );
             foreach ( $menu as $item => $column ) {
                 remove_post_type_support( $item, $column );
