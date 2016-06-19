@@ -101,6 +101,7 @@ This plugin tries its best to disable all blogging related features, if somethin
 * Update meta links on plugin page
 * Deactivate other related plugins to prevent conflicts
 * Remove comments column from "Media" menu
+* Disable access to `xmlrpc.php` and `wlwmanifest.xml`
 * Improved code structure and added plugin class
 
 = 1.1.0 =

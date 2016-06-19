@@ -43,7 +43,7 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
 
             // PLUGIN INFO
             add_filter( 'plugin_row_meta', array( $this, 'dsbl_plugin_links' ), 10, 2 );
-            add_action( 'admin_notices', array( $this, 'dsbl_admin_notice' ), 10, 1 );
+            add_action( 'all_admin_notices', array( $this, 'dsbl_admin_notice' ), 10, 1 );
 
             // ADMIN DASHBOARD
             add_action( 'admin_menu', array( $this, 'dsbl_sidebar_menu' ), 10, 1 );
@@ -56,6 +56,7 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             add_filter( 'admin_bar_menu', array( $this, 'dsbl_howdy' ), 25, 1 );
 
             // FEEDS & RELATED
+            add_action( 'init', array( $this, 'dsbl_htaccess' ), 10, 1 );
             add_action( 'wp_loaded', array( $this, 'dsbl_feeds' ), 1, 1 );
             add_action( 'pre_ping', array( $this, 'dsbl_internal_pingbacks' ), 10, 1 );
             add_filter( 'wp_headers', array( $this, 'dsbl_x_pingback' ), 10, 1 );
@@ -74,7 +75,7 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
         -------------------------------------------------------------- */
 
         // PLUGIN INFO
-        function dsbl_plugin_links( $links, $file ) { // Add meta links to plugin page
+        public function dsbl_plugin_links( $links, $file ) { // Add meta links to plugin page
             if ( strpos( $file, 'disable-blogging.php' ) !== false ) {
                 $meta = array(
                     'support' => '<a href="' . DSBL_WORDPRESS . 'support/plugin/disable-blogging" target="_blank"><span class="dashicons dashicons-sos"></span> ' . __( 'Support' ) . '</a>',
@@ -86,7 +87,7 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             return $links;
         }
 
-        function dsbl_admin_notice() { // Disable conflicting plugins and display admin notice
+        public function dsbl_admin_notice() { // Disable conflicting plugins and display admin notice
             if ( is_plugin_active( 'disable-blogging/disable-blogging.php' ) ) {
                 global $pagenow;
                 if ( $pagenow == 'plugins.php' ) {
@@ -102,7 +103,7 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
         }
 
         // ADMIN DASHBOARD
-        function dsbl_sidebar_menu() { // Remove menu/submenu items & redirect to page menu
+        public function dsbl_sidebar_menu() { // Remove menu/submenu items & redirect to page menu
             $menu = array(
                 'index.php', // Dashboard
                 'edit.php', // Posts
@@ -132,7 +133,7 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             }
         }
 
-        function dsbl_toolbar_menu() { // Remove menu items from the toolbar
+        public function dsbl_toolbar_menu() { // Remove menu items from the toolbar
             global $wp_admin_bar;
             $toolbar = array(
                 'wp-logo', // WordPress logo
@@ -145,7 +146,7 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             }
         }
 
-        function dsbl_page_comments() { // Remove comments column from posts & pages
+        public function dsbl_page_comments() { // Remove comments column from posts & pages
             $menu = array(
                 'post' => 'comments', // Posts
                 'page' => 'comments', // Pages
@@ -156,7 +157,7 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             }
         }
 
-        function dsbl_widgets() { // Remove blog related widgets
+        public function dsbl_widgets() { // Remove blog related widgets
             $widgets = array(
                 'WP_Widget_Archives', // Archives
                 'WP_Widget_Calendar', // Calendar
@@ -173,18 +174,18 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             }
         }
 
-        function dsbl_press_this() { // Disables "Press This" and redirect to homepage
+        public function dsbl_press_this() { // Disables "Press This" and redirect to homepage
             wp_redirect( home_url(), 301 );
         }
 
-        function dsbl_help_tabs() { // Remove help tabs
+        public function dsbl_help_tabs() { // Remove help tabs
             get_current_screen() -> remove_help_tabs();
         }
 
-        function dsbl_user_profile() { // Hide certain fields from user profile
+        public function dsbl_user_profile() { // Hide certain fields from user profile
             echo "\n" . '
             <script type="text/javascript">
-            jQuery( document ).ready( function($) {
+            jQuery( document ).ready( public function($) {
                 $(\'form#your-profile > h2\').hide();
                 $(\'form#your-profile > h3\').hide();
                 $(\'form#your-profile > table:first\').hide();
@@ -195,7 +196,7 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             ' . "\n";
         }
 
-        function dsbl_howdy( $wp_admin_bar ) { // Removed "Howdy," from the admin bar, we ain't from Texas!
+        public function dsbl_howdy( $wp_admin_bar ) { // Removed "Howdy," from the admin bar, we ain't from Texas!
             $wp_admin_bar -> add_node( array(
                 'id' => 'my-account',
                 'title' => str_replace( 'Howdy, ', '', $wp_admin_bar -> get_node( 'my-account' ) -> title ),
@@ -203,7 +204,23 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
         }
 
         // FEEDS & RELATED
-        function dsbl_feeds() { // Remove feed links & redirect to homepage
+        public function dsbl_htaccess() { // Add rules to the .htaccess
+            require_once( ABSPATH . '/wp-admin/includes/misc.php' );
+            $rules = array();
+            $rules[] = '<Files xmlrpc.php> # Disable XML-RPC';
+            $rules[] = 'Order allow,deny';
+            $rules[] = 'Deny from all';
+            $rules[] = '</Files>';
+            $rules[] = '';
+            $rules[] = '<Files wlwmanifest.xml> # Disable Windows Live Writer';
+            $rules[] = 'Order allow,deny';
+            $rules[] = 'Deny from all';
+            $rules[] = '</Files>';
+            $htaccess_file = ABSPATH . '.htaccess';
+            insert_with_markers( $htaccess_file, 'Disable Blogging', ( array ) $rules );
+        }
+
+        public function dsbl_feeds() { // Remove feed links & redirect to homepage
             $feed = array(
                 'feed_links' => 2, // General feeds
                 'feed_links_extra' => 3, // Extra feeds
@@ -239,7 +256,7 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             }
         }
 
-        function dsbl_internal_pingbacks( &$links ) { // Disable internal pingbacks
+        public function dsbl_internal_pingbacks( &$links ) { // Disable internal pingbacks
             foreach ( $links as $l => $link ) {
                 if ( 0 === strpos( $link, get_option( 'home' ) ) ) {
                     unset( $links[$l] );
@@ -247,31 +264,31 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             }
         }
 
-        function dsbl_x_pingback( $headers ) { // Disable x-pingback
+        public function dsbl_x_pingback( $headers ) { // Disable x-pingback
             unset( $headers['X-Pingback'] );
             return $headers;
         }
 
-        function dsbl_pingback_url( $output, $show ) { // Remove pingback URLs
+        public function dsbl_pingback_url( $output, $show ) { // Remove pingback URLs
             if ( $show == 'pingback_url' ) $output = '';
             return $output;
         }
 
-        function dsbl_xmlrpc_false() { // Disable XML-RPC
+        public function dsbl_xmlrpc_false() { // Disable XML-RPC
             return false;
         }
 
-        function dsbl_xmlrpc_methods( $methods ) { // Disable XML-RPC methods
+        public function dsbl_xmlrpc_methods( $methods ) { // Disable XML-RPC methods
             unset( $methods['pingback.ping'] );
             return $methods;
         }
 
         // OTHER
-        function dsbl_comments_template() { // Replaces theme's comments template with empty page
+        public function dsbl_comments_template() { // Replaces theme's comments template with empty page
                 return dirname( __FILE__ ) . '/includes/blank-template.php';
         }
 
-        function dsbl_script_version( $src ) { // Remove query strings from static resources
+        public function dsbl_script_version( $src ) { // Remove query strings from static resources
             if ( strpos( $src, '?ver=' ) || strpos( $src, '&ver=' ) ) {
                 $src = remove_query_arg( 'ver', $src );
             }
