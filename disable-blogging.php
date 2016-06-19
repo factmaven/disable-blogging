@@ -33,9 +33,6 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
     class Disable_Blogging {
 
         public function __construct() {
-            // HOOK
-            do_action( 'plugin_disable_blogging' );
-
             // DEFINE CONSTANTS
             define( 'DSBL_FACTMAVEN', 'https://www.factmaven.com/' );         
             define( 'DSBL_WORDPRESS', 'https://wordpress.org/' );
@@ -43,7 +40,7 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
 
             // PLUGIN INFO
             add_filter( 'plugin_row_meta', array( $this, 'dsbl_plugin_links' ), 10, 2 );
-            add_action( 'all_admin_notices', array( $this, 'dsbl_admin_notice' ), 10, 1 );
+            add_action( 'all_admin_notices', array( $this, 'dsbl_plugin_conflicts' ), 10, 1 );
 
             // ADMIN DASHBOARD
             add_action( 'admin_menu', array( $this, 'dsbl_sidebar_menu' ), 10, 1 );
@@ -54,9 +51,10 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             add_action( 'admin_head', array( $this, 'dsbl_help_tabs' ), 999, 1 );
             add_action( 'personal_options', array( $this, 'dsbl_user_profile' ), 10, 1 );
             add_filter( 'admin_bar_menu', array( $this, 'dsbl_howdy' ), 25, 1 );
+            add_filter('admin_footer_text', array( $this, 'dsbl_admin_footer' ), 10, 1 );
 
             // FEEDS & RELATED
-            add_action( 'init', array( $this, 'dsbl_htaccess' ), 10, 1 );
+            // add_action( 'init', array( $this, 'dsbl_htaccess' ), 10, 1 );
             add_action( 'wp_loaded', array( $this, 'dsbl_feeds' ), 1, 1 );
             add_action( 'pre_ping', array( $this, 'dsbl_internal_pingbacks' ), 10, 1 );
             add_filter( 'wp_headers', array( $this, 'dsbl_x_pingback' ), 10, 1 );
@@ -69,6 +67,7 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             add_filter( 'comments_template', array( $this, 'dsbl_comments_template' ), 20, 1 );
             add_filter( 'script_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
             add_filter( 'style_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
+
         }
 
         /* FUNCTIONS
@@ -87,17 +86,11 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             return $links;
         }
 
-        public function dsbl_admin_notice() { // Disable conflicting plugins and display admin notice
+        public function dsbl_plugin_conflicts() { // Disable conflicting plugins
             if ( is_plugin_active( 'disable-blogging/disable-blogging.php' ) ) {
-                global $pagenow;
-                if ( $pagenow == 'plugins.php' ) {
-                    $plugins = array( file( DSBL_FACTMAVEN . 'wp-content/uploads/disable-blogging.txt', FILE_IGNORE_NEW_LINES ) );
-                    foreach ( $plugins as $item ) {
-                        deactivate_plugins( $item );
-                    }
-                    if ( current_user_can( 'install_plugins' ) ) {
-                        echo '<div id="message" class="updated notice is-dismissible"><p>Please make sure to <strong>deactivate</strong> other blog disabling plugins to prevent conflicts.</p></div>';
-                    }
+                $plugins = array( file( plugin_dir_path( __FILE__ ) . 'includes/plugin-list.txt', FILE_IGNORE_NEW_LINES ) );
+                foreach ( $plugins as $item ) {
+                    deactivate_plugins( $item );
                 }
             }
         }
@@ -107,7 +100,8 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             $menu = array(
                 'index.php', // Dashboard
                 'edit.php', // Posts
-                'edit-comments.php' // Comments
+                'edit-comments.php', // Comments
+                'separator1',  'separator2', 'separator3' // Separators
                 );
             foreach ( $menu as $main ) {
                 remove_menu_page( $main );
@@ -203,16 +197,20 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             ) );
         }
 
+        public function dsbl_admin_footer() { // Replace WordPress footer in dashboard with your site info
+            echo '<em>&copy; ' . date("Y") . ' <a href="' . home_url( '/' ) . '">' . get_bloginfo( 'name' ) . '</a>. All Rights Reserved.</em>';
+        }
+
         // FEEDS & RELATED
         public function dsbl_htaccess() { // Add rules to the .htaccess
             require_once( ABSPATH . '/wp-admin/includes/misc.php' );
             $rules = array();
-            $rules[] = '<Files xmlrpc.php> # Disable XML-RPC';
+            $rules[] = '<Files xmlrpc.php>';
             $rules[] = 'Order allow,deny';
             $rules[] = 'Deny from all';
             $rules[] = '</Files>';
             $rules[] = '';
-            $rules[] = '<Files wlwmanifest.xml> # Disable Windows Live Writer';
+            $rules[] = '<Files wlwmanifest.xml>';
             $rules[] = 'Order allow,deny';
             $rules[] = 'Deny from all';
             $rules[] = '</Files>';
