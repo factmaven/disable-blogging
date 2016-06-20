@@ -10,7 +10,7 @@
 
 /**
      Disable Blogging Plugin
-     Copyright (C) 2011-2014, Fact Maven Corp. - contact@factmaven.com
+     Copyright (C) 2011-2016, Fact Maven Corp. - contact@factmaven.com
      
      This program is free software: you can redistribute it and/or modify
      it under the terms of the GNU General Public License as published by
@@ -28,15 +28,20 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-if ( ! class_exists( 'Disable_Blogging' ) ) {
+define( 'DSBL_PLUGIN', WP_PLUGIN_DIR . '/disable-blogging/' );
+require_once DSBL_PLUGIN . 'disable-blogging.php';
+
+if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
     
-    class Disable_Blogging {
+    class FMC_Disable_Blogging {
 
         public function __construct() {
             // DEFINE CONSTANTS
             define( 'DSBL_FACTMAVEN', 'https://www.factmaven.com/' );         
             define( 'DSBL_WORDPRESS', 'https://wordpress.org/' );
             define( 'DSBL_GITHUB', 'https://github.com/factmaven/disable-blogging' );
+
+            register_deactivation_hook( DSBL_PLUGIN . 'disable-blogging.php', array( $this, 'dsbl_deactivate' ) );
 
             // PLUGIN INFO
             add_filter( 'plugin_row_meta', array( $this, 'dsbl_plugin_links' ), 10, 2 );
@@ -54,7 +59,7 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             add_filter('admin_footer_text', array( $this, 'dsbl_admin_footer' ), 10, 1 );
 
             // FEEDS & RELATED
-            // add_action( 'init', array( $this, 'dsbl_htaccess' ), 10, 1 );
+            add_action( 'init', array( $this, 'dsbl_htaccess' ), 10, 1 );
             add_action( 'wp_loaded', array( $this, 'dsbl_feeds' ), 1, 1 );
             add_action( 'pre_ping', array( $this, 'dsbl_internal_pingbacks' ), 10, 1 );
             add_filter( 'wp_headers', array( $this, 'dsbl_x_pingback' ), 10, 1 );
@@ -67,7 +72,16 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
             add_filter( 'comments_template', array( $this, 'dsbl_comments_template' ), 20, 1 );
             add_filter( 'script_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
             add_filter( 'style_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
+        }
 
+        /* DEACTIVATE HOOK
+        -------------------------------------------------------------- */
+
+        public function dsbl_deactivate() {
+            // remove_action( 'generate_rewrite_rules', 'dsbl_htaccess' );
+            // $GLOBALS['wp_rewrite'] -> flush_rules();
+            global $wp_rewrite;
+            $wp_rewrite -> flush_rules();
         }
 
         /* FUNCTIONS
@@ -295,6 +309,7 @@ if ( ! class_exists( 'Disable_Blogging' ) ) {
     }
 }
 
-if ( class_exists( 'Disable_Blogging' ) ) { // Instantiate the plugin class
-    $disable_blogging = new Disable_Blogging();
+if ( class_exists( 'FMC_Disable_Blogging' ) ) { // Instantiate the plugin class
+    global $dsbl;
+    $dsbl = new FMC_Disable_Blogging();
 }
