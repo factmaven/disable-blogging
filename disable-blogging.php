@@ -2,29 +2,11 @@
 /**
     Plugin Name: Disable Blogging
     Plugin URI: https://wordpress.org/plugins/disable-blogging/
-    Description: Disables posts, comments, and other related the blogging features in WordPress, 'nuff said.
+    Description: Disables posts, comments, feeds, and other related the blogging features in WordPress.
     Version: 1.2.0
     Author: <a href="https://www.factmaven.com/">Fact Maven Corp.</a>
     License: GPLv3
 */
-
-/**
-     Disable Blogging Plugin
-     Copyright (C) 2011-2016, Fact Maven Corp. - contact@factmaven.com
-     
-     This program is free software: you can redistribute it and/or modify
-     it under the terms of the GNU General Public License as published by
-     the Free Software Foundation, either version 3 of the License, or
-     (at your option) any later version.
-     
-     This program is distributed in the hope that it will be useful,
-     but WITHOUT ANY WARRANTY; without even the implied warranty of
-     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
-     
-     You should have received a copy of the GNU General Public License
-     along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -52,6 +34,7 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
             add_action( 'load-press-this.php', array( $this, 'dsbl_press_this' ), 10, 1 );
             add_action( 'admin_head', array( $this, 'dsbl_help_tabs' ), 999, 1 );
             add_action( 'personal_options', array( $this, 'dsbl_user_profile' ), 10, 1 );
+            add_filter( 'enable_post_by_email_configuration', array( $this, 'dsbl_false_return' ), 10, 1 );
             add_filter( 'admin_bar_menu', array( $this, 'dsbl_howdy' ), 25, 1 );
 
             // FEEDS & RELATED
@@ -60,7 +43,7 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
             add_filter( 'wp_headers', array( $this, 'dsbl_x_pingback' ), 10, 1 );
             add_filter( 'bloginfo_url', array( $this, 'dsbl_pingback_url' ), 1, 2 );
             add_filter( 'bloginfo', array( $this, 'dsbl_pingback_url' ), 1, 2 );
-            add_filter( 'xmlrpc_enabled', array( $this, 'dsbl_xmlrpc_false' ), 10, 1 );
+            add_filter( 'xmlrpc_enabled', array( $this, 'dsbl_false_return' ), 10, 1 );
             add_filter( 'xmlrpc_methods', array( $this, 'dsbl_xmlrpc_methods' ), 10, 1 );
 
             // OTHER
@@ -240,7 +223,7 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
             return $output;
         }
 
-        public function dsbl_xmlrpc_false() { // Disable XML-RPC
+        public function dsbl_false_return() { // Disable XML-RPC and posting via email
             return false;
         }
 

@@ -5,46 +5,46 @@ Requires at least: 4.5
 Tested up to: 4.5.2
 Stable tag: 1.2.0
 License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Disables posts, comments, and other related the blogging features from WordPress, 'nuff said.
+Disables posts, comments, feeds, and other related the blogging features in WordPress.
 
 == Description ==
 **Disable Blogging** is a plugin that disables all blogging-related functionalities on WordPress on the front-end and the back-end. This makes for a cleaner and simpler WordPress platform to be used for static websites.
 
-Below is a summary of what this plugin covers:
+= Remove sidebar & toolbar menu items =
+In the admin dashboard - `Posts`, `Comments`, and other blog related menu items are removed from sidebar and toolbar and redirected to `Pages` menu.
 
-= Simplified and Cleaner Admin Dashboard =
-* Removes "Postsmenu/submenu items & redirect to page menu
-* Remove menu items from the toolbar
-* Remove comments column from posts & pages
-* Remove blog related widgets
-* Disables "Press This" and redirect to homepage
-* Remove help tabs
-* Hide certain fields from user profile
-* Removed "Howdy," from the admin bar, we ain't from Texas!
-* Replace WordPress footer in dashboard with your site info
+= Disable all posting & commenting functions =
+Comments are disallowed and disabled on pages and all blog related widgets are removed.
 
-= Feeds & Related =
-* Disables and remove all blogging feeds
-* Disables and removes all pingbacks and trackbacks
-* Disables and remove XML-RPC
+= Remove all feed links from the header =
+This includes pingbacks, trackbacks, XML-RPC, Windows Live Writer.
 
-= Other Features =
-* Replaces theme's comments template with empty page
-* Remove query strings from static resources
+= Simplify user profile page =
+Hide unused fields (such as "Biographical Info") and options (such as "Admin Color Scheme") from the `Profile` page to reduce clutter.
+
+= Other additional features included =
+* Disabling "Press This" function
+* Disabling posting via email
+* Removes "Howdy," from the toolbar
+* Removes "Help" tabs in upper right in the dashboard
+* Removes query strings (`ver=`) from static resources
 
 = Notice =
-This plugin does not delete any information, scripts, data, etc. on WordPress' core files and database. It simply hides and disables those features that are blog related. You must manually delete your posts, comments, tags, and categories from your database if you do not want to keep any of them.
+This plugin does not delete any data on WordPress. It simply hides and disables those features that are blog related. If you have any existing, posts, comments, categories and tags on your website; they must be manually deleted if you do not want to keep any of that information.
 
-= Fork Me on GitHub =
+= Contribute on GitHub =
 [View this plugin on GitHub](https://github.com/factmaven/disable-blogging)
+
+We're always looking for suggestions to improve our plugin!
 
 == Installation ==
 1. Upload the plugin to the `/wp-content/plugins/` directory.
 1. Activate the plugin through the `Plugins` menu in WordPress.
 1. Let it settle in a for a minute and be amazed.
 
+= Notice =
 No settings or configuration needed, activate and enjoy.
 
 == Frequently Asked Questions ==
@@ -98,6 +98,7 @@ This plugin tries its best to disable all blogging related features, if somethin
 * Deactivate other related plugins to prevent conflicts
 * Remove comments column from "Media" menu
 * Disable additional pingbacks
+* Disable posting via email
 * Improved code structure
 * Improved other functions
 
