@@ -1,48 +1,39 @@
 # Disable Blogging 
 
-Disables posts, comments, and other related the blogging features from WordPress, 'nuff said.
+Disables posts, comments, feeds, and other related the blogging features in WordPress.
 
 ## Description 
 **Disable Blogging** is a plugin that disables all blogging-related functionalities on WordPress on the front-end and the back-end. This makes for a cleaner and simpler WordPress platform to be used for static websites.
 
-### Menu, Submenu & Toolbar Items 
-Remove items from sidebar and toolbar and redirect to _Page_ menu.
+### Remove sidebar & toolbar menu items 
+In the admin dashboard - `Posts`, `Comments`, and other blog related menu items are removed from sidebar and toolbar and redirected to `Pages` menu.
 
-* **Main**: Dashboard (home), Posts, Comments
-* **Tools**: Available Tools
-* **Settings**: Writing, Discussion
-* **Toolbar**: WordPress logo, Posts, Comments, Search
+### Disable all posting & commenting functions 
+Comments are disallowed and disabled on pages and all blog related widgets are removed.
 
-### Disable Post & Comments 
-* Remove comments function from pages
-* Remove blog related widgets
+### Remove all feed links from the header 
+This includes pingbacks, trackbacks, XML-RPC, Windows Live Writer.
 
-### Disable Feeds & Related 
-* Disable pingbacks and trackbacks
-* Disable XMLRPC
-* Remove all feed links & redirect to homepage
-* Remove blog related widgets
+### Simplify user profile page 
+Hide unused fields (such as "Biographical Info") and options (such as "Admin Color Scheme") from the `Profile` page to reduce clutter.
 
-### Simplify User Profile 
-Remove certain fields and options from the _User Profile_ making less clutter.
-
-* **Personal Options**: Remove Visual Editor, Admin Color Scheme, Keyboard Shortcuts, Toolbar
-* **Name**: Nickname, Display Name
-* **Contact Info**: Website, Aim, Yahoo IM, Jabber, Google+, Twitter, Facebook
-* **About Yourself**: Description
-* **[Yoast SEO](https://wordpress.org/plugins/wordpress-seo)**: Google+, Twitter, Facebook, Author Page Title, Author Description
-
-### Other Features 
-* Disable themes & plugins editor
-* Disable post revisions
-* Remove "Howdy," on the upper right of the toolbar
-* Remove "Help" tabs in upper right in the dashboard
-* Disables "Press This" function
-* Remove query strings (`ver=`) from static resources
-* Hide default user roles (except admin)
+### Other additional features included 
+* Disabling "Press This" function
+* Disabling posting via email
+* Removes "Howdy," from the toolbar
+* Removes "Help" tabs in upper right in the dashboard
+* Removes query strings (`ver=`) from static resources
 
 ### Notice 
-This plugin does not delete any information, scripts, data, etc. on WordPress' core files and database. It simply hides and disables those features that are blog related.
+This plugin does not delete any data on WordPress. It simply hides and disables those features that are blog related. If you have any existing, posts, comments, categories and tags on your website; they must be manually deleted if you do not want to keep any of that information.
+
+### Contribute on GitHub 
+[View this plugin on GitHub](https://github.com/factmaven/disable-blogging)
+
+We're always looking for suggestions to improve our plugin!
+
+### Notice 
+No settings or configuration needed, activate and enjoy.
 
 ## Frequently Asked Questions 
 
@@ -54,6 +45,16 @@ No, they are also disabled from being access as well for added security. If some
 `wordpress.org/wp-admin/post.php`
 They would be redirected to the *Pages* menu:
 `wordpress.org/wp-admin/edit.php?post_type=page`
+
+### I can still access the XML-RPC when I visit `myweb.site/xmlrpc.php` even through it's removed form my header 
+If you have access to your `.htaccess` on your hosting you can add the following code to redirect the links to your homepage
+`
+<IfModule mod_alias.c>
+RedirectMatch 301 /xmlrpc.php /
+RedirectMatch 301 /wp-includes/wlwmanifest.xml /
+</IfModule>
+`
+You can do the same for the Windows Live Writer XML which has also been added above.
 
 ### I like all of the features in this plugin except for (insert_feature_here), how can I disable it? 
 It's fairly simple. You can disable the function by doing the following:
@@ -68,7 +69,25 @@ It's fairly simple. You can disable the function by doing the following:
 ### I notice that there are still some blogging functions on WordPress, such as (insert_blogging_function_here) 
 This plugin tries its best to disable all blogging related features, if something is missed, please mention it in our [support forum](https://wordpress.org/support/plugin/disable-blogging).
 
+
 ## Changelog 
+
+### 1.2.0 
+* 06/10/16
+* Restored "Nickname" and "Display name" fields in user profile
+* Restored default user roles
+* Renabled theme & plugin editor
+* Renabled post revisions
+* All blog links redirect to "Pages" menu
+* Update meta links on plugin page
+* Deactivate other related plugins to prevent conflicts
+* Remove comments column from "Media" menu
+* Disable additional pingbacks
+* Disable posting via email
+* Improved code structure
+* Improved other functions
+
+
 ### 1.1.0 
 * 05/31/16
 * Updated `readme.txt`
