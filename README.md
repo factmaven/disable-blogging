@@ -27,11 +27,6 @@ Hide unused fields (such as "Biographical Info") and options (such as "Admin Col
 ### Notice 
 This plugin does not delete any data on WordPress. It simply hides and disables those features that are blog related. If you have any existing, posts, comments, categories and tags on your website; they must be manually deleted if you do not want to keep any of that information.
 
-### Contribute on GitHub 
-[View this plugin on GitHub](https://github.com/factmaven/disable-blogging)
-
-We're always looking for suggestions to improve our plugin!
-
 ### Notice 
 No settings or configuration needed, activate and enjoy.
 
