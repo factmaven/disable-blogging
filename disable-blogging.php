@@ -41,11 +41,8 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
             define( 'DSBL_WORDPRESS', 'https://wordpress.org/' );
             define( 'DSBL_GITHUB', 'https://github.com/factmaven/disable-blogging' );
 
-            register_deactivation_hook( DSBL_PLUGIN . 'disable-blogging.php', array( $this, 'dsbl_deactivate' ) );
-
             // PLUGIN INFO
             add_filter( 'plugin_row_meta', array( $this, 'dsbl_plugin_links' ), 10, 2 );
-            add_action( 'all_admin_notices', array( $this, 'dsbl_plugin_conflicts' ), 10, 1 );
 
             // ADMIN DASHBOARD
             add_action( 'admin_menu', array( $this, 'dsbl_sidebar_menu' ), 10, 1 );
@@ -56,10 +53,8 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
             add_action( 'admin_head', array( $this, 'dsbl_help_tabs' ), 999, 1 );
             add_action( 'personal_options', array( $this, 'dsbl_user_profile' ), 10, 1 );
             add_filter( 'admin_bar_menu', array( $this, 'dsbl_howdy' ), 25, 1 );
-            add_filter('admin_footer_text', array( $this, 'dsbl_admin_footer' ), 10, 1 );
 
             // FEEDS & RELATED
-            add_action( 'init', array( $this, 'dsbl_htaccess' ), 10, 1 );
             add_action( 'wp_loaded', array( $this, 'dsbl_feeds' ), 1, 1 );
             add_action( 'pre_ping', array( $this, 'dsbl_internal_pingbacks' ), 10, 1 );
             add_filter( 'wp_headers', array( $this, 'dsbl_x_pingback' ), 10, 1 );
@@ -72,16 +67,6 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
             add_filter( 'comments_template', array( $this, 'dsbl_comments_template' ), 20, 1 );
             add_filter( 'script_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
             add_filter( 'style_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
-        }
-
-        /* DEACTIVATE HOOK
-        -------------------------------------------------------------- */
-
-        public function dsbl_deactivate() {
-            // remove_action( 'generate_rewrite_rules', 'dsbl_htaccess' );
-            // $GLOBALS['wp_rewrite'] -> flush_rules();
-            global $wp_rewrite;
-            $wp_rewrite -> flush_rules();
         }
 
         /* FUNCTIONS
@@ -98,15 +83,6 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
                 $links = array_merge( $links, $meta );
             }
             return $links;
-        }
-
-        public function dsbl_plugin_conflicts() { // Disable conflicting plugins
-            if ( is_plugin_active( 'disable-blogging/disable-blogging.php' ) ) {
-                $plugins = array( file( plugin_dir_path( __FILE__ ) . 'includes/plugin-list.txt', FILE_IGNORE_NEW_LINES ) );
-                foreach ( $plugins as $item ) {
-                    deactivate_plugins( $item );
-                }
-            }
         }
 
         // ADMIN DASHBOARD
@@ -131,7 +107,6 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
                 'post-new.php', // New Post
                 'edit-tags.php', // Tags
                 'edit-comments.php', // Comments
-                'tools.php', // Tools
                 'options-writing.php', // Settings > Writing
                 'options-discussion.php' // Settings > Discussion
                 );
@@ -193,15 +168,14 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
         public function dsbl_user_profile() { // Hide certain fields from user profile
             echo "\n" . '
             <script type="text/javascript">
-            jQuery( document ).ready( public function($) {
+            jQuery( document ).ready( function($) {
                 $(\'form#your-profile > h2\').hide();
                 $(\'form#your-profile > h3\').hide();
                 $(\'form#your-profile > table:first\').hide();
                 $(\'form#your-profile\').show();
                 $(\'#url, #aim, #yim, #jabber, #googleplus, #twitter, #facebook, #description, #wpseo_author_title, #wpseo_author_metadesc\').parent().parent().hide();
             });
-            </script>
-            ' . "\n";
+            </script>' . "\n";
         }
 
         public function dsbl_howdy( $wp_admin_bar ) { // Removed "Howdy," from the admin bar, we ain't from Texas!
@@ -211,27 +185,7 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
             ) );
         }
 
-        public function dsbl_admin_footer() { // Replace WordPress footer in dashboard with your site info
-            echo '<em>&copy; ' . date("Y") . ' <a href="' . home_url( '/' ) . '">' . get_bloginfo( 'name' ) . '</a>. All Rights Reserved.</em>';
-        }
-
         // FEEDS & RELATED
-        public function dsbl_htaccess() { // Add rules to the .htaccess
-            require_once( ABSPATH . '/wp-admin/includes/misc.php' );
-            $rules = array();
-            $rules[] = '<Files xmlrpc.php>';
-            $rules[] = 'Order allow,deny';
-            $rules[] = 'Deny from all';
-            $rules[] = '</Files>';
-            $rules[] = '';
-            $rules[] = '<Files wlwmanifest.xml>';
-            $rules[] = 'Order allow,deny';
-            $rules[] = 'Deny from all';
-            $rules[] = '</Files>';
-            $htaccess_file = ABSPATH . '.htaccess';
-            insert_with_markers( $htaccess_file, 'Disable Blogging', ( array ) $rules );
-        }
-
         public function dsbl_feeds() { // Remove feed links & redirect to homepage
             $feed = array(
                 'feed_links' => 2, // General feeds

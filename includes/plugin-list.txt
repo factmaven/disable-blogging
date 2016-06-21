@@ -1,9 +1,0 @@
-disable-blog/disable-blog.php
-disable-comments/disable-comments.php
-disable-feeds/disable-feeds.php
-comments-disable-accesspress/comments-disable-accesspress.php
-crudlab-disable-comments/crudlab-disable-comments.php
-disable-comments-wpz/dc-wpzest.php
-disabler/disabler.php
-postless/postless.php
-wp-disable-comments/bootstrap.php
