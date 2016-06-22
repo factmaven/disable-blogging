@@ -67,8 +67,12 @@ This plugin tries its best to disable all blogging related features, if somethin
 
 ## Changelog 
 
+### 1.2.1
+* 06/21/16
+* Removed plugin directory define
+
 ### 1.2.0 
-* 06/10/16
+* 06/21/16
 * Restored "Nickname" and "Display name" fields in user profile
 * Restored default user roles
 * Renabled theme & plugin editor
