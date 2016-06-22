@@ -10,9 +10,6 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-define( 'DSBL_PLUGIN', WP_PLUGIN_DIR . '/disable-blogging/' );
-require_once DSBL_PLUGIN . 'disable-blogging.php';
-
 if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
     
     class FMC_Disable_Blogging {
