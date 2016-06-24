@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
     
     class FMC_Disable_Blogging {
+        private $disable_blogging_options;
 
         public function __construct() {
             // DEFINE CONSTANTS
@@ -22,6 +23,9 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
 
             // PLUGIN INFO
             add_filter( 'plugin_row_meta', array( $this, 'dsbl_plugin_links' ), 10, 2 );
+            add_action( 'admin_menu', array( $this, 'dsbl_plugin_page' ), 10, 1 );
+            add_action( 'admin_init', array( $this, 'dsbl_page_init' ), 10, 1 );
+
 
             // ADMIN DASHBOARD
             add_action( 'admin_menu', array( $this, 'dsbl_sidebar_menu' ), 10, 1 );
@@ -64,6 +68,82 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
             }
             return $links;
         }
+
+        public function dsbl_plugin_page() {
+            add_options_page(
+                'Blogging', // page_title
+                'Blogging', // menu_title
+                'manage_options', // capability
+                'disable-blogging', // menu_slug
+                array( $this, 'dsbl_admin_page' ) // function
+            );
+        }
+
+        public function dsbl_admin_page() {
+            $this -> disable_blogging_options = get_option( 'dsbl_option_name' ); ?>
+
+            <div class="wrap">
+                <h2>Blogging Settings</h2>
+                <?php settings_errors(); ?>
+
+                <form method="post" action="options.php">
+                    <?php
+                        settings_fields( 'dsbl_option_group' );
+                        do_settings_sections( 'disable-blogging-admin' );
+                        submit_button();
+                    ?>
+                </form>
+            </div>
+        <?php }
+
+        public function dsbl_page_init() {
+            register_setting(
+                'dsbl_option_group', // option_group
+                'dsbl_option_name', // option_name
+                array( $this, 'dsbl_sanitize' ) // sanitize_callback
+            );
+
+            add_settings_section(
+                'disable_blogging_setting_section', // id
+                'Sidebar & Topbar Menu', // title
+                array( $this, 'dsbl_section_info' ), // callback
+                'disable-blogging-admin' // page
+            );
+
+            add_settings_field(
+                'additional_menus_0', // id
+                'Additional Menus', // title
+                array( $this, 'additional_menus_0_callback' ), // callback
+                'disable-blogging-admin', // page
+                'disable_blogging_setting_section' // section
+            );
+        }
+
+        public function dsbl_sanitize( $input ) {
+            $sanitary_values = array();
+            if ( isset( $input['additional_menus_0'] ) ) {
+                $sanitary_values['additional_menus_0'] = esc_textarea( $input['additional_menus_0'] );
+            }
+            return $sanitary_values;
+        }
+
+        public function dsbl_section_info() {
+            echo 'Hide additional menu items from the sidebar or topbar.';
+        }
+
+        public function additional_menus_0_callback() {
+            printf(
+                '<textarea class="large-text" rows="5" name="dsbl_option_name[additional_menus_0]" id="additional_menus_0">%s</textarea>',
+                isset( $this -> disable_blogging_options['additional_menus_0'] ) ? esc_attr( $this -> disable_blogging_options['additional_menus_0']) : ''
+            );
+            echo '<p class="description" id="sidebar-description">Add each menu item per line </p>';
+        }
+
+        /**
+         Retrieve this value with:
+         $disable_blogging_options = get_option( 'disable_blogging_option_name' ); // Array of All Options
+         $additional_menus_0 = $disable_blogging_options['additional_menus_0']; // Additional Menus
+         */
 
         // ADMIN DASHBOARD
         public function dsbl_sidebar_menu() { // Remove menu/submenu items & redirect to page menu
