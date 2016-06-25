@@ -19,10 +19,11 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
             define( 'DSBL_FACTMAVEN', 'https://www.factmaven.com/' );         
             define( 'DSBL_WORDPRESS', 'https://wordpress.org/' );
             define( 'DSBL_GITHUB', 'https://github.com/factmaven/disable-blogging' );
+            define( 'DSBL_PLUGIN', plugin_dir_path( __FILE__ ) );
 
             // PLUGIN INFO
-            add_filter( 'plugin_row_meta', array( $this, 'dsbl_plugin_links' ), 10, 2 );
-            add_action( 'admin_menu', array( $this, 'dsbl_plugin_menu' ), 10, 1 );
+            include( DSBL_PLUGIN . 'includes/plugin-meta.php' );
+            include( DSBL_PLUGIN . 'includes/plugin-settings.php' );
 
             // ADMIN DASHBOARD
             add_action( 'admin_menu', array( $this, 'dsbl_sidebar_menu' ), 10, 1 );
@@ -52,29 +53,6 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
 
         /* FUNCTIONS
         -------------------------------------------------------------- */
-
-        // PLUGIN INFO
-        public function dsbl_plugin_links( $links, $file ) { // Add meta links to plugin page
-            if ( strpos( $file, 'disable-blogging.php' ) !== false ) {
-                $meta = array(
-                    'support' => '<a href="' . DSBL_WORDPRESS . 'support/plugin/disable-blogging" target="_blank"><span class="dashicons dashicons-sos"></span> ' . __( 'Support' ) . '</a>',
-                    'review' => '<a href="' . DSBL_WORDPRESS . 'support/view/plugin-reviews/disable-blogging" target="_blank"><span class="dashicons dashicons-nametag"></span> ' . __( 'Review' ) . '</a>',
-                    'github' => '<a href="' . DSBL_GITHUB . '" target="_blank"><span class="dashicons dashicons-randomize"></span> ' . __( 'GitHub' ) . '</a>'
-                );
-                $links = array_merge( $links, $meta );
-            }
-            return $links;
-        }
-
-        public function dsbl_plugin_menu() { // Add plugin menu under Settings
-            add_options_page(
-                'Disable Blogging', // Title on web browser
-                'Blogging', // Menu name
-                'manage_options', // User capability
-                'dsbl-bloggging', // URL slug
-                array( $this, 'dsbl_plugin_callback')
-                );
-        }
 
         // ADMIN DASHBOARD
         public function dsbl_sidebar_menu() { // Remove menu/submenu items & redirect to page menu
