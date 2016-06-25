@@ -3,14 +3,14 @@
     Plugin Name: Disable Blogging
     Plugin URI: https://wordpress.org/plugins/disable-blogging/
     Description: Disables posts, comments, feeds, and other related the blogging features in WordPress.
-    Version: 1.2.1
+    Version: 1.2.2
     Author: <a href="https://www.factmaven.com/">Fact Maven Corp.</a>
     License: GPLv3
 */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
+if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
     
     class FMC_Disable_Blogging {
 
@@ -23,7 +23,6 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
 
             // PLUGIN INFO
             include( DSBL_PLUGIN . 'includes/plugin-meta.php' );
-            include( DSBL_PLUGIN . 'includes/plugin-settings.php' );
 
             // ADMIN DASHBOARD
             add_action( 'admin_menu', array( $this, 'dsbl_sidebar_menu' ), 10, 1 );
@@ -33,22 +32,56 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
             add_action( 'load-press-this.php', array( $this, 'dsbl_press_this' ), 10, 1 );
             add_action( 'admin_head', array( $this, 'dsbl_help_tabs' ), 999, 1 );
             add_action( 'personal_options', array( $this, 'dsbl_user_profile' ), 10, 1 );
-            add_filter( 'enable_post_by_email_configuration', array( $this, 'dsbl_false_return' ), 10, 1 );
+            add_filter( 'enable_post_by_email_configuration', '__return_false', 10, 1 );
             add_filter( 'admin_bar_menu', array( $this, 'dsbl_howdy' ), 25, 1 );
 
             // FEEDS & RELATED
-            add_action( 'wp_loaded', array( $this, 'dsbl_feeds' ), 1, 1 );
+            add_action( 'wp_loaded', array( $this, 'dsbl_header_feeds' ), 1, 1 );
+            add_action( 'template_redirect', array( $this, 'dsbl_filter_feeds' ), 1, 1 );
             add_action( 'pre_ping', array( $this, 'dsbl_internal_pingbacks' ), 10, 1 );
             add_filter( 'wp_headers', array( $this, 'dsbl_x_pingback' ), 10, 1 );
             add_filter( 'bloginfo_url', array( $this, 'dsbl_pingback_url' ), 1, 2 );
             add_filter( 'bloginfo', array( $this, 'dsbl_pingback_url' ), 1, 2 );
-            add_filter( 'xmlrpc_enabled', array( $this, 'dsbl_false_return' ), 10, 1 );
+            add_filter( 'xmlrpc_enabled', '__return_false', 10, 1 );
             add_filter( 'xmlrpc_methods', array( $this, 'dsbl_xmlrpc_methods' ), 10, 1 );
 
             // OTHER
             add_filter( 'comments_template', array( $this, 'dsbl_comments_template' ), 20, 1 );
             add_filter( 'script_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
             add_filter( 'style_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
+        }
+
+        public function dsbl_filter_feeds() { // Prevent redirect loop
+            if ( !is_feed() || is_404() ) {
+                return;
+            }
+            $this->dsbl_redirect_feeds();
+        }
+
+        private function dsbl_redirect_feeds() { // Redirect all feeds to homepage
+            global $wp_rewrite, $wp_query;
+
+            if ( isset( $_GET['feed'] ) ) {
+                wp_redirect( esc_url_raw( remove_query_arg( 'feed' ) ), 301 );
+                exit;
+            }
+
+            if ( get_query_var( 'feed' ) !== 'old' ) {
+                set_query_var( 'feed', '' );
+            }
+            redirect_canonical();
+
+            $url_struct = ( !is_singular() && is_comment_feed() ) ? $wp_rewrite -> get_comment_feed_permastruct() : $wp_rewrite -> get_feed_permastruct();
+            $url_struct = preg_quote( $url_struct, '#' );
+            $url_struct = str_replace( '%feed%', '(\w+)?', $url_struct );
+            $url_struct = preg_replace( '#/+#', '/', $url_struct );
+            $url_current = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            $url_new = preg_replace( '#' . $url_struct . '/?$#', '', $url_current );
+
+            if ( $url_new != $url_current ) {
+                wp_redirect( $url_new, 301 );
+                exit;
+            }
         }
 
         /* FUNCTIONS
@@ -79,7 +112,7 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
                 'options-writing.php', // Settings > Writing
                 'options-discussion.php' // Settings > Discussion
                 );
-            if ( in_array( $pagenow, $page, true ) && ( ! isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
+            if ( in_array( $pagenow, $page, true ) && ( !isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
                 wp_redirect( admin_url( 'edit.php?post_type=page' ), 301 );
                 exit;
             }
@@ -155,7 +188,7 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
         }
 
         // FEEDS & RELATED
-        public function dsbl_feeds() { // Remove feed links & redirect to homepage
+        public function dsbl_header_feeds() { // Remove feed links from the header
             $feed = array(
                 'feed_links' => 2, // General feeds
                 'feed_links_extra' => 3, // Extra feeds
@@ -169,25 +202,6 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
                 );
             foreach ( $feed as $function => $priority ) {
                 remove_action( 'wp_head', $function, $priority );
-            }
-
-            global $wp_rewrite;
-            if ( get_query_var( 'feed' ) !== 'old' ) {
-                set_query_var( 'feed', '' );
-            }
-            redirect_canonical();   // Automatically determine appropriate redirect URL
-
-            // If 'redirect_canonical' failed, try another way
-            $url_struct = ( ! is_singular() && is_comment_feed() ) ? $wp_rewrite -> get_comment_feed_permastruct() : $wp_rewrite -> get_feed_permastruct();
-            $url_struct = preg_quote( $url_struct, '#' );
-            $url_struct = str_replace( '%feed%', '(\w+)?', $url_struct );
-            $url_struct = preg_replace( '#/+#', '/', $url_struct );
-            $requested_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-            $new_url = preg_replace( '#' . $url_struct . '/?$#', '', $requested_url );
-
-            if ( $new_url != $requested_url ) {
-                wp_redirect( $new_url, 301 );
-                exit;
             }
         }
 
@@ -209,10 +223,6 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
             return $output;
         }
 
-        public function dsbl_false_return() { // Disable XML-RPC and posting via email
-            return false;
-        }
-
         public function dsbl_xmlrpc_methods( $methods ) { // Disable XML-RPC methods
             unset( $methods['pingback.ping'] );
             return $methods;
@@ -220,7 +230,7 @@ if ( ! class_exists( 'FMC_Disable_Blogging' ) ) {
 
         // OTHER
         public function dsbl_comments_template() { // Replaces theme's comments template with empty page
-                return dirname( __FILE__ ) . '/includes/blank-template.php';
+                return DSBL_PLUGIN . '/includes/blank-template.php';
         }
 
         public function dsbl_script_version( $src ) { // Remove query strings from static resources
