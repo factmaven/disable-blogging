@@ -3,7 +3,7 @@
     Plugin Name: Disable Blogging
     Plugin URI: https://wordpress.org/plugins/disable-blogging/
     Description: Disables posts, comments, feeds, and other related the blogging features in WordPress.
-    Version: 1.2.2
+    Version: 1.2.3
     Author: <a href="https://www.factmaven.com/">Fact Maven Corp.</a>
     License: GPLv3
 */
@@ -55,7 +55,7 @@ if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
             if ( !is_feed() || is_404() ) {
                 return;
             }
-            $this->dsbl_redirect_feeds();
+            $this -> dsbl_redirect_feeds();
         }
 
         private function dsbl_redirect_feeds() { // Redirect all feeds to homepage
@@ -104,7 +104,6 @@ if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
 
             global $pagenow;
             $page = array(
-                'index.php', // Dashboard
                 'edit.php', // Posts
                 'post-new.php', // New Post
                 'edit-tags.php', // Tags
@@ -114,6 +113,11 @@ if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
                 );
             if ( in_array( $pagenow, $page, true ) && ( !isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
                 wp_redirect( admin_url( 'edit.php?post_type=page' ), 301 );
+                exit;
+            }
+
+            if ( $pagenow == 'index.php' ) { // Redirect Dashboard to Profile menu
+                wp_redirect( admin_url( 'profile.php' ), 301 );
                 exit;
             }
         }
