@@ -3,7 +3,7 @@ Contributors: factmaven, ethanosullivan
 Tags: disable wordpress blogging, disable blogging, disable blog, disable feeds, feeds, blog, posts, comments, remove query strings, query strings
 Requires at least: 4.5
 Tested up to: 4.5.3
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -86,18 +86,21 @@ This plugin tries its best to disable all blogging related features, if somethin
 4. After: user profile
 
 == Changelog ==
-= 1.2.3 06/30/16 =
+= 1.2.4 (07/08/16) =
+* Simplified function to hide user profile fields
+
+= 1.2.3 (06/30/16) =
 * "Dashboard" redirects to "Profile" menu instead of "Pages"
 
-= 1.2.2 06/25/16 =
+= 1.2.2 (06/25/16) =
 * Fixed redirect loop from `dsbl_feeds` (now `dsbl_header_feeds`)
 * The plugin's meta links function is in `includes/plugin-meta.php`
 * Replace `dsbl_false_return` function with `__return_false` instead
 
-= 1.2.1 06/21/16 =
+= 1.2.1 (06/21/16) =
 * Removed plugin directory define
 
-= 1.2.0 06/10/16 =
+= 1.2.0 (06/10/16) =
 * Restored "Nickname" and "Display name" fields in user profile
 * Restored default user roles
 * Renabled theme & plugin editor
@@ -111,7 +114,7 @@ This plugin tries its best to disable all blogging related features, if somethin
 * Improved code structure
 * Improved other functions
 
-= 1.1.0 05/31/16 =
+= 1.1.0 (05/31/16) =
 * Updated `readme.txt`
 * Added plugin meta links
 * Removes "Howdy," from the admin bar
@@ -127,5 +130,5 @@ This plugin tries its best to disable all blogging related features, if somethin
 * Disable theme's comment template
 * Various code improvements
 
-= 1.0.0 05/18/16 =
+= 1.0.0 (05/18/16) =
 * Initial release, huzzah!
