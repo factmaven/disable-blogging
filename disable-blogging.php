@@ -23,9 +23,10 @@ if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
 
             // PLUGIN INFO
             include( DSBL_PLUGIN . 'includes/plugin-meta.php' );
+            include( DSBL_PLUGIN . 'includes/plugin-settings.php' );
 
             // ADMIN DASHBOARD
-            add_action( 'admin_menu', array( $this, 'dsbl_sidebar_menu' ), 10, 1 );
+            // add_action( 'admin_menu', array( $this, 'dsbl_sidebar_menu' ), 10, 1 );
             add_action( 'wp_before_admin_bar_render', array( $this, 'dsbl_toolbar_menu' ), 10, 1 );
             add_action( 'init', array( $this, 'dsbl_page_comments' ), 10, 1 );
             add_action( 'widgets_init', array( $this, 'dsbl_widgets' ), 11, 1 );

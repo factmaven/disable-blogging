@@ -53,11 +53,11 @@ No, this plugin simply disables, hides, and redirects all of the blogging functi
 
 = So these blogging functions are just hidden from view? =
 No, they are also disabled from being access as well for added security. If someone were to access the *Posts* menu:
-`wordpress.org/wp-admin/post.php`
+`.../wp-admin/post.php`
 They would be redirected to the *Pages* menu:
-`wordpress.org/wp-admin/edit.php?post_type=page`
+`.../wp-admin/edit.php?post_type=page`
 
-= I can still access the XML-RPC when I visit `myweb.site/xmlrpc.php` even through it's removed form my header =
+= I can still access the XML-RPC when I visit ".../xmlrpc.php" even though it's removed from my header =
 If you have access to your `.htaccess` on your hosting you can add the following code to redirect the links to your homepage
 `
 <IfModule mod_alias.c>
