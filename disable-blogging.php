@@ -171,15 +171,14 @@ if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
             get_current_screen() -> remove_help_tabs();
         }
 
-        public function dsbl_user_profile() { // Hide certain fields from user profile
-            echo "\n" . '
-            <script type="text/javascript">
+        public function dsbl_user_profile() { // Hide unused fields from user profile
+            echo "\n" . '<script type="text/javascript">
             jQuery( document ).ready( function($) {
                 $(\'form#your-profile > h2\').hide();
                 $(\'form#your-profile > h3\').hide();
                 $(\'form#your-profile > table:first\').hide();
                 $(\'form#your-profile\').show();
-                $(\'#url, #aim, #yim, #jabber, #googleplus, #twitter, #facebook, #description, #wpseo_author_title, #wpseo_author_metadesc\').parent().parent().hide();
+                $(\'#url, #description, #wpseo_author_title\').parent().parent().parent().hide();
             });
             </script>' . "\n";
         }
