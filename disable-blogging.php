@@ -3,7 +3,7 @@
     Plugin Name: Disable Blogging
     Plugin URI: https://wordpress.org/plugins/disable-blogging/
     Description: Disables posts, comments, feeds, and other related the blogging features in WordPress.
-    Version: 1.2.3
+    Version: 1.2.5
     Author: <a href="https://www.factmaven.com/">Fact Maven Corp.</a>
     License: GPLv3
 */
@@ -172,15 +172,27 @@ if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
         }
 
         public function dsbl_user_profile() { // Hide unused fields from user profile
-            echo "\n" . '<script type="text/javascript">
-            jQuery( document ).ready( function($) {
-                $(\'form#your-profile > h2\').hide();
-                $(\'form#your-profile > h3\').hide();
-                $(\'form#your-profile > table:first\').hide();
-                $(\'form#your-profile\').show();
-                $(\'#url, #description, #wpseo_author_title\').parent().parent().parent().hide();
+            // echo "\n" . '<script type="text/javascript">
+            // jQuery( document ).ready( function($) {
+            //     $(\'form#your-profile > h2\').hide();
+            //     $(\'form#your-profile > h3\').hide();
+            //     $(\'form#your-profile > table:first\').hide();
+            //     $(\'form#your-profile\').show();
+            //     $(\'#url\').parent().parent().hide();
+            //     $(\'#description, #wpseo_author_title\').parent().parent().parent().hide();
+            // });
+            // </script>' . "\n";
+            ?>
+            <script type="text/javascript">
+            jQuery( document ).ready( function( $ ) {
+                $( 'form#your-profile > h2' ).hide();
+                $( 'form#your-profile > h3' ).hide();
+                $( 'form#your-profile > table:first' ).hide();
+                $( 'form#your-profile' ).show();
+                $( '#url' ).closest( 'tr' ).remove();
             });
-            </script>' . "\n";
+            </script>
+            <?php
         }
 
         public function dsbl_howdy( $wp_admin_bar ) { // Removed "Howdy," from the admin bar, we ain't from Texas!
