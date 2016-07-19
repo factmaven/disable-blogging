@@ -3,7 +3,11 @@
     Plugin Name: Disable Blogging
     Plugin URI: https://wordpress.org/plugins/disable-blogging/
     Description: Disables posts, comments, feeds, and other related the blogging features in WordPress.
+<<<<<<< HEAD
     Version: 1.2.4
+=======
+    Version: 1.2.5
+>>>>>>> test
     Author: <a href="https://www.factmaven.com/">Fact Maven Corp.</a>
     License: GPLv3
 */
@@ -172,15 +176,21 @@ if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
         }
 
         public function dsbl_user_profile() { // Hide unused fields from user profile
-            echo "\n" . '<script type="text/javascript">
-            jQuery( document ).ready( function($) {
-                $(\'form#your-profile > h2\').hide();
-                $(\'form#your-profile > h3\').hide();
-                $(\'form#your-profile > table:first\').hide();
-                $(\'form#your-profile\').show();
-                $(\'#url, #description, #wpseo_author_title\').parent().parent().parent().hide();
+            ?>
+            <script type="text/javascript">
+            jQuery( document ).ready( function( $ ) {
+                $( 'form#your-profile > h2' ).hide(); // Section titles
+                $( 'form#your-profile > table:first' ).hide(); // Personal Options
+                $( '#url' ).closest( 'tr' ).remove(); // Website
+                $( '#description' ).closest( 'table' ).remove(); // About Yourself
+                // Yoast SEO
+                $( '#googleplus' ).closest( 'tr' ).remove(); // Google+
+                $( '#twitter' ).closest( 'tr' ).remove(); // Twitter
+                $( '#facebook' ).closest( 'tr' ).remove(); // Facebook
+                $( '#wpseo_author_title' ).closest( 'table' ).remove(); // Author
             });
-            </script>' . "\n";
+            </script>
+            <?php
         }
 
         public function dsbl_howdy( $wp_admin_bar ) { // Removed "Howdy," from the admin bar, we ain't from Texas!
