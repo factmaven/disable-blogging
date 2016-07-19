@@ -62,6 +62,9 @@ This plugin tries its best to disable all blogging related features, if somethin
 
 ## Changelog 
 
+### 1.2.5 (07/19/16)
+* * Restored "Email" field in user profile
+
 ### 1.2.4 (07/08/16)
 * Simplified function to hide user profile fields
 

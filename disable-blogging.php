@@ -172,24 +172,18 @@ if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
         }
 
         public function dsbl_user_profile() { // Hide unused fields from user profile
-            // echo "\n" . '<script type="text/javascript">
-            // jQuery( document ).ready( function($) {
-            //     $(\'form#your-profile > h2\').hide();
-            //     $(\'form#your-profile > h3\').hide();
-            //     $(\'form#your-profile > table:first\').hide();
-            //     $(\'form#your-profile\').show();
-            //     $(\'#url\').parent().parent().hide();
-            //     $(\'#description, #wpseo_author_title\').parent().parent().parent().hide();
-            // });
-            // </script>' . "\n";
             ?>
             <script type="text/javascript">
             jQuery( document ).ready( function( $ ) {
-                $( 'form#your-profile > h2' ).hide();
-                $( 'form#your-profile > h3' ).hide();
-                $( 'form#your-profile > table:first' ).hide();
-                $( 'form#your-profile' ).show();
-                $( '#url' ).closest( 'tr' ).remove();
+                $( 'form#your-profile > h2' ).hide(); // Section titles
+                $( 'form#your-profile > table:first' ).hide(); // Personal Options
+                $( '#url' ).closest( 'tr' ).remove(); // Website
+                $( '#description' ).closest( 'table' ).remove(); // About Yourself
+                // Yoast SEO
+                $( '#googleplus' ).closest( 'tr' ).remove(); // Google+
+                $( '#twitter' ).closest( 'tr' ).remove(); // Twitter
+                $( '#facebook' ).closest( 'tr' ).remove(); // Facebook
+                $( '#wpseo_author_title' ).closest( 'table' ).remove(); // Author
             });
             </script>
             <?php
