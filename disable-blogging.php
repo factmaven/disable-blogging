@@ -3,11 +3,7 @@
     Plugin Name: Disable Blogging
     Plugin URI: https://wordpress.org/plugins/disable-blogging/
     Description: Disables posts, comments, feeds, and other related the blogging features in WordPress.
-<<<<<<< HEAD
-    Version: 1.2.4
-=======
     Version: 1.2.5
->>>>>>> test
     Author: <a href="https://www.factmaven.com/">Fact Maven Corp.</a>
     License: GPLv3
 */
