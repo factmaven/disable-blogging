@@ -60,20 +60,33 @@ It's fairly simple. You can disable the function by doing the following:
 ### I notice that there are still some blogging functions on WordPress, such as (insert_blogging_function_here) 
 This plugin tries its best to disable all blogging related features, if something is missed, please mention it in our [support forum](https://wordpress.org/support/plugin/disable-blogging).
 
+## Featured Articles
+
+### WP Tavern
+https://wptavern.com/easily-hide-wordpress-blogging-features-with-the-disable-blogging-plugin
+### DevotePress
+http://devotepress.com/wordpress-news/disable-blogging-hide-wordpress-blogging-features/
+
 ## Changelog 
 
-### 1.2.3 06/30/16
+### 1.2.5 (07/19/16)
+* * Restored "Email" field in user profile
+
+### 1.2.4 (07/08/16)
+* Simplified function to hide user profile fields
+
+### 1.2.3 (06/30/16)
 * "Dashboard" redirects to "Profile" menu instead of "Pages"
 
-### 1.2.2 06/25/16 
+### 1.2.2 (06/25/16) 
 * Fixed redirect loop from `dsbl_feeds` (now `dsbl_header_feeds`)
 * The plugin's meta links function is in `includes/plugin-meta.php`
 * Replace `dsbl_false_return` function with `__return_false` instead
 
-### 1.2.1 06/21/16 
+### 1.2.1 (06/21/16) 
 * Removed plugin directory define
 
-### 1.2.0 06/10/16 
+### 1.2.0 (06/10/16) 
 * Restored "Nickname" and "Display name" fields in user profile
 * Restored default user roles
 * Renabled theme & plugin editor
@@ -87,7 +100,7 @@ This plugin tries its best to disable all blogging related features, if somethin
 * Improved code structure
 * Improved other functions
 
-### 1.1.0 05/31/16 
+### 1.1.0 (05/31/16) 
 * Updated `readme.txt`
 * Added plugin meta links
 * Removes "Howdy," from the admin bar
@@ -103,5 +116,5 @@ This plugin tries its best to disable all blogging related features, if somethin
 * Disable theme's comment template
 * Various code improvements
 
-### 1.0.0 05/18/16 
+### 1.0.0 (05/18/16) 
 * Initial release, huzzah!

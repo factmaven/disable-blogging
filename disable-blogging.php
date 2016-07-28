@@ -3,7 +3,7 @@
     Plugin Name: Disable Blogging
     Plugin URI: https://wordpress.org/plugins/disable-blogging/
     Description: Disables posts, comments, feeds, and other related the blogging features in WordPress.
-    Version: 1.2.3
+    Version: 1.2.5
     Author: <a href="https://www.factmaven.com/">Fact Maven Corp.</a>
     License: GPLv3
 */
@@ -172,17 +172,22 @@ if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
             get_current_screen() -> remove_help_tabs();
         }
 
-        public function dsbl_user_profile() { // Hide certain fields from user profile
-            echo "\n" . '
+        public function dsbl_user_profile() { // Hide unused fields from user profile
+            ?>
             <script type="text/javascript">
-            jQuery( document ).ready( function($) {
-                $(\'form#your-profile > h2\').hide();
-                $(\'form#your-profile > h3\').hide();
-                $(\'form#your-profile > table:first\').hide();
-                $(\'form#your-profile\').show();
-                $(\'#url, #aim, #yim, #jabber, #googleplus, #twitter, #facebook, #description, #wpseo_author_title, #wpseo_author_metadesc\').parent().parent().hide();
+            jQuery( document ).ready( function( $ ) {
+                $( 'form#your-profile > h2' ).hide(); // Section titles
+                $( 'form#your-profile > table:first' ).hide(); // Personal Options
+                $( '#url' ).closest( 'tr' ).remove(); // Website
+                $( '#description' ).closest( 'table' ).remove(); // About Yourself
+                // Yoast SEO
+                $( '#googleplus' ).closest( 'tr' ).remove(); // Google+
+                $( '#twitter' ).closest( 'tr' ).remove(); // Twitter
+                $( '#facebook' ).closest( 'tr' ).remove(); // Facebook
+                $( '#wpseo_author_title' ).closest( 'table' ).remove(); // Author
             });
-            </script>' . "\n";
+            </script>
+            <?php
         }
 
         public function dsbl_howdy( $wp_admin_bar ) { // Removed "Howdy," from the admin bar, we ain't from Texas!
