@@ -60,6 +60,13 @@ It's fairly simple. You can disable the function by doing the following:
 ### I notice that there are still some blogging functions on WordPress, such as (insert_blogging_function_here) 
 This plugin tries its best to disable all blogging related features, if something is missed, please mention it in our [support forum](https://wordpress.org/support/plugin/disable-blogging).
 
+## Featured Articles
+
+### WP Tavern
+https://wptavern.com/easily-hide-wordpress-blogging-features-with-the-disable-blogging-plugin
+### DevotePress
+http://devotepress.com/wordpress-news/disable-blogging-hide-wordpress-blogging-features/
+
 ## Changelog 
 
 ### 1.2.5 (07/19/16)
