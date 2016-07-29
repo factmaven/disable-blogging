@@ -24,6 +24,7 @@ if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
             // PLUGIN INFO
             include( DSBL_PLUGIN . 'includes/plugin-meta.php' );
             include( DSBL_PLUGIN . 'includes/plugin-settings.php' );
+            include( DSBL_PLUGIN . 'includes/plugin-settings-profile.php' );
 
             // ADMIN DASHBOARD
             // add_action( 'admin_menu', array( $this, 'dsbl_sidebar_menu' ), 10, 1 );
@@ -32,7 +33,7 @@ if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
             add_action( 'widgets_init', array( $this, 'dsbl_widgets' ), 11, 1 );
             add_action( 'load-press-this.php', array( $this, 'dsbl_press_this' ), 10, 1 );
             add_action( 'admin_head', array( $this, 'dsbl_help_tabs' ), 999, 1 );
-            add_action( 'personal_options', array( $this, 'dsbl_user_profile' ), 10, 1 );
+            // add_action( 'personal_options', array( $this, 'dsbl_user_profile' ), 10, 1 );
             add_filter( 'enable_post_by_email_configuration', '__return_false', 10, 1 );
             add_filter( 'admin_bar_menu', array( $this, 'dsbl_howdy' ), 25, 1 );
 
