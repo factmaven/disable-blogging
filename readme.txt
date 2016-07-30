@@ -87,8 +87,9 @@ This plugin tries its best to disable all blogging related features, if somethin
 
 == Changelog ==
 =1.2.6 (07/30/16) =
-* Restored "Dashboard" menu item
-* Hide blog related metaboxes in the dashboard
+* Restored the "Dashboard" menu item
+* Hide blog related meta boxes in the dashboard
+* Default the reading settings to a static page
 * Organized `dsbl_filter_feeds` in appropriate order
 
 = 1.2.5 (07/19/16) =

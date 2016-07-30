@@ -25,7 +25,7 @@ if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
             include( DSBL_PLUGIN . 'includes/plugin-meta.php' );
 
             // ADMIN DASHBOARD
-            add_action( 'wp_dashboard_setup', array( $this, 'dsbl_dashboard_widgets' ), 10, 1 );
+            add_action( 'wp_dashboard_setup', array( $this, 'dsbl_meta_boxes' ), 10, 1 );
             add_action( 'admin_menu', array( $this, 'dsbl_sidebar_menu' ), 10, 1 );
             add_action( 'wp_before_admin_bar_render', array( $this, 'dsbl_toolbar_menu' ), 10, 1 );
             add_action( 'init', array( $this, 'dsbl_page_comments' ), 10, 1 );
@@ -47,6 +47,7 @@ if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
             add_filter( 'xmlrpc_methods', array( $this, 'dsbl_xmlrpc_methods' ), 10, 1 );
 
             // OTHER
+            add_action( 'admin_init', array( $this, 'dsbl_reading_settings' ), 10, 1 );
             add_filter( 'comments_template', array( $this, 'dsbl_comments_template' ), 20, 1 );
             add_filter( 'script_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
             add_filter( 'style_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
@@ -56,7 +57,7 @@ if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
         -------------------------------------------------------------- */
 
         // ADMIN DASHBOARD
-        public function dsbl_dashboard_widgets() {
+        public function dsbl_meta_boxes() { // Disable blogging related meta boxes on the Dashboard
             remove_action( 'welcome_panel', 'wp_welcome_panel' ); // Welcome
             $metabox = array(
                 'dashboard_primary' => 'side', // WordPress Blog
@@ -250,6 +251,14 @@ if ( !class_exists( 'FMC_Disable_Blogging' ) ) {
         }
 
         // OTHER
+        public function dsbl_reading_settings() { // Default the reading settings to a static page
+            if ( 'posts' == get_option( 'show_on_front' ) ) {
+                update_option( 'show_on_front', 'page' );
+                update_option( 'page_for_posts', 0 );
+                update_option( 'page_on_front', 1 );
+            }
+        }
+
         public function dsbl_comments_template() { // Replaces theme's comments template with empty page
                 return DSBL_PLUGIN . '/includes/blank-template.php';
         }
