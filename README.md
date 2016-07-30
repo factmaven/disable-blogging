@@ -69,6 +69,11 @@ http://devotepress.com/wordpress-news/disable-blogging-hide-wordpress-blogging-f
 
 ## Changelog 
 
+### 1.2.6 (07/30/16)
+* Restored "Dashboard" menu item
+* Hide blog related metaboxes in the dashboard
+* Organized `dsbl_filter_feeds` in appropriate order
+
 ### 1.2.5 (07/19/16)
 * * Restored "Email" field in user profile
 
