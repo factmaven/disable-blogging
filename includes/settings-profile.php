@@ -2,21 +2,13 @@
 
 add_action( 'admin_menu', 'dsbl_profiler_menu' );
 function dsbl_profiler_menu() {
-    add_options_page(
-            'Profile Settings', // page_title
-            'Profile', // menu_title
-            'manage_options', // capability
-            'dsbl-profile', // menu_slug
-            'dsbl_profiler' // function
+    add_users_page(
+            'Profile Settings', // Page Title
+            'Settings', // Menu Title
+            'manage_options', // Capability
+            'dsbl-profile', // Slug
+            'dsbl_profiler' // Function
         );
-}
-
-register_activation_hook( __FILE__, 'userPrfoInitOpts' );
-function userPrfoInitOpts() { // Change default profile titles
-    add_option( 'dsbl_personal', 'Personal Options' );
-    add_option( 'dsbl_name', 'Name' );
-    add_option( 'dsbl_contact', 'Contact Info' );
-    add_option( 'dsbl_about', ' About Yourself ' );
 }
 
 function dsbl_profiler() {
@@ -94,11 +86,6 @@ function dsbl_user_profile() { // Hide unused fields from user profile
         $( 'form#your-profile > table:first' ).hide(); // Personal Options
         $( '#url' ).closest( 'tr' ).remove(); // Website
         $( '#description' ).closest( 'table' ).remove(); // About Yourself
-        // Yoast SEO
-        $( '#googleplus' ).closest( 'tr' ).remove(); // Google+
-        $( '#twitter' ).closest( 'tr' ).remove(); // Twitter
-        $( '#facebook' ).closest( 'tr' ).remove(); // Facebook
-        $( '#wpseo_author_title' ).closest( 'table' ).remove(); // Author
     });
     </script>
     <?php
@@ -140,7 +127,8 @@ function UserProfileSetPageDisplay() { // Hide user profile fields
 
         jQuery("body").html(replaced);
         
-         });</script>
+         });
+        </script>
 
 <?php
     if (is_array( $rem ) && in_array( 'admin_color', $rem ) ) {

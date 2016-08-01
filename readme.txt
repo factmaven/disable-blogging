@@ -3,7 +3,7 @@ Contributors: factmaven, ethanosullivan
 Tags: disable wordpress blogging, disable blogging, disable blog, disable feeds, feeds, blog, posts, comments, remove query strings, query strings
 Requires at least: 4.5
 Tested up to: 4.5.3
-Stable tag: 1.2.5
+Stable tag: 1.3.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -86,6 +86,16 @@ This plugin tries its best to disable all blogging related features, if somethin
 4. After: user profile
 
 == Changelog ==
+= 1.3.0 (07/31/16) =
+* Added settings to toggle profile fields under "Users" > "Settings"
+* 
+
+=1.2.6 (07/30/16) =
+* Restored the "Dashboard" menu item
+* Hide blog related meta boxes in the dashboard
+* Default the reading settings to a static page
+* Organized `dsbl_filter_feeds` in appropriate order
+
 = 1.2.5 (07/19/16) =
 * Restored "Email" field in user profile
 
