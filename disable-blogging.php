@@ -25,7 +25,7 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             add_action( 'wp_dashboard_setup', array( $this, 'dsbl_meta_boxes' ), 10, 1 );
             // add_action( 'admin_menu', array( $this, 'dsbl_sidebar_menu' ), 10, 1 );
             add_action( 'wp_before_admin_bar_render', array( $this, 'dsbl_toolbar_menu' ), 10, 1 );
-            add_action( 'init', array( $this, 'dsbl_page_comments' ), 10, 1 );
+            add_action( 'manage_users_columns', array( $this, 'dsbl_columns' ), 10, 1 );
             add_action( 'widgets_init', array( $this, 'dsbl_widgets' ), 11, 1 );
             add_action( 'load-press-this.php', array( $this, 'dsbl_press_this' ), 10, 1 );
             add_action( 'admin_head', array( $this, 'dsbl_help_tabs' ), 999, 1 );
@@ -46,9 +46,8 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             // OTHER
             add_filter( 'comments_template', array( $this, 'dsbl_comments_template' ), 20, 1 );
             add_filter( 'script_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
-            add_filter( 'style_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
+            add_filter( 'style_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );           
         }
-
  
         /* FUNCTIONS
         -------------------------------------------------------------- */
@@ -112,15 +111,10 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             }
         }
 
-        public function dsbl_page_comments() { // Remove comments column from posts & pages
-            $menu = array(
-                'post' => 'comments', // Posts
-                'page' => 'comments', // Pages
-                'attachment' => 'comments' // Media
-                );
-            foreach ( $menu as $item => $column ) {
-                remove_post_type_support( $item, $column );
-            }
+        public function dsbl_columns( $column ) { // Remove posts & comments column
+            unset( $column['posts'] );
+            unset($columns['comments']);
+            return $column;
         }
 
         public function dsbl_widgets() { // Remove blog related widgets

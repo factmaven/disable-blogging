@@ -88,7 +88,7 @@ This plugin tries its best to disable all blogging related features, if somethin
 == Changelog ==
 = 1.3.0 (07/31/16) =
 * Added settings to toggle profile fields under "Users" > "Settings"
-* 
+* Posts & comments column removed (`dsbl_page_comments` is now `dsbl_columns`)
 
 =1.2.6 (07/30/16) =
 * Restored the "Dashboard" menu item
