@@ -45,6 +45,8 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
 
             // OTHER
             add_filter( 'comments_template', array( $this, 'dsbl_comments_template' ), 20, 1 );
+            add_action( 'template_redirect', array( $this, 'dsbl_author_page' ), 10, 1 );
+            add_filter( 'author_link', array( $this, 'dsbl_author_link' ), 10, 1 );
             add_filter( 'script_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
             add_filter( 'style_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );           
         }
@@ -63,7 +65,8 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
                 'dashboard_right_now' => 'normal', // Right Now
                 'dashboard_recent_comments' => 'normal', // Recent Comments
                 'dashboard_incoming_links' => 'normal', // Incoming Links
-                'dashboard_activity' => 'normal' // Activity
+                'dashboard_activity' => 'normal', // Activity
+                'wpe_dify_news_feed' => 'normal' // WP Engine
                 );
             foreach ( $metabox as $id => $context ) {
                 remove_meta_box( $id, 'dashboard', $context ); 
@@ -251,7 +254,18 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
         }
 
         public function dsbl_comments_template() { // Replaces theme's comments template with empty page
-                return DSBL_PLUGIN . '/includes/blank-template.php';
+            return DSBL_PLUGIN . '/includes/blank-template.php';
+        }
+
+        public function dsbl_author_page() { // Redirect author page to homepage
+            if ( is_author() ) {
+                wp_redirect( get_home_url(), 301 );
+                exit;
+            }
+        }
+
+        public function dsbl_author_link( $content ) { // Replace author URL with the homepage
+            return get_home_url();
         }
 
         public function dsbl_script_version( $src ) { // Remove query strings from static resources
