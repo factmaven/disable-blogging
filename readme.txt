@@ -7,10 +7,10 @@ Stable tag: 1.3.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Disables posts, comments, feeds, and other related the blogging features in WordPress.
+Disables posts, comments, feeds, and other related the blogging features. A must have plugin to turn WordPress into a non-blogging CMS platform.
 
 == Description ==
-**Disable Blogging** is a plugin that disables all blogging-related functionalities on WordPress on the front-end and the back-end. This makes for a cleaner and simpler WordPress platform to be used for static websites.
+**Disable Blogging** is a plugin that disables all blog related functionalities (posts, comments, feeds, etc.) on WordPress' front-end and the back-end. This makes for a cleaner and simpler WordPress platform to be used for static websites.
 
 = Remove sidebar & toolbar menu items =
 In the admin dashboard - `Posts`, `Comments`, and other blog related menu items are removed from sidebar and toolbar and redirected to `Pages` menu.

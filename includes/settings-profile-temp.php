@@ -92,26 +92,6 @@ Apply to Front Page:<br />
 <input type="submit" value="Save Options" name="setopts" />
 </form>
 </div>
-<div style="float:left;width:250px;margin-left:45px;margin-top:50px;" >
-        <table class="widefat">
-                    <thead><tr><th>Need some code......</th></tr></thead>
-                    <tr><td style="padding:10px 5px 10px 5px;">
-                    <p>
-                    Scriptonite is available for hire.  If you need custom theme functions or plugins why not <a href="http://www.whereyoursolutionis.com/contact-scriptonite/">get a quote</a>?
-                    
-                    </p>
-                   
-                    </td></tr>
-                    </table>
-        <table class="widefat" style="margin-top:20px;">
-                    <thead><tr><th>Need Help?</th></tr></thead>
-                    <tr><td style="padding:10px 5px 10px 5px;">
-                    <p>
-                    You can find more information on the <a href="http://www.whereyoursolutionis.com/simpler-user-profile/">Simple Profile</a> page.
-                    </p>
-                    </td></tr>
-                    </table>
-</div>
 <?php
 }
 

@@ -2,7 +2,7 @@
 /**
     Plugin Name: Disable Blogging
     Plugin URI: https://wordpress.org/plugins/disable-blogging/
-    Description: Disables posts, comments, feeds, and other related the blogging features in WordPress.
+    Description: Disables posts, comments, feeds, and other related the blogging features. A must have plugin to turn WordPress into a non-blogging CMS platform.
     Version: 1.3.0
     Author: <a href="https://www.factmaven.com/">Fact Maven Corp.</a>
     License: GPLv3
@@ -44,9 +44,9 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             add_filter( 'xmlrpc_methods', array( $this, 'dsbl_xmlrpc_methods' ), 10, 1 );
 
             // OTHER
-            add_filter( 'comments_template', array( $this, 'dsbl_comments_template' ), 20, 1 );
             add_action( 'template_redirect', array( $this, 'dsbl_author_page' ), 10, 1 );
             add_filter( 'author_link', array( $this, 'dsbl_author_link' ), 10, 1 );
+            add_filter( 'comments_template', array( $this, 'dsbl_comments_template' ), 20, 1 );
             add_filter( 'script_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
             add_filter( 'style_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );           
         }
@@ -253,10 +253,6 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             }
         }
 
-        public function dsbl_comments_template() { // Replaces theme's comments template with empty page
-            return DSBL_PLUGIN . '/includes/blank-template.php';
-        }
-
         public function dsbl_author_page() { // Redirect author page to homepage
             if ( is_author() ) {
                 wp_redirect( get_home_url(), 301 );
@@ -266,6 +262,10 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
 
         public function dsbl_author_link( $content ) { // Replace author URL with the homepage
             return get_home_url();
+        }
+
+        public function dsbl_comments_template() { // Replaces theme's comments template with empty page
+            return DSBL_PLUGIN . '/includes/blank-template.php';
         }
 
         public function dsbl_script_version( $src ) { // Remove query strings from static resources
