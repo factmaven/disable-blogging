@@ -62,7 +62,15 @@ This plugin tries its best to disable all blogging related features, if somethin
 
 ## Featured Articles
 
+### NOUPE
+http://www.noupe.com/wordpress/best-may-2016-ten-free-wordpress-plugins.html
 ### WP Tavern
 https://wptavern.com/easily-hide-wordpress-blogging-features-with-the-disable-blogging-plugin
 ### DevotePress
 http://devotepress.com/wordpress-news/disable-blogging-hide-wordpress-blogging-features/
+### Hongkiat
+http://www.hongkiat.com/blog/designers-developers-monthly-08-2016/
+### WPcanban
+http://wpcanban.com/wordpress/thu-thuat-wordpress/vo-hieu-hoa-tinh-nang-viet-bai-trong-wordpress.html
+### Devid Bisset
+https://twitter.com/dimensionmedia/status/755962357516558336

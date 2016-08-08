@@ -1,28 +1,30 @@
 <?php
 
-add_action( 'admin_menu', 'dsbl_profiler_menu' );
-function dsbl_profiler_menu() {
-    add_users_page(
+add_action( 'admin_menu', 'dsbl_profile_add_settings' );
+add_action( 'admin_head', 'Simplify_the_user_profile' );
+
+function dsbl_profile_add_settings() {
+    add_submenu_page(
+            'users.php', // Parent Menu
             'Profile Settings', // Page Title
             'Settings', // Menu Title
             'manage_options', // Capability
-            'dsbl-profile', // Slug
-            'dsbl_profiler' // Function
+            'dsbl-profile-settings', // Slug
+            'dsbl_profiler' // Callback Function
         );
 }
 
 function dsbl_profiler() {
     if (isset( $_POST['setopts'] ) ) {
-        // rich_editing, comment_shorcut, admin_bar_front, admin_bar_admin, admin_color
-        update_option( 'dsbl_personal', isset( $_POST['personal'] ) );
-        update_option( 'dsbl_name', isset( $_POST['name'] ) );
-        update_option( 'dsbl_contact', isset( $_POST['contact'] ) );
-        update_option( 'dsbl_about', isset( $_POST['about'] ) );
-        update_option( 'dsbl_toRemove', $_POST['to_remove'] );
-        update_option( 'dsbl_toHigh', $_POST['to_hide'] );
+        update_option( 'dsbl_remove_fields', $_POST['to_remove'] );
+        update_option( 'dsbl_hide_fields', $_POST['to_hide'] );
+
+        // Tried adding isset() to the $_POST, but that doesn't save the options
+        // update_option( 'dsbl_remove_fields', isset( $_POST['to_remove'] ) );
+        // update_option( 'dsbl_hide_fields', isset( $_POST['to_hide'] ) );
     }
-    $rem = get_option( 'dsbl_toRemove' );
-    $toHide = get_option( 'dsbl_toHigh' );
+    $rem = get_option( 'dsbl_remove_fields' );
+    $toHide = get_option( 'dsbl_hide_fields' );
 ?>
 
 <div class="wrap">
@@ -69,7 +71,7 @@ function dsbl_profiler() {
 
 <?php
 }
-add_action( 'admin_head', 'Simplify_the_user_profile' );
+
 function Simplify_the_user_profile() {
     global $pagenow;
     if ( ( $pagenow == 'profile.php' ) ) {
@@ -77,32 +79,15 @@ function Simplify_the_user_profile() {
     }
 }
 
-/* Consider using my version of JS to hide the fields
-function dsbl_user_profile() { // Hide unused fields from user profile
+function UserProfileSetPageDisplay() { // Hide user profile fields
+    $rem = get_option( 'dsbl_remove_fields' );
+    $hd = get_option( 'dsbl_hide_fields' );
+
     ?>
     <script type="text/javascript">
-    jQuery( document ).ready( function( $ ) {
-        $( 'form#your-profile > h2' ).hide(); // Section titles
-        $( 'form#your-profile > table:first' ).hide(); // Personal Options
-        $( '#url' ).closest( 'tr' ).remove(); // Website
-        $( '#description' ).closest( 'table' ).remove(); // About Yourself
-    });
-    </script>
+    jQuery(document).ready(function(jQuery) { 
+    
     <?php
-*/
-
-function UserProfileSetPageDisplay() { // Hide user profile fields
-    $rem = get_option( 'dsbl_toRemove' );
-    $hd = get_option( 'dsbl_toHigh' );
-    $persn = get_option( 'dsbl_personal' );
-    $namer = get_option( 'dsbl_name' );
-    $contacts = get_option( 'dsbl_contact' );
-    $aboutr = get_option( 'dsbl_about' );
-?>
-        <script type="text/javascript">
-        jQuery(document).ready(function(jQuery) { 
-        
-        <?php
     if (is_array( $rem ) ) {
         foreach ( $rem as $t) {
             echo "jQuery( 'label[for=\"" . $t . "\"]' ).closest( 'tr' ).remove();";
@@ -113,24 +98,25 @@ function UserProfileSetPageDisplay() { // Hide user profile fields
             echo "jQuery( 'label[for=\"" . $n . "\"]' ).closest( 'tr' ).hide();";
         }
     }
-?>
-        
-        var replaced = jQuery("body").html().replace( 'About Yourself','<?php
-    echo $aboutr;
+    ?>
+    
+    var replaced = jQuery("body").html().replace( 'About Yourself','<?php
+echo $aboutr;
 ?>' ).replace( 'Contact Info','<?php
-    echo $contacts;
+echo $contacts;
 ?>' ).replace( '<h3>Name</h3>','<h3><?php
-    echo $namer;
+echo $namer;
 ?></h3>' ).replace( 'Personal Options','<?php
-    echo $persn;
+echo $persn;
 ?>' ) ;
 
-        jQuery("body").html(replaced);
-        
-         });
-        </script>
+    jQuery("body").html(replaced);
+    
+     });
+    </script>
 
-<?php
+    <?php
+
     if (is_array( $rem ) && in_array( 'admin_color', $rem ) ) {
         global $_wp_admin_css_colors;
         $_wp_admin_css_colors = 0;

@@ -19,7 +19,7 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             define( 'DSBL_PLUGIN', plugin_dir_path( __FILE__ ) );
             include( DSBL_PLUGIN . 'includes/plugin-meta.php' );
             include( DSBL_PLUGIN . 'includes/settings-menu.php' );
-            include( DSBL_PLUGIN . 'includes/settings-profile-temp.php' );
+            include( DSBL_PLUGIN . 'includes/settings-profile.php' );
 
             // ADMIN DASHBOARD
             add_action( 'wp_dashboard_setup', array( $this, 'dsbl_meta_boxes' ), 10, 1 );
@@ -44,6 +44,7 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             add_filter( 'xmlrpc_methods', array( $this, 'dsbl_xmlrpc_methods' ), 10, 1 );
 
             // OTHER
+            add_action( 'admin_init', array( $this, 'dsbl_reading_settings' ), 10, 1 );
             add_action( 'template_redirect', array( $this, 'dsbl_author_page' ), 10, 1 );
             add_filter( 'author_link', array( $this, 'dsbl_author_link' ), 10, 1 );
             add_filter( 'comments_template', array( $this, 'dsbl_comments_template' ), 20, 1 );
@@ -146,19 +147,32 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
         }
 
         public function dsbl_user_profile() { // Hide unused fields from user profile
+            // $profile_settings_options = get_option( 'profile_settings_option_name' );
+            $rem = get_option( 'dsbl_remove_fields' );
+            
+            foreach ( $rem as $field ) {
+                echo( $field . "<br>" . "$( '#" . $field . "' ).closest( 'tr' ).hide();" . "<br>" );
+                if ( $field = "personal_options_0" ) {
+                    echo( "Yup..." );
+                }
+            }
+
             ?>
             <script type="text/javascript">
-            jQuery( document ).ready( function( $ ) {
+                jQuery( document ).ready( function( $ ) {
                 $( 'form#your-profile > h2' ).hide(); // Section titles
-                $( 'form#your-profile > table:first' ).hide(); // Personal Options
-                $( '#url' ).closest( 'tr' ).remove(); // Website
-                $( '#description' ).closest( 'table' ).remove(); // About Yourself
-                // Yoast SEO
-                $( '#googleplus' ).closest( 'tr' ).remove(); // Google+
-                $( '#twitter' ).closest( 'tr' ).remove(); // Twitter
-                $( '#facebook' ).closest( 'tr' ).remove(); // Facebook
-                $( '#wpseo_author_title' ).closest( 'table' ).remove(); // Author
-            });
+                // $( '#rich_editing' ).closest( 'tr' ).remove(); // TESTING
+                <?php
+                // foreach ( $profile_settings_options as $field ) {
+                //     echo( "$( '#". $field . "' ).closest( 'tr' ).hide();" );
+                // }
+                foreach ( $rem as $field ) {
+                    if ( $field = "personal_options_0" ) {
+                        echo( "$( '#rich_editing' ).closest( 'tr' ).hide();" );
+                    }
+                }
+                ?>
+                } );
             </script>
             <?php
         }
