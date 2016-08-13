@@ -25,7 +25,7 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             add_action( 'wp_dashboard_setup', array( $this, 'dsbl_meta_boxes' ), 10, 1 );
             // add_action( 'admin_menu', array( $this, 'dsbl_sidebar_menu' ), 10, 1 );
             add_action( 'wp_before_admin_bar_render', array( $this, 'dsbl_toolbar_menu' ), 10, 1 );
-            add_action( 'manage_users_columns', array( $this, 'dsbl_columns' ), 10, 1 );
+            add_action( 'manage_users_columns', array( $this, 'dsbl_post_comment_column' ), 10, 1 );
             add_action( 'widgets_init', array( $this, 'dsbl_widgets' ), 11, 1 );
             add_action( 'load-press-this.php', array( $this, 'dsbl_press_this' ), 10, 1 );
             add_action( 'admin_head', array( $this, 'dsbl_help_tabs' ), 999, 1 );
@@ -115,9 +115,9 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             }
         }
 
-        public function dsbl_columns( $column ) { // Remove posts & comments column
+        public function dsbl_post_comment_column( $column ) { // Remove posts & comments column
             unset( $column['posts'] );
-            unset($columns['comments']);
+            unset( $column['comments'] );
             return $column;
         }
 
@@ -147,31 +147,11 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
         }
 
         public function dsbl_user_profile() { // Hide unused fields from user profile
-            // $profile_settings_options = get_option( 'profile_settings_option_name' );
-            $rem = get_option( 'dsbl_remove_fields' );
-            
-            foreach ( $rem as $field ) {
-                echo( $field . "<br>" . "$( '#" . $field . "' ).closest( 'tr' ).hide();" . "<br>" );
-                if ( $field = "personal_options_0" ) {
-                    echo( "Yup..." );
-                }
-            }
-
             ?>
             <script type="text/javascript">
                 jQuery( document ).ready( function( $ ) {
                 $( 'form#your-profile > h2' ).hide(); // Section titles
-                // $( '#rich_editing' ).closest( 'tr' ).remove(); // TESTING
-                <?php
-                // foreach ( $profile_settings_options as $field ) {
-                //     echo( "$( '#". $field . "' ).closest( 'tr' ).hide();" );
-                // }
-                foreach ( $rem as $field ) {
-                    if ( $field = "personal_options_0" ) {
-                        echo( "$( '#rich_editing' ).closest( 'tr' ).hide();" );
-                    }
-                }
-                ?>
+                $( '#rich_editing' ).closest( 'tr' ).remove(); // TESTING
                 } );
             </script>
             <?php
