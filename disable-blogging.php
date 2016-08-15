@@ -29,7 +29,6 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             add_action( 'widgets_init', array( $this, 'dsbl_widgets' ), 11, 1 );
             add_action( 'load-press-this.php', array( $this, 'dsbl_press_this' ), 10, 1 );
             add_action( 'admin_head', array( $this, 'dsbl_help_tabs' ), 999, 1 );
-            // add_action( 'personal_options', array( $this, 'dsbl_user_profile' ), 10, 1 );
             add_filter( 'enable_post_by_email_configuration', '__return_false', 10, 1 );
             add_filter( 'admin_bar_menu', array( $this, 'dsbl_howdy' ), 25, 1 );
 
@@ -144,17 +143,6 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
 
         public function dsbl_help_tabs() { // Remove help tabs
             get_current_screen() -> remove_help_tabs();
-        }
-
-        public function dsbl_user_profile() { // Hide unused fields from user profile
-            ?>
-            <script type="text/javascript">
-                jQuery( document ).ready( function( $ ) {
-                $( 'form#your-profile > h2' ).hide(); // Section titles
-                $( '#rich_editing' ).closest( 'tr' ).remove(); // TESTING
-                } );
-            </script>
-            <?php
         }
 
         public function dsbl_howdy( $wp_admin_bar ) { // Removed "Howdy," from the admin bar, we ain't from Texas!

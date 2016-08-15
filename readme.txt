@@ -1,6 +1,6 @@
 === Disable Blogging ===
 Contributors: factmaven, ethanosullivan
-Tags: disable wordpress blogging, disable blogging, disable blog, disable feeds, feeds, blog, posts, comments, remove query strings, query strings
+Tags: disable wordpress blogging, disable blogging, disable blog, disable feeds, feeds, blog, posts, comments, remove query strings, query strings, user profile, hide user profile fields
 Requires at least: 4.5
 Tested up to: 4.5.3
 Stable tag: 1.3.0
@@ -86,7 +86,7 @@ This plugin tries its best to disable all blogging related features, if somethin
 4. After: user profile
 
 == Changelog ==
-= 1.3.0 (08/04/16) =
+= 1.3.0 (08/14/16) =
 * Added settings to toggle profile fields under "Users" > "Settings"
 * Posts & comments column removed (`dsbl_page_comments` is now `dsbl_columns`)
 * Author page is disabled and redirects to homepage (`dsbl_author_page` and `dsbl_author_link`)
