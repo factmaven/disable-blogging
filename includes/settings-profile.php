@@ -15,6 +15,8 @@ function dsbl_settings_profile_add() { // Set up plugin settings page
 }
 
 function dsbl_settings_profile_init() { // Save checkbox values in an array and display a success message
+    $profile_fields = get_option( 'dsbl_remove' );
+
     if ( isset( $_POST['dsbl_options'] ) && !empty( $_POST['dsbl_options'] ) ) {
         if ( array_key_exists('remove_field', $_POST )) {
             update_option( 'dsbl_remove', $_POST['remove_field'] );
@@ -187,20 +189,22 @@ function dsbl_user_profile() { // Hide unused fields from user profile
         'user-edit.php',
         'user-new.php'
         );
-    if ( in_array( $pagenow, $page, true ) && !empty( $profile_fields ) ) {
+    if ( in_array( $pagenow, $page, true ) ) {
         $profile_fields = get_option( 'dsbl_remove' );
-        ?>
-        <script type="text/javascript">
-            jQuery( document ).ready( function( $ ) {
-            $( 'form#your-profile > h2' ).hide();
-            <?php
-            foreach ( $profile_fields as $label ) {
-                echo( "$( '#" . $label . "' ).closest( 'tr' ).hide(); " );
-            }
+        if ( is_array( $profile_fields ) || is_object( $profile_fields ) ) {
             ?>
-            } );
-        </script>
-        <?php
+            <script type="text/javascript">
+                jQuery( document ).ready( function( $ ) {
+                $( 'form#your-profile > h2' ).hide();
+                <?php
+                    foreach ( $profile_fields as $label ) {
+                        echo( "$( '#" . $label . "' ).closest( 'tr' ).hide(); " );
+                    }
+                ?>
+                } );
+            </script>
+            <?php
+        }
         
         if ( is_array( $profile_fields ) && in_array( 'admin_color', $profile_fields ) ) { // Hide the Admin Color Scheme 
             global $_wp_admin_css_colors;
