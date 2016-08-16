@@ -16,7 +16,12 @@ function dsbl_settings_profile_add() { // Set up plugin settings page
 
 function dsbl_settings_profile_init() { // Save checkbox values in an array and display a success message
     if ( isset( $_POST['dsbl_options'] ) && !empty( $_POST['dsbl_options'] ) ) {
-        update_option( 'dsbl_remove', $_POST['remove_field'] );
+        if ( array_key_exists('remove_field', $_POST )) {
+            update_option( 'dsbl_remove', $_POST['remove_field'] );
+        }
+        else { // When all options are unchecked, set array to null
+            update_option( 'dsbl_remove', NULL );
+        }
         ?>
         <div class="notice notice-success is-dismissible"> 
             <p><strong>Settings saved.</strong></p>
@@ -73,7 +78,7 @@ function dsbl_settings_profile_init() { // Save checkbox values in an array and 
                                 <br>
                                 <label for="nickname">
                                 <input name="remove_field[]" type="checkbox" value="nickname" <?php if ( is_array( $profile_fields ) && in_array( 'nickname', $profile_fields ) ) { echo 'checked="checked" '; } ?> />
-                                Nickname</label>
+                                Nickname <span class="description">(required)</span></label>
                                 <br>
                                 <label for="display_name">
                                 <input name="remove_field[]" type="checkbox" value="display_name" <?php if ( is_array( $profile_fields ) && in_array( 'display_name', $profile_fields ) ) { echo 'checked="checked" '; } ?> />
@@ -149,6 +154,24 @@ function dsbl_settings_profile_init() { // Save checkbox values in an array and 
                             </td>
                         </tr>
                     <?php } ?>
+                    <?php if ( is_plugin_active( 'ultimate-member/index.php' ) ) { // Ultimate Member plugin ?>
+                        <tr>
+                            <th scope="row">Ultimate Member</th>
+                            <td>
+                                <fieldset>
+                                    <legend class="screen-reader-text"><span>Ultimate Member</span></legend>
+                                    <label for="um_set_api_key">
+                                    <input name="remove_field[]" type="checkbox" value="um_set_api_key" <?php if ( is_array( $profile_fields ) && in_array( 'um_set_api_key', $profile_fields ) ) { echo 'checked="checked" '; } ?> />
+                                    Ultimate Member REST API</label>
+                                    <br>
+                                    <label for="um_role">
+                                    <input name="remove_field[]" type="checkbox" value="um_role" <?php if ( is_array( $profile_fields ) && in_array( 'um_role', $profile_fields ) ) { echo 'checked="checked" '; } ?> />
+                                    Community Role</label>
+                                    <br>
+                                </fieldset>
+                            </td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
             <?php submit_button( 'Save Changes', 'primary', 'dsbl_options' ); ?>
@@ -164,8 +187,7 @@ function dsbl_user_profile() { // Hide unused fields from user profile
         'user-edit.php',
         'user-new.php'
         );
-    // if ( ( $pagenow == 'profile.php' ||  $pagenow == 'user-edit.php' || $pagenow == 'user-new.php' ) ) {
-    if ( in_array( $pagenow, $page, true ) ) {
+    if ( in_array( $pagenow, $page, true ) && !empty( $profile_fields ) ) {
         $profile_fields = get_option( 'dsbl_remove' );
         ?>
         <script type="text/javascript">
