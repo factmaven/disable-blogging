@@ -21,14 +21,12 @@ if ( !class_exists( 'FMC_DisableBloggingProfile' ) ) {
         }
 
         public function dsbl_settings_profile_init() { // Save checkbox values in an array and display a success message
-            $profile_fields = get_option( 'dsbl_remove' );
-
             if ( isset( $_POST['dsbl_options'] ) && !empty( $_POST['dsbl_options'] ) ) {
                 if ( array_key_exists('remove_field', $_POST )) {
-                    update_option( 'dsbl_remove', $_POST['remove_field'] );
+                    update_option( 'dsbl_remove_profile_fields', $_POST['remove_field'] );
                 }
                 else { // When all options are unchecked, set array to null
-                    update_option( 'dsbl_remove', NULL );
+                    update_option( 'dsbl_remove_profile_fields', NULL );
                 }
                 ?>
                 <div class="notice notice-success is-dismissible"> 
@@ -37,7 +35,7 @@ if ( !class_exists( 'FMC_DisableBloggingProfile' ) ) {
                 <?php
             }
 
-            $profile_fields = get_option( 'dsbl_remove' );
+            $profile_fields = get_option( 'dsbl_remove_profile_fields' );
 
             ?>
             <div class="wrap">
@@ -196,7 +194,7 @@ if ( !class_exists( 'FMC_DisableBloggingProfile' ) ) {
                 'user-new.php'
                 );
             if ( in_array( $pagenow, $page, true ) ) {
-                $profile_fields = get_option( 'dsbl_remove' );
+                $profile_fields = get_option( 'dsbl_remove_profile_fields' );
                 if ( is_array( $profile_fields ) || is_object( $profile_fields ) ) {
                     ?>
                     <script type="text/javascript">

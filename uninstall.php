@@ -8,6 +8,9 @@
  *
  */
 // If plugin is not being uninstalled, exit (do nothing)
-if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) {
     exit;
 }
+
+delete_option( 'dsbl_remove_profile_fields' );
+delete_option( 'dsbl_remove_menu_items' );
