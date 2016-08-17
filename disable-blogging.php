@@ -6,6 +6,7 @@
     Version: 1.3.0
     Author: <a href="https://www.factmaven.com/">Fact Maven Corp.</a>
     License: GPLv3
+    Text Domain: disable-blogging
 */
 
 if ( !defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -97,7 +98,7 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
                 'options-discussion.php' // Settings > Discussion
                 );
             if ( in_array( $pagenow, $page, true ) && ( !isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
-                wp_redirect( admin_url( 'edit.php?post_type=page' ), 301 );
+                wp_safe_redirect( admin_url( 'edit.php?post_type=page' ), 301 );
                 exit;
             }
         }
@@ -139,7 +140,7 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
         }
 
         public function dsbl_press_this() { // Disables "Press This" and redirect to homepage
-            wp_redirect( home_url(), 301 );
+            wp_safe_redirect( home_url(), 301 );
         }
 
         public function dsbl_help_tabs() { // Remove help tabs
@@ -182,7 +183,7 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             global $wp_rewrite, $wp_query;
 
             if ( isset( $_GET['feed'] ) ) {
-                wp_redirect( esc_url_raw( remove_query_arg( 'feed' ) ), 301 );
+                wp_safe_redirect( esc_url_raw( remove_query_arg( 'feed' ) ), 301 );
                 exit;
             }
 
@@ -199,7 +200,7 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             $url_new = preg_replace( '#' . $url_struct . '/?$#', '', $url_current );
 
             if ( $url_new != $url_current ) {
-                wp_redirect( $url_new, 301 );
+                wp_safe_redirect( $url_new, 301 );
                 exit;
             }
         }
@@ -238,7 +239,7 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
 
         public function dsbl_author_page() { // Redirect author page to homepage
             if ( is_author() ) {
-                wp_redirect( get_home_url(), 301 );
+                wp_safe_redirect( get_home_url(), 301 );
                 exit;
             }
         }

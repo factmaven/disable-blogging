@@ -39,8 +39,15 @@ if ( !class_exists( 'FMC_DisableBloggingMenu' ) ) {
 
             $sidebar_menu = get_option( 'dsbl_remove_menu_items' );
 
-            // foreach ($sidebar_menu as $value) { // DEBUG
-            //     echo $value . "<br>";
+            // global $menu;
+            // foreach ( $menu as $group => $item ) { // DEBUG
+            //     if ( !empty( $item[0] ) ) {
+            //         echo $item[0] . " > " . $item[2] . "<br>";
+            //     }
+            //     else {
+            //         $item[0] = 'Seperator';
+            //         echo $item[0] . " > " . $item[2] . "<br>";
+            //     }
             // }
 
             ?>
@@ -58,18 +65,36 @@ if ( !class_exists( 'FMC_DisableBloggingMenu' ) ) {
                                         <legend class="screen-reader-text"><span>Sidebar Menu</span></legend>
                                         <?php
                                         global $menu;
-                                        foreach ( $menu as $group => $items ) {
-                                            foreach ( $items as $position => $item ) {
-                                                if ( $position != 2 ) continue; // Only show the second index of each item
+                                        foreach ( $menu as $group => $item ) {
+                                            if ( !empty( $item[0] ) ) {
                                         ?>
-                                        <label for="<?php echo htmlspecialchars($item); ?>">
-                                        <input name="remove_menu[]" type="checkbox" value="<?php echo htmlspecialchars($item); ?>" <?php if ( is_array( $sidebar_menu ) && in_array( $item, $sidebar_menu ) ) { echo 'checked="checked" '; } ?> />
-                                        <?php echo htmlspecialchars($item); ?></label>
-                                        <br>
+                                                <label for="<?php echo ( $item[2] ); ?>">
+                                                <input name="remove_menu[]" type="checkbox" value="<?php echo( $item[2] ); ?>" <?php if ( is_array( $sidebar_menu ) && in_array( $item[2], $sidebar_menu ) ) { echo 'checked="checked" '; } ?> />
+                                                <?php echo ( $item[0] ); ?></label>
+                                                <br>
                                         <?php
                                             }
-                                        }
+                                         } ?>
+                                    </fieldset>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Toolbar Menu</th>
+                                <td>
+                                    <fieldset>
+                                        <legend class="screen-reader-text"><span>Toolbar Menu</span></legend>
+                                        <?php
+                                        global $menu;
+                                        foreach ( $menu as $group => $item ) {
+                                            if ( !empty( $item[0] ) ) {
                                         ?>
+                                                <label for="<?php echo ( $item[2] ); ?>">
+                                                <input name="remove_menu[]" type="checkbox" value="<?php echo( $item[2] ); ?>" <?php if ( is_array( $sidebar_menu ) && in_array( $item[2], $sidebar_menu ) ) { echo 'checked="checked" '; } ?> />
+                                                <?php echo ( $item[0] ); ?></label>
+                                                <br>
+                                        <?php
+                                            }
+                                         } ?>
                                     </fieldset>
                                 </td>
                             </tr>
