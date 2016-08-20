@@ -86,7 +86,7 @@ This plugin tries its best to disable all blogging related features, if somethin
 4. After: user profile
 
 == Changelog ==
-= 1.3.0 (08/14/16) =
+= 1.3.0 (08/20/16) =
 * Added settings to toggle profile fields under "Users" > "Settings"
 * Posts & comments column removed (`dsbl_page_comments` is now `dsbl_columns`)
 * Author page is disabled and redirects to homepage (`dsbl_author_page` and `dsbl_author_link`)

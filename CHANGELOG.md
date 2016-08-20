@@ -1,7 +1,12 @@
 ## Changelog 
+### 1.3.0 (08/14/16)
+* Added settings to toggle profile fields under "Users" > "Settings"
+* Posts & comments column removed (`dsbl_page_comments` is now `dsbl_columns`)
+* Author page is disabled and redirects to homepage (`dsbl_author_page` and `dsbl_author_link`)
+* Remove WP Engine meta box (`dsbl_meta_boxes`)
 
 ### 1.2.5 (07/19/16)
-* * Restored "Email" field in user profile
+* Restored "Email" field in user profile
 
 ### 1.2.4 (07/08/16)
 * Simplified function to hide user profile fields
