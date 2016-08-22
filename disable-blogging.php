@@ -23,11 +23,13 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             define( 'DSBL_PLUGIN', plugin_dir_path( __FILE__ ) );
             include( DSBL_PLUGIN . 'includes/settings-profile.php' );
             include( DSBL_PLUGIN . 'includes/plugin-meta.php' );
+            include( DSBL_PLUGIN . 'includes/settings-menu.php' );
+            include( DSBL_PLUGIN . 'includes/settings-uas.php' );
 
             // ADMIN DASHBOARD
             add_action( 'wp_dashboard_setup', array( $this, 'dsbl_meta_boxes' ), 10, 1 );
             add_action( 'admin_menu', array( $this, 'dsbl_sidebar_menu' ), 10, 1 );
-            add_action( 'wp_before_admin_bar_render', array( $this, 'dsbl_toolbar_menu' ), 10, 1 );
+            // add_action( 'wp_before_admin_bar_render', array( $this, 'dsbl_toolbar_menu' ), 10, 1 );
             add_action( 'manage_users_columns', array( $this, 'dsbl_post_comment_column' ), 10, 1 );
             add_action( 'widgets_init', array( $this, 'dsbl_widgets' ), 11, 1 );
             add_action( 'load-press-this.php', array( $this, 'dsbl_press_this' ), 10, 1 );
