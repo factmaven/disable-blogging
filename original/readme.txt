@@ -1,8 +1,8 @@
 === Disable Blogging ===
 Contributors: factmaven, ethanosullivan
-Tags: disable wordpress blogging, disable blogging, disable blog, disable feeds, feeds, blog, posts, comments, remove query strings, query strings, user profile, hide user profile fields
+Tags: disable wordpress blogging, disable blogging, disable blog, disable feeds, feeds, blog, posts, comments, remove query strings, query strings, user profile, hide user profile fields, cms
 Requires at least: 4.5
-Tested up to: 4.5.3
+Tested up to: 4.6
 Stable tag: 1.3.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -57,26 +57,16 @@ No, they are also disabled from being access as well for added security. If some
 They would be redirected to the *Pages* menu:
 `.../wp-admin/edit.php?post_type=page`
 
-= I can still access the XML-RPC when I visit ".../xmlrpc.php" even though it's removed from my header =
+= Is the XML-RPC (`xmlrpc.php`) still accessible even though it's removed from my header? =
 If you have access to your `.htaccess` on your hosting you can add the following code to redirect the links to your homepage
 `
-<IfModule mod_alias.c>
-RedirectMatch 301 /xmlrpc.php /
+<IfModule mod_rewrite.c>
+RewriteRule ^xmlrpc\.php$ index.php [R=301]
 </IfModule>
 `
-You can do the same for the Windows Live Writer XML and feed.
+You can do the same for the *Windows Live Writer XML* and feeds.
 
-= I like all of the features in this plugin except for (insert_feature_here), how can I disable it? =
-It's fairly simple. You can disable the function by doing the following:
-
-1. Open up the plugin's main file `disable-blogging.php` to edit
-1. At the beginning of the code you will see `// ADD ACTIONS` and `// ADD FILTERS`
-1. Comment out one of the actions/filters using `//` in the beginning of the line to comment it out
-1. Save the file and the feature will be disabled
-
-**Note**: This needs to be done every time the plugin updates.
-
-= I notice that there are still some blogging functions on WordPress, such as (insert_blogging_function_here) =
+= I notice that there are some blogging functions still running on my WordPress =
 This plugin tries its best to disable all blogging related features, if something is missed, please mention it in our [support forum](https://wordpress.org/support/plugin/disable-blogging).
 
 == Screenshots ==
@@ -86,13 +76,13 @@ This plugin tries its best to disable all blogging related features, if somethin
 4. After: user profile
 
 == Changelog ==
-= 1.3.0 (08/14/16) =
+= 1.3.0 (08/20/16) =
 * Added settings to toggle profile fields under "Users" > "Settings"
 * Posts & comments column removed (`dsbl_page_comments` is now `dsbl_columns`)
 * Author page is disabled and redirects to homepage (`dsbl_author_page` and `dsbl_author_link`)
 * Remove WP Engine meta box (`dsbl_meta_boxes`)
 
-=1.2.6 (07/30/16) =
+= 1.2.6 (07/30/16) =
 * Restored the "Dashboard" menu item
 * Hide blog related meta boxes in the dashboard
 * Default the reading settings to a static page
