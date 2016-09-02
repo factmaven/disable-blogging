@@ -67,6 +67,11 @@ class Fact_Maven_Disable_Blogging {
             $options_contact[$value] = $label;
         }
 
+        $options_name = [];
+        $show_avatars = get_option( 'show_avatars' );
+        $options_name['description'] = 'Biographical Info';
+        $options_name[$show_avatars] = 'Avatar Display';
+
         $settings_fields = array(
             'dsbl_basics' => array( // General Settings
                 array(
@@ -113,10 +118,11 @@ class Fact_Maven_Disable_Blogging {
                     'label' => __( 'About Yourself', 'dsbl' ),
                     'desc' => __( '(Avatar settings can be managed in <a href="./options-discussion.php#show_avatars">Discussion</a> page.)', 'dsbl' ),
                     'type' => 'multicheck',
-                    'options' => array(
+                    'options' => $options_name
+                    /*'options' => array(
                         'description' => 'Biographical Info',
                         'show_avatars' => 'Avatar Display'
-                    )
+                    )*/
                 ),
                 array(
                     'name' => 'additional_fields',
@@ -194,7 +200,7 @@ class Fact_Maven_Disable_Blogging {
             )
         );
 
-        $options_yoast = array( // Child's child array
+        $options_yoast = array( // Yoast SEO plugin
             'name' => 'yoast_seo',
             'label' => 'Yoast SEO', 
             'type' => 'multicheck',
@@ -206,9 +212,21 @@ class Fact_Maven_Disable_Blogging {
                 'wpseo_content_analysis_disable' => 'Disable readability analysis'
             )
         );
-
         if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
             $settings_fields['dsbl_profile'][] = $options_yoast;
+        }
+
+        $options_um = array( // Ultimate Member plugin
+            'name' => 'ultimate_member',
+            'label' => 'Ultimate Member', 
+            'type' => 'multicheck',
+            'options' => array(
+                'um_set_api_key' => 'Ultimate Member REST API',
+                'um_role' => 'Community Role'
+            )
+        );
+        if ( is_plugin_active( 'ultimate-member/index.php' ) ) {
+            $settings_fields['dsbl_profile'][] = $options_um;
         }
 
         return $settings_fields;

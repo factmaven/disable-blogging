@@ -1,6 +1,6 @@
 <?php
 /**
-    Plugin Name: * Disable Blogging V2
+    Plugin Name: * Disable Blogging
     Plugin URI: https://www.factmaven.com/#plugins
     Description: Disables posts, comments, feeds, and other related the blogging features. A must have plugin to turn WordPress into a non-blogging CMS platform.
     Author: <a href="https://www.factmaven.com/">Fact Maven</a>
