@@ -5,7 +5,7 @@
  * @author Fact Maven Corp.
  */
 
-if ( !class_exists( 'Fact_Maven_Disable_Blogging' ) ):
+if ( ! class_exists( 'Fact_Maven_Disable_Blogging' ) ):
 class Fact_Maven_Disable_Blogging {
 
     private $settings_api;
@@ -18,12 +18,11 @@ class Fact_Maven_Disable_Blogging {
     }
 
     function admin_init() {
-
-        //set the settings
+        // Set the settings
         $this->settings_api->set_sections( $this->get_settings_sections() );
         $this->settings_api->set_fields( $this->get_settings_fields() );
 
-        //initialize settings
+        // Initialize settings
         $this->settings_api->admin_init();
     }
 
@@ -48,8 +47,8 @@ class Fact_Maven_Disable_Blogging {
                 'title' => __( 'Profile Page', 'dsbl' )
             ),
             array(
-                'id' => 'dsbl_others',
-                'title' => __( 'Other Settings', 'dsbl' )
+                'id' => 'dsbl_menu',
+                'title' => __( 'Menu Settings', 'dsbl' )
             )
         );
         return $sections;
@@ -61,16 +60,24 @@ class Fact_Maven_Disable_Blogging {
      * @return array settings fields
      */
     function get_settings_fields() {
+        
         $options_contact = [];
         $options_contact['url'] = 'Website';
-        foreach ( wp_get_user_contact_methods() as $value => $label ) { 
+        foreach ( wp_get_user_contact_methods() as $value => $label ) {
             $options_contact[$value] = $label;
         }
 
-        $options_name = [];
-        $show_avatars = get_option( 'show_avatars' );
-        $options_name['description'] = 'Biographical Info';
-        $options_name[$show_avatars] = 'Avatar Display';
+        global $menu, $submenu;
+        $options_menu = [];
+        foreach ( $menu as $group => $item ) {
+            if ( !empty( $item[0] ) ) {
+                $options_menu[$item[2]] = $item[0];
+            }
+            else {
+                $item[0] = '<span class="description">- Separator -</span>';
+                $options_menu[$item[2]] = $item[0];
+            }
+        }
 
         $settings_fields = array(
             'dsbl_basics' => array( // General Settings
@@ -104,7 +111,6 @@ class Fact_Maven_Disable_Blogging {
                         'last_name' => 'Last Name',
                         'nickname' => 'Nickname',
                         'display_name' => 'Display Name'
-
                     )
                 ),
                 array(
@@ -116,86 +122,33 @@ class Fact_Maven_Disable_Blogging {
                 array(
                     'name' => 'about_yourself',
                     'label' => __( 'About Yourself', 'dsbl' ),
-                    'desc' => __( '(Avatar settings can be managed in <a href="./options-discussion.php#show_avatars">Discussion</a> page.)', 'dsbl' ),
+                    'desc' => __( 'Avatar settings can be managed in <a href="' . get_site_url() . '/wp-admin/options-discussion.php#show_avatars">Discussion</a> page.', 'dsbl' ),
                     'type' => 'multicheck',
-                    'options' => $options_name
-                    /*'options' => array(
+                    'options' => array(
                         'description' => 'Biographical Info',
                         'show_avatars' => 'Avatar Display'
-                    )*/
-                ),
-                array(
-                    'name' => 'additional_fields',
-                    'label' => __( 'Additional Fields', 'dsbl' ),
-                    'desc' => __( 'List additional fields to hide by ID, one per line.', 'dsbl' ),
-                    'type' => 'textarea'
+                    )
                 )
             ),
-            'dsbl_others' => array( // Other Settings
-                array(
-                    'name' => 'text',
-                    'label' => __( 'Text Input', 'dsbl' ),
-                    'desc' => __( 'Text input description', 'dsbl' ),
-                    'type' => 'text',
-                    'default' => 'Title'
-                ),
-                array(
-                    'name' => 'textarea',
-                    'label' => __( 'Textarea Input', 'dsbl' ),
-                    'desc' => __( 'Textarea description', 'dsbl' ),
-                    'type' => 'textarea'
-                ),
-                array(
-                    'name' => 'checkbox',
-                    'label' => __( 'Checkbox', 'dsbl' ),
-                    'desc' => __( 'Checkbox Label', 'dsbl' ),
-                    'type' => 'checkbox'
-                ),
-                array(
-                    'name' => 'radio',
-                    'label' => __( 'Radio Button', 'dsbl' ),
-                    'desc' => __( 'A radio button', 'dsbl' ),
-                    'type' => 'radio',
-                    'options' => array(
-                        'yes' => 'Yes',
-                        'no' => 'No'
-                    )
-                ),
-                array(
-                    'name' => 'multicheck',
-                    'label' => __( 'Multile checkbox', 'dsbl' ),
-                    'desc' => __( 'Multi checkbox description', 'dsbl' ),
-                    'type' => 'multicheck',
-                    'options' => array(
-                        'one' => 'One',
-                        'two' => 'Two',
-                        'three' => 'Three',
-                        'four' => 'Four'
-                    )
-                ),
+            'dsbl_menu' => array( // Menu Settings
                 array(
                     'name' => 'selectbox',
-                    'label' => __( 'A Dropdown', 'dsbl' ),
-                    'desc' => __( 'Dropdown description', 'dsbl' ),
+                    'label' => __( 'Redirect hidden menu items to', 'wedevs' ),
+                    'desc' => __( 'If none is selected, a denied message will be displayed instead.', 'wedevs' ),
                     'type' => 'select',
+                    'default' => 'none',
                     'options' => array(
-                        'yes' => 'Yes',
-                        'no' => 'No'
+                        'index.php'  => 'Dashboard',
+                        'edit.php?post_type=page' => 'Pages',
+                        'none' => '- None -'
                     )
                 ),
                 array(
-                    'name' => 'password',
-                    'label' => __( 'Password', 'dsbl' ),
-                    'desc' => __( 'Password description', 'dsbl' ),
-                    'type' => 'password',
-                    'default' => ''
-                ),
-                array(
-                    'name' => 'file',
-                    'label' => __( 'File', 'dsbl' ),
-                    'desc' => __( 'File description', 'dsbl' ),
-                    'type' => 'file',
-                    'default' => ''
+                    'name' => 'main_menu',
+                    'label' => __( 'Main Menu', 'dsbl' ),
+                    'type' => 'multicheck',
+                    'default' => array( 'edit.php' => 'edit.php', 'edit-comments.php' => 'edit-comments.php' ),
+                    'options' => $options_menu
                 )
             )
         );
@@ -234,6 +187,20 @@ class Fact_Maven_Disable_Blogging {
 
     function plugin_page() {
         echo '<div class="wrap">';
+
+        /* DEGUGGING CODE HERE
+        ******************************/
+        global $menu, $submenu;
+        // // Submenu
+        // foreach ( $submenu as $group => $item ) {
+        //     // echo '<pre>'; print_r( $item ); echo '</pre>';
+        //     foreach ( $item as $key ) {
+        //         echo $key[0] . " > " . $key[2] . "<br>";
+        //     }
+        // }
+        /* DEGUGGING CODE HERE
+        ******************************/
+
         $this->settings_api->show_navigation();
         $this->settings_api->show_forms();
         echo '</div>';

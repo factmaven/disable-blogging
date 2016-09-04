@@ -2,7 +2,6 @@
 ### 2.0.0
 * Rebuilt plugin with new settings API
 
-
 ### 1.3.0 (08/14/16)
 * Added settings to toggle profile fields under "Users" > "Settings"
 * Posts & comments column removed (`dsbl_page_comments` is now `dsbl_columns`)

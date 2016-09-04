@@ -213,6 +213,7 @@ if ( !class_exists( 'FMC_DisableBloggingProfile' ) ) {
                 if ( is_array( $profile_fields ) && in_array( 'admin_color', $profile_fields ) ) { // Hide the Admin Color Scheme 
                     global $_wp_admin_css_colors;
                     $_wp_admin_css_colors = 0;
+                    // remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
                 }
             }
         }
