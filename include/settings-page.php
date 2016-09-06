@@ -78,6 +78,12 @@ class Fact_Maven_Disable_Blogging {
                 $options_menu[$item[2]] = $item[0];
             }
         }
+        $options_submenu = [];
+        foreach ( $submenu as $group => $item ) {
+            foreach ( $item as $key ) {
+                $options_submenu[$key[2]] = $key[0];
+            }
+        }
 
         $settings_fields = array(
             'dsbl_basics' => array( // General Settings
@@ -132,23 +138,56 @@ class Fact_Maven_Disable_Blogging {
             ),
             'dsbl_menu' => array( // Menu Settings
                 array(
-                    'name' => 'selectbox',
-                    'label' => __( 'Redirect hidden menu items to', 'wedevs' ),
-                    'desc' => __( 'If none is selected, a denied message will be displayed instead.', 'wedevs' ),
+                    'name' => 'redirect_menu',
+                    'label' => __( 'Redirect hidden menu items to', 'dsbl' ),
+                    'desc' => __( 'If none is selected, a denied message will be displayed instead.', 'dsbl' ),
                     'type' => 'select',
                     'default' => 'none',
                     'options' => array(
-                        'index.php'  => 'Dashboard',
+                        'index.php' => 'Dashboard',
                         'edit.php?post_type=page' => 'Pages',
                         'none' => '- None -'
                     )
                 ),
                 array(
+                    'name' => 'hide_dashicons',
+                    'label' => __( 'Hide all menu <a target="_blank" href="https://developer.wordpress.org/resource/dashicons">dashicons</a>', 'dsbl' ),
+                    'desc' => __( 'The icons will only be shown when the menu is collapsed.', 'dsbl' ),
+                    'type' => 'select',
+                    'default' => 'no',
+                    'options' => array(
+                        'yes' => 'Yes',
+                        'no' => 'No'
+                    )
+                ),
+                array(
                     'name' => 'main_menu',
                     'label' => __( 'Main Menu', 'dsbl' ),
+                    'desc' => __( 'Hiding each <strong>seperator</strong> will remove the spacing in between the menu items.', 'dsbl' ),
                     'type' => 'multicheck',
-                    'default' => array( 'edit.php' => 'edit.php', 'edit-comments.php' => 'edit-comments.php' ),
+                    'default' => array(
+                        'edit.php' => 'edit.php', // Posts
+                        'edit-comments.php' => 'edit-comments.php', // Comments
+                        'separator1' => 'separator1', // Separator
+                        'separator2' => 'separator2' // Separator
+                    ),
                     'options' => $options_menu
+                ),
+                array(
+                    'name' => 'submenu',
+                    'label' => __( 'Submenu', 'dsbl' ),
+                    'type' => 'multicheck',
+                    'default' => array(
+                        'edit.php' => 'edit.php', // Posts > All Posts
+                        'post-new.php' => 'post-new.php', // Posts > Add New
+                        'edit-tags.php?taxonomy=category' => 'edit-tags.php?taxonomy=category', // Posts > Categories
+                        'edit-tags.php?taxonomy=post_tag' => 'edit-tags.php?taxonomy=post_tag', // Posts > Tags
+                        'tools.php' => 'tools.php', // Tools > Available Tools
+                        'import.php' => 'import.php', // Tools > Import
+                        'export.php' => 'export.php', // Tools > Export
+                        'options-discussion.php' => 'options-discussion.php', // Settings > Discussion                   
+                    ),
+                    'options' => $options_submenu
                 )
             )
         );
@@ -187,20 +226,9 @@ class Fact_Maven_Disable_Blogging {
 
     function plugin_page() {
         echo '<div class="wrap">';
-
-        /* DEGUGGING CODE HERE
-        ******************************/
-        global $menu, $submenu;
-        // // Submenu
-        // foreach ( $submenu as $group => $item ) {
-        //     // echo '<pre>'; print_r( $item ); echo '</pre>';
-        //     foreach ( $item as $key ) {
-        //         echo $key[0] . " > " . $key[2] . "<br>";
-        //     }
-        // }
-        /* DEGUGGING CODE HERE
-        ******************************/
-
+        // SANDBOX
+        require_once dirname( __FILE__ ) . '/sandbox.php';
+        // SANDBOX
         $this->settings_api->show_navigation();
         $this->settings_api->show_forms();
         echo '</div>';
