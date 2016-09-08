@@ -1,6 +1,6 @@
 <?php
 
-if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) { // Exist if accessed directly
+if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) { // Exit if accessed directly
     exit;
 }
 

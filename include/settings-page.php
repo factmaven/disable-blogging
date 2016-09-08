@@ -11,18 +11,23 @@ class Fact_Maven_Disable_Blogging {
     private $settings_api;
 
     function __construct() {
-        $this->settings_api = new Fact_Maven_Disable_Blogging_Settings;
+        // Call the settings API
+        $this->settings_api = new Fact_Maven_Disable_Blogging_Settings_API;
 
-        add_action( 'admin_init', array($this, 'admin_init' ) );
-        add_action( 'admin_menu', array($this, 'admin_menu' ) );
+        add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+        add_action( 'admin_init', array( $this, 'admin_init' ) );
+        add_action( 'admin_menu', array( $this, 'admin_menu' ) );
     }
 
-    function admin_init() {
-        // Set the settings
+    function admin_enqueue_scripts() {
+        wp_enqueue_script( 'jquery-ui-accordion' );
+        wp_enqueue_style( 'wp-jquery-ui', plugins_url( '../css/jquery-ui.css', __FILE__ ), false );
+        // wp_enqueue_style( 'wp-jquery-ui', plugins_url( 'css/jquery-ui.css', __FILE__ ), false );
+    }
+
+    function admin_init() { // Set and initialize the settings
         $this->settings_api->set_sections( $this->get_settings_sections() );
         $this->settings_api->set_fields( $this->get_settings_fields() );
-
-        // Initialize settings
         $this->settings_api->admin_init();
     }
 
@@ -32,22 +37,22 @@ class Fact_Maven_Disable_Blogging {
             'Blogging', // Menu title
             'manage_options', // Capability
             'blogging', // URL slug
-            array($this, 'plugin_page' ) // Callback function
+            array( $this, 'plugin_page' ) // Callback function
             );
     }
 
     function get_settings_sections() {
         $sections = array(
             array(
-                'id' => 'dsbl_basics',
+                'id' => 'dsbl_general_settings',
                 'title' => __( 'General Settings', 'dsbl' )
             ),
             array(
-                'id' => 'dsbl_profile',
+                'id' => 'dsbl_profile_settings',
                 'title' => __( 'Profile Page', 'dsbl' )
             ),
             array(
-                'id' => 'dsbl_menu',
+                'id' => 'dsbl_menu_settings',
                 'title' => __( 'Menu Settings', 'dsbl' )
             )
         );
@@ -86,7 +91,7 @@ class Fact_Maven_Disable_Blogging {
         }
 
         $settings_fields = array(
-            'dsbl_basics' => array( // General Settings
+            'dsbl_general_settings' => array( // General Settings
                 array(
                     'name' => 'text_val',
                     'label' => __( 'Text Input', 'dsbl' ),
@@ -96,11 +101,17 @@ class Fact_Maven_Disable_Blogging {
                     'sanitize_callback' => 'intval'
                 )
             ),
-            'dsbl_profile' => array( // Profile Settings
+            'dsbl_profile_settings' => array( // Profile Settings
                 array(
                     'name' => 'personal_options',
                     'label' => __( 'Personal Options', 'dsbl' ),
                     'type' => 'multicheck',
+                    'default' => array(
+                        'rich_editing' => 'rich_editing', // Visual Editor
+                        'admin_color' => 'admin_color', // Admin Color Scheme
+                        'comment_shortcuts' => 'comment_shortcuts', // Keyboard Shortcuts
+                        'admin_bar_front' => 'admin_bar_front' // Toolbar
+                    ),
                     'options' => array(
                         'rich_editing' => 'Visual Editor',
                         'admin_color' => 'Admin Color Scheme',
@@ -112,6 +123,10 @@ class Fact_Maven_Disable_Blogging {
                     'name' => 'name',
                     'label' => __( 'Name', 'dsbl' ),
                     'type' => 'multicheck',
+                    'default' => array(
+                        'nickname' => 'nickname',
+                        'display_name' => 'display_name'
+                    ),
                     'options' => array(
                         'first_name' => 'First Name',
                         'last_name' => 'Last Name',
@@ -123,6 +138,9 @@ class Fact_Maven_Disable_Blogging {
                     'name' => 'contact_info',
                     'label' => __( 'Contact Info', 'dsbl' ),
                     'type' => 'multicheck',
+                    'default' => array(
+                        'url' => 'url'
+                    ),
                     'options' => $options_contact
                 ),
                 array(
@@ -130,13 +148,16 @@ class Fact_Maven_Disable_Blogging {
                     'label' => __( 'About Yourself', 'dsbl' ),
                     'desc' => __( 'Avatar settings can be managed in <a href="' . get_site_url() . '/wp-admin/options-discussion.php#show_avatars">Discussion</a> page.', 'dsbl' ),
                     'type' => 'multicheck',
+                    'default' => array(
+                        'description' => 'description'
+                    ),
                     'options' => array(
                         'description' => 'Biographical Info',
                         'show_avatars' => 'Avatar Display'
                     )
                 )
             ),
-            'dsbl_menu' => array( // Menu Settings
+            'dsbl_menu_settings' => array( // Menu Settings
                 array(
                     'name' => 'redirect_menu',
                     'label' => __( 'Redirect hidden menu items to', 'dsbl' ),
@@ -158,6 +179,23 @@ class Fact_Maven_Disable_Blogging {
                     'options' => array(
                         'yes' => 'Yes',
                         'no' => 'No'
+                    )
+                ),
+                array(
+                    'name' => 'toolbar',
+                    'label' => __( 'Toolbar Menu', 'dsbl' ),
+                    'type' => 'multicheck',
+                    'default' => array(
+                        'wp-logo' => 'wp-logo', // WordPress logo
+                        'comments' => 'comments', // Comments
+                        'new-post' => 'new-post', // New > Post
+                        'search' => 'search' // Search
+                    ),
+                    'options' => array(
+                        'wp-logo' => 'WordPress logo',
+                        'comments' => 'Comments',
+                        'new-post' => 'New > Post',
+                        'search' => 'Search'
                     )
                 ),
                 array(
@@ -205,7 +243,7 @@ class Fact_Maven_Disable_Blogging {
             )
         );
         if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
-            $settings_fields['dsbl_profile'][] = $options_yoast;
+            $settings_fields['dsbl_profile_settings'][] = $options_yoast;
         }
 
         $options_um = array( // Ultimate Member plugin
@@ -218,7 +256,7 @@ class Fact_Maven_Disable_Blogging {
             )
         );
         if ( is_plugin_active( 'ultimate-member/index.php' ) ) {
-            $settings_fields['dsbl_profile'][] = $options_um;
+            $settings_fields['dsbl_profile_settings'][] = $options_um;
         }
 
         return $settings_fields;
@@ -243,7 +281,7 @@ class Fact_Maven_Disable_Blogging {
         $pages = get_pages();
         $pages_options = array();
         if ( $pages ) {
-            foreach ($pages as $page) {
+            foreach ( $pages as $page) {
                 $pages_options[$page->ID] = $page->post_title;
             }
         }

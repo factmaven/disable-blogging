@@ -11,5 +11,8 @@
 
 require_once dirname( __FILE__ ) . '/include/settings-api.php';
 require_once dirname( __FILE__ ) . '/include/settings-page.php';
+require_once dirname( __FILE__ ) . '/include/functions-profile.php';
+// require_once dirname( __FILE__ ) . '/include/functions-profile.php';
+// require_once dirname( __FILE__ ) . '/include/functions-profile.php';
 
 new Fact_Maven_Disable_Blogging();
