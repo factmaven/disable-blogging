@@ -9,10 +9,12 @@
  * Version: 2.0.0
  */
 
-require_once dirname( __FILE__ ) . '/include/settings-api.php';
-require_once dirname( __FILE__ ) . '/include/settings-page.php';
-require_once dirname( __FILE__ ) . '/include/functions-profile.php';
-// require_once dirname( __FILE__ ) . '/include/functions-profile.php';
-// require_once dirname( __FILE__ ) . '/include/functions-profile.php';
+require_once dirname( __FILE__ ) . '/scripts/settings-api.php';
+require_once dirname( __FILE__ ) . '/scripts/settings-page.php';
+require_once dirname( __FILE__ ) . '/scripts/functions-profile.php';
+require_once dirname( __FILE__ ) . '/scripts/plugin-meta.php';
+// require_once dirname( __FILE__ ) . '/scripts/functions-profile.php';
+
+require_once dirname( __FILE__ ) . '/scripts/example.php';
 
 new Fact_Maven_Disable_Blogging();

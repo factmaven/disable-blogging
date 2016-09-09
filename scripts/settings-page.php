@@ -21,8 +21,7 @@ class Fact_Maven_Disable_Blogging {
 
     function admin_enqueue_scripts() {
         wp_enqueue_script( 'jquery-ui-accordion' );
-        wp_enqueue_style( 'wp-jquery-ui', plugins_url( '../css/jquery-ui.css', __FILE__ ), false );
-        // wp_enqueue_style( 'wp-jquery-ui', plugins_url( 'css/jquery-ui.css', __FILE__ ), false );
+        wp_enqueue_style( 'wp-jquery-ui', plugins_url( 'styles/jquery-ui.css', __FILE__ ), false );
     }
 
     function admin_init() { // Set and initialize the settings
@@ -49,11 +48,11 @@ class Fact_Maven_Disable_Blogging {
             ),
             array(
                 'id' => 'dsbl_profile_settings',
-                'title' => __( 'Profile Page', 'dsbl' )
+                'title' => __( 'User Profile', 'dsbl' )
             ),
             array(
                 'id' => 'dsbl_menu_settings',
-                'title' => __( 'Menu Settings', 'dsbl' )
+                'title' => __( 'Admin Menu', 'dsbl' )
             )
         );
         return $sections;
@@ -93,15 +92,51 @@ class Fact_Maven_Disable_Blogging {
         $settings_fields = array(
             'dsbl_general_settings' => array( // General Settings
                 array(
-                    'name' => 'text_val',
-                    'label' => __( 'Text Input', 'dsbl' ),
-                    'desc' => __( 'Text input description', 'dsbl' ),
-                    'type' => 'text',
-                    'default' => 'Title',
-                    'sanitize_callback' => 'intval'
-                )
+                    'name' => 'disable_posts',
+                    'label' => __( 'Posting', 'dsbl' ),
+                    'desc' => __( 'Access to the Posts menu is managed in the <strong>Admin Menu</strong> tab.', 'dsbl' ),
+                    'type' => 'radio',
+                    'default' => 'disable',
+                    'options' => array(
+                        'enable' => 'Enable',
+                        'disable'  => 'Disable'
+                    )
+                ),
+                array(
+                    'name' => 'disable_comments',
+                    'label' => __( 'Comments', 'dsbl' ),
+                    'desc' => __( 'Access to the Comments menu is managed in the <strong>Admin Menu</strong> tab.', 'dsbl' ),
+                    'type' => 'radio',
+                    'default' => 'disable',
+                    'options' => array(
+                        'enable' => 'Enable',
+                        'disable'  => 'Disable'
+                    )
+                ),
+                array(
+                    'name' => 'disable_author_page',
+                    'label' => __( 'Author Page', 'dsbl' ),
+                    'desc' => __( 'Removes author links and redirects to the homepage.', 'dsbl' ),
+                    'type' => 'radio',
+                    'default' => 'disable',
+                    'options' => array(
+                        'enable' => 'Enable',
+                        'disable'  => 'Disable'
+                    )
+                ),
+                array(
+                    'name' => 'disable_feeds',
+                    'label' => __( 'Feeds & Related', 'dsbl' ),
+                    'desc' => __( 'Includes feeds, <a href="https://codex.wordpress.org/Glossary#Pingback" target="_blank">Pingbacks</a>, <a href="https://codex.wordpress.org/Glossary#Trackback" target="_blank">Trackbacks</a>, & <a href="https://codex.wordpress.org/XML-RPC_Support" target="_blank">XML-RPC</a>.', 'dsbl' ),
+                    'type' => 'radio',
+                    'default' => 'disable',
+                    'options' => array(
+                        'enable' => 'Enable',
+                        'disable'  => 'Disable'
+                    )
+                ),
             ),
-            'dsbl_profile_settings' => array( // Profile Settings
+            'dsbl_profile_settings' => array( // User Profile
                 array(
                     'name' => 'personal_options',
                     'label' => __( 'Personal Options', 'dsbl' ),
@@ -157,7 +192,7 @@ class Fact_Maven_Disable_Blogging {
                     )
                 )
             ),
-            'dsbl_menu_settings' => array( // Menu Settings
+            'dsbl_menu_settings' => array( // Admin Menu
                 array(
                     'name' => 'redirect_menu',
                     'label' => __( 'Redirect hidden menu items to', 'dsbl' ),

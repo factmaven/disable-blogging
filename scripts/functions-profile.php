@@ -1,11 +1,10 @@
 <?php
-/**
- * WordPress settings API demo class
- *
- * @author Fact Maven Corp.
- */
 
-if ( ! class_exists( 'Fact_Maven_Disable_Blogging_Profile' ) ) {
+if ( ! defined( 'ABSPATH' ) ) { // Exit if accessed directly
+    exit;
+}
+
+if ( ! class_exists( 'Fact_Maven_Disable_Blogging_Profile' ) ):
 class Fact_Maven_Disable_Blogging_Profile {
 
     public function __construct() {
@@ -49,9 +48,6 @@ class Fact_Maven_Disable_Blogging_Profile {
     }
 
 }
-}
+endif;
 
-if ( class_exists( 'Fact_Maven_Disable_Blogging_Profile' ) ) { // Instantiate the plugin class
-    global $dsbl_profile;
-    $dsbl_profile = new Fact_Maven_Disable_Blogging_Profile();
-}
+new Fact_Maven_Disable_Blogging_Profile();
