@@ -1,4 +1,4 @@
-=== Disable Blogging ===
+=== Disable Blogging in WordPress ===
 Contributors: factmaven, ethanosullivan
 Tags: disable wordpress blogging, disable blogging, disable blog, disable feeds, feeds, blog, posts, comments, remove query strings, query strings, user profile, hide user profile fields
 Requires at least: 4.5

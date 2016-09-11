@@ -14,14 +14,8 @@ class Fact_Maven_Disable_Blogging {
         // Call the settings API
         $this->settings_api = new Fact_Maven_Disable_Blogging_Settings_API;
 
-        add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
         add_action( 'admin_init', array( $this, 'admin_init' ) );
         add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-    }
-
-    function admin_enqueue_scripts() {
-        wp_enqueue_script( 'jquery-ui-accordion' );
-        wp_enqueue_style( 'wp-jquery-ui', plugins_url( 'styles/jquery-ui.css', __FILE__ ), false );
     }
 
     function admin_init() { // Set and initialize the settings

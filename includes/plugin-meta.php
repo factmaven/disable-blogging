@@ -8,15 +8,7 @@ if ( ! class_exists( 'Fact_Maven_Disable_Blogging_Plugin_Meta' ) ):
 class Fact_Maven_Disable_Blogging_Plugin_Meta {
 
     function __construct() {
-        add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
         add_filter( 'plugin_row_meta', array( $this, 'dsbl_plugin_meta' ), 10, 2 );
-    }
-
-    function add_action_links ( $links ) {
-         $settings = array(
-         '<a href="' . admin_url( 'options-general.php?page=blogging' ) . '">Settings</a>',
-         );
-        return array_merge( $links, $settings );
     }
 
     function dsbl_plugin_meta( $links, $file ) { // Add meta links to plugin page

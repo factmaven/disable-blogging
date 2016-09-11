@@ -1,6 +1,6 @@
 ## Changelog
 ### 2.0.0
-* Rebuilt plugin with new settings API
+* Rebuilt plugin with new settings API, everything is 100% customizable
 
 ### 1.3.0 (08/14/16)
 * Added settings to toggle profile fields under "Users" > "Settings"

@@ -7,11 +7,11 @@ if ( ! defined( 'ABSPATH' ) ) { // Exit if accessed directly
 if ( ! class_exists( 'Fact_Maven_Disable_Blogging_Profile' ) ):
 class Fact_Maven_Disable_Blogging_Profile {
 
-    public function __construct() {
-        add_action( 'admin_head', array( $this, 'dsbl_user_profile' ) );
+    function __construct() {
+        add_action( 'admin_head', array( $this, 'user_profile_fields' ), 10, 1 );
     }
 
-    public function dsbl_user_profile() { // Hide unused fields from user profile
+    function user_profile_fields() { // Hide unused fields from user profile
         global $pagenow;
         $page = array(
             'profile.php',
@@ -46,7 +46,6 @@ class Fact_Maven_Disable_Blogging_Profile {
             }
         }
     }
-
 }
 endif;
 
