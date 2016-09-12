@@ -8,10 +8,10 @@ if ( ! class_exists( 'Fact_Maven_Disable_Blogging_Plugin_Meta' ) ):
 class Fact_Maven_Disable_Blogging_Plugin_Meta {
 
     function __construct() {
-        add_filter( 'plugin_row_meta', array( $this, 'dsbl_plugin_meta' ), 10, 2 );
+        add_filter( 'plugin_row_meta', array( $this, 'plugin_meta' ), 10, 2 );
     }
 
-    function dsbl_plugin_meta( $links, $file ) { // Add meta links to plugin page
+    function plugin_meta( $links, $file ) { // Add meta links to plugin page
         if ( strpos( $file, 'disable-blogging.php' ) !== false ) {
             $meta = array(
                 'support' => '<a href="https://wordpress.org/support/plugin/disable-blogging" target="_blank"><span class="dashicons dashicons-sos"></span> ' . __( 'Support' ) . '</a>',

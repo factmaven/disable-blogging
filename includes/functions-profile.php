@@ -24,23 +24,23 @@ class Fact_Maven_Disable_Blogging_Profile {
             if ( is_array( $profile_fields ) || is_object( $profile_fields ) ) {
                 ?>
                 <script type="text/javascript">
-                    jQuery(document).ready(function($) {
-                        $('form#your-profile > h2').hide();
-                    <?php
-                        if ( is_array( $profile_fields ) || is_object( $profile_fields ) ) {
-                            foreach ( $profile_fields as $group => $item ) {
-                                if( is_array($item) ) {
-                                    foreach ( $item as $value ) {
-                                        echo( "$('#" . $value . "').closest('tr').hide();" );
-                                        if ( in_array( 'admin_color', $item ) ) {
-                                            remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
-                                        }
+                jQuery(document).ready(function($) {
+                    $('form#your-profile > h2').hide();
+                <?php
+                    if ( is_array( $profile_fields ) || is_object( $profile_fields ) ) {
+                        foreach ( $profile_fields as $group => $item ) {
+                            if( is_array($item) ) {
+                                foreach ( $item as $value ) {
+                                    echo( "$('#" . $value . "').closest('tr').hide();" );
+                                    if ( in_array( 'admin_color', $item ) ) {
+                                        remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
                                     }
                                 }
                             }
                         }
-                    ?>
-                    } );
+                    }
+                ?>
+                } );
                 </script>
                 <?php
             }
