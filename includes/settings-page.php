@@ -37,16 +37,20 @@ class Fact_Maven_Disable_Blogging {
     function get_settings_sections() {
         $sections = array(
             array(
-                'id' => 'dsbl_general_settings',
-                'title' => __( 'General Settings', 'dsbl' )
+                'id' => 'factmaven_dsbl_general_settings',
+                'title' => __( 'General', 'dsbl' )
             ),
             array(
-                'id' => 'dsbl_profile_settings',
+                'id' => 'factmaven_dsbl_profile_settings',
                 'title' => __( 'User Profile', 'dsbl' )
             ),
             array(
-                'id' => 'dsbl_menu_settings',
+                'id' => 'factmaven_dsbl_menu_settings',
                 'title' => __( 'Admin Menu', 'dsbl' )
+            ),
+            array(
+                'id' => 'factmaven_dsbl_other_settings',
+                'title' => __( 'Other', 'dsbl' )
             )
         );
         return $sections;
@@ -84,7 +88,7 @@ class Fact_Maven_Disable_Blogging {
         }
 
         $settings_fields = array(
-            'dsbl_general_settings' => array( // General Settings
+            'factmaven_dsbl_general_settings' => array( // General Settings
                 array(
                     'name' => 'disable_posts',
                     'label' => __( 'Posting', 'dsbl' ),
@@ -130,7 +134,7 @@ class Fact_Maven_Disable_Blogging {
                     )
                 ),
             ),
-            'dsbl_profile_settings' => array( // User Profile
+            'factmaven_dsbl_profile_settings' => array( // User Profile
                 array(
                     'name' => 'personal_options',
                     'label' => __( 'Personal Options', 'dsbl' ),
@@ -186,7 +190,7 @@ class Fact_Maven_Disable_Blogging {
                     )
                 )
             ),
-            'dsbl_menu_settings' => array( // Admin Menu
+            'factmaven_dsbl_menu_settings' => array( // Admin Menu
                 array(
                     'name' => 'redirect_menu',
                     'label' => __( 'Redirect hidden menu items to', 'dsbl' ),
@@ -256,6 +260,20 @@ class Fact_Maven_Disable_Blogging {
                     ),
                     'options' => $options_submenu
                 )
+            ),
+            'factmaven_dsbl_other_settings' => array( // Other
+                array(
+                    'name' => 'redirect_menu',
+                    'label' => __( 'Redirect hidden menu items to', 'dsbl' ),
+                    'desc' => __( 'If none is selected, a denied message will be displayed instead.', 'dsbl' ),
+                    'type' => 'select',
+                    'default' => 'none',
+                    'options' => array(
+                        'index.php' => 'Dashboard',
+                        'edit.php?post_type=page' => 'Pages',
+                        'none' => '- None -'
+                    )
+                )
             )
         );
 
@@ -272,7 +290,7 @@ class Fact_Maven_Disable_Blogging {
             )
         );
         if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
-            $settings_fields['dsbl_profile_settings'][] = $options_yoast;
+            $settings_fields['factmaven_dsbl_profile_settings'][] = $options_yoast;
         }
 
         $options_um = array( // Ultimate Member plugin
@@ -285,14 +303,16 @@ class Fact_Maven_Disable_Blogging {
             )
         );
         if ( is_plugin_active( 'ultimate-member/index.php' ) ) {
-            $settings_fields['dsbl_profile_settings'][] = $options_um;
+            $settings_fields['factmaven_dsbl_profile_settings'][] = $options_um;
         }
 
         return $settings_fields;
     }
 
     function plugin_page() {
-        echo '<div class="wrap">';
+        echo '<div class="wrap">
+        <h1>Blogging Settings</h1>
+        <p>Sed rhoncus magna a diam tempus, et porttitor libero malesuada.</p>';
         // SANDBOX
         require_once dirname( __FILE__ ) . '/sandbox.php';
         // SANDBOX

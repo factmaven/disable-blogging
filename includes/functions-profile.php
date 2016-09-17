@@ -18,7 +18,7 @@ class Fact_Maven_Disable_Blogging_Profile {
             'user-edit.php',
             'user-new.php'
             );
-        $profile_fields = get_option( 'dsbl_profile_settings' );
+        $profile_fields = get_option( 'factmaven_dsbl_profile_settings' );
 
         if ( in_array( $pagenow, $page, true ) ) {
             if ( is_array( $profile_fields ) || is_object( $profile_fields ) ) {

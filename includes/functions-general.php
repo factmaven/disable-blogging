@@ -8,44 +8,44 @@ if ( ! class_exists( 'Fact_Maven_Disable_Blogging_General' ) ):
 class Fact_Maven_Disable_Blogging_General {
 
     public function __construct() {
-        $general_settings = get_option( 'dsbl_general_settings' );
+        $general_settings = get_option( 'factmaven_dsbl_general_settings' );
 
         if ( $general_settings['disable_posts'] == 'disable' ) {
-            add_action( 'admin_menu', array( $this, 'post_menu' ), 10, 1 );
+            add_action( 'admin_menu', array( $this, 'posts_menu' ), 10, 1 );
+            add_action( 'manage_users_columns', array( $this, 'post_column' ), 10, 1 );
             add_action( 'wp_dashboard_setup', array( $this, 'meta_boxes' ), 10, 1 );
             add_action( 'widgets_init', array( $this, 'widgets' ), 11, 1 );
-            add_action( 'admin_head', array( $this, 'reading_options' ), 10, 1 );
             add_action( 'load-press-this.php', array( $this, 'press_this' ), 10, 1 );
-            // add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ), 10, 1 );
+            add_action( 'admin_init', array( $this, 'posting_options' ), 10, 1 );
+            add_action( 'admin_enqueue_scripts', array( $this, 'hide_settings' ), 10, 1 );
             add_filter( 'enable_post_by_email_configuration', '__return_false', 10, 1 );
         }
 
         if ( $general_settings['disable_comments'] == 'disable' ) {
-           add_action( 'init', array( $this, 'page_comments' ), 10, 1 );
-            add_action( 'manage_users_columns', array( $this, 'post_comment_column' ), 10, 1 );
+            add_action( 'admin_menu', array( $this, 'comments_menu' ), 10, 1 );
+            add_action( 'init', array( $this, 'comments_column' ), 10, 1 );
+            add_action( 'admin_enqueue_scripts', array( $this, 'comment_settings' ), 10, 1 );
         }
     }
 
     /**
      * Disable Posting related functions
      */
-    public function post_menu() { // Remove menu/submenu items & redirect to page menu
-        $menu = array(
+    public function posts_menu() { // Remove menu/submenu items & redirect to page menu
+        $menu_slug = array(
             'edit.php', // Posts
-            'separator1',  'separator2', 'separator3', // Separators
+            'separator1',  'separator2', 'separator3' // Separators
             );
-        foreach ( $menu as $main ) {
+        foreach ( $menu_slug as $main ) {
             remove_menu_page( $main );
         }
-
-        $submenu = array(
+        $menu_slug = array(
             'tools.php' => 'tools.php', // Tools > Available Tools
             'options-general.php' => 'options-writing.php', // Settings > Writing
         );
-        foreach( $submenu as $main => $sub ) {
+        foreach( $menu_slug as $main => $sub ) {
             remove_submenu_page( $main, $sub );
         }
-
         global $pagenow;
         $page = array(
             'edit.php', // Posts
@@ -53,10 +53,15 @@ class Fact_Maven_Disable_Blogging_General {
             'edit-tags.php', // Tags
             'options-writing.php', // Settings > Writing
             );
-        if ( in_array( $pagenow, $page, true ) ) {
+        if ( in_array( $pagenow, $page, true ) && ( ! isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
             wp_redirect( admin_url( 'edit.php?post_type=page' ), 301 );
             exit;
         }
+    }
+
+    public function post_column( $column ) { // Remove posts column
+        unset( $column['posts'] );
+        return $column;
     }
 
     public function meta_boxes() { // Disable blogging related meta boxes on the Dashboard
@@ -72,12 +77,6 @@ class Fact_Maven_Disable_Blogging_General {
         foreach ( $meta_box as $id => $context ) {
             remove_meta_box( $id, 'dashboard', $context ); 
         }
-    }
-
-    public function post_comment_column( $column ) { // Remove posts column
-        unset( $column['posts'] );
-        unset( $column['comments'] );
-        return $column;
     }
 
     public function widgets() { // Remove blog related widgets
@@ -97,64 +96,71 @@ class Fact_Maven_Disable_Blogging_General {
         }
     }
 
-    public function reading_options() {
-        global $pagenow;
-        ?>
-        <style type="text/css">
-        .nav-menus-php label[for="add-post-hide"],
-        .control-section.add-post,
-        .welcome-icon.welcome-write-blog,
-        .users-php .column-posts,
-        .control-section .accordion-section .add-post-type-post {
-            display: none;
-        }
-
-        <?php if ( $pagenow == 'tools.php' ) { ?>
-        .tools-php .card {
-            display: none;
-        }
-        <?php } ?>
-
-        <?php if ( $pagenow == 'options-reading.php' ) { ?>
-        .options-reading-php #front-static-pages p:first-of-type,
-        .options-reading-php .form-table tr:nth-child(2),
-        .options-reading-php .form-table tr:nth-child(3),
-        .options-reading-php .form-table tr:nth-child(4),
-        .options-reading-php #front-static-pages ul li:last-child,
-        .options-reading-php #front-static-pages ul li:nth-child(2),
-        .options-reading-php #front-static-pages input[name="show_on_front"] {
-            display: none;
-        }
-        #front-static-pages ul {
-            margin: 0
-        }
-        <?php } ?>
-        </style>
-        <?php
-    }
-
     public function press_this() { // Disables "Press This" and redirect to homepage
         wp_safe_redirect( home_url(), 301 );
     }
 
-    public function enqueue_styles() {
-        wp_enqueue_style( 'dsbl-wp-admin', plugin_dir_url( __FILE__ ) . 'css/wp-admin.css' );
+    public function posting_options() { // Default the reading settings to a static page
+        if ( 'posts' == get_option( 'show_on_front' ) ) {
+            update_option( 'show_on_front', 'page' );
+            update_option( 'page_for_posts', 0 );
+            update_option( 'page_on_front', 1 );
+        }
+        update_option( 'default_pingback_flag ', 0 );
+        update_option( 'default_ping_status ', 0 );
+        // update_option( 'default_comment_status', 0 );
+    }
+
+    public function hide_settings() {
+        global $pagenow;
+        // wp_enqueue_style( 'dsbl-wp-admin', plugin_dir_url( __FILE__ ) . 'css/wp-admin.css' );
+        if ( $pagenow == 'tools.php' ) {
+            wp_enqueue_style( 'dsbl-tools', plugin_dir_url( __FILE__ ) . 'css/tools.css' );
+        }
+        if ( $pagenow == 'options-reading.php' ) {
+            wp_enqueue_style( 'dsbl-options-reading', plugin_dir_url( __FILE__ ) . 'css/options-reading.css' );
+        }
     }
 
     /**
      * Disable Comment related functions
      */
-    public function page_comments() { // Remove comments column from posts & pages
-        $menu = array(
+    public function comments_menu() { // Remove menu/submenu items & redirect to page menu
+        global $pagenow;
+        $menu_slug = array(
+            'edit-comments.php', // Comments
+            'separator1',  'separator2', 'separator3' // Separators
+            );
+        foreach ( $menu_slug as $main ) {
+            remove_menu_page( $main );
+        }
+        if ( in_array( $pagenow, $menu_slug, true ) && ( ! isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
+            wp_redirect( admin_url( 'edit.php?post_type=page' ), 301 );
+            exit;
+        }
+    }
+
+    public function comments_column() { // Remove comments column from posts & pages
+        $menu_slug = array(
             'post' => 'comments', // Posts
             'page' => 'comments', // Pages
             'attachment' => 'comments' // Media
             );
-        foreach ( $menu as $item => $column ) {
+        foreach ( $menu_slug as $item => $column ) {
             remove_post_type_support( $item, $column );
         }
     }
 
+    public function comment_settings() {
+        global $pagenow;
+        wp_enqueue_style( 'dsbl-wp-admin', plugin_dir_url( __FILE__ ) . 'css/wp-admin.css' );
+        if ( $pagenow == 'tools.php' ) {
+            wp_enqueue_style( 'dsbl-tools', plugin_dir_url( __FILE__ ) . 'css/tools.css' );
+        }
+        if ( $pagenow == 'options-reading.php' ) {
+            wp_enqueue_style( 'dsbl-options-reading', plugin_dir_url( __FILE__ ) . 'css/options-reading.css' );
+        }
+    }
 }
 endif;
 
