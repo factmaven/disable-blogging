@@ -34,6 +34,8 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             add_action( 'admin_head', array( $this, 'dsbl_help_tabs' ), 999, 1 );
             add_filter( 'enable_post_by_email_configuration', '__return_false', 10, 1 );
             add_filter( 'admin_bar_menu', array( $this, 'dsbl_howdy' ), 25, 1 );
+			add_filter( 'custom_menu_order', '__return_true', 10, 1  );
+			add_filter( 'menu_order', array( $this, 'dsbl_custom_menu_order' ), 10, 1 );
 
             // FEEDS & RELATED
             add_action( 'wp_loaded', array( $this, 'dsbl_header_feeds' ), 1, 1 );
@@ -154,6 +156,11 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
                 'title' => str_replace( 'Howdy, ', '', $wp_admin_bar -> get_node( 'my-account' ) -> title ),
             ) );
         }
+        
+        public function dsbl_custom_menu_order() { // move Pages up the top in the sidebar menu
+			return array( 'index.php', 'edit.php?post_type=page' );
+		}
+
 
         // FEEDS & RELATED
         public function dsbl_header_feeds() { // Remove feed links from the header
