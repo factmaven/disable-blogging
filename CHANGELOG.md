@@ -1,7 +1,11 @@
 ## Changelog
 ### 2.0.0
-* Rebuilt plugin with new Settings API, everything is now 100% customizable
+* Rebuilt plugin with new Settings API, everything is now 100% customizable (located in "Settings" > "Blogging")
+* Profile settings page relocated to "Settings" > "Blogging"
 * Reorder Pages menu further up (thanks to [Piet Bos](https://github.com/factmaven/disable-blogging/pull/2))
+* Force changes to the following options in the settings:
+** **Discussion**: Attempt to notify any blogs linked to from the article (unchecked)
+* Various code improvement and performance
 
 ### 1.3.0 (08/14/16)
 * Added settings to toggle profile fields under "Users" > "Settings"

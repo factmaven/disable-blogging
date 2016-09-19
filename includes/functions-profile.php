@@ -1,6 +1,7 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) { // Exit if accessed directly
+# If accessed directly, exit
+if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
@@ -14,12 +15,15 @@ class Fact_Maven_Disable_Blogging_Profile {
         # Get the plugin options
         $profile_fields = get_option( 'factmaven_dsbl_profile_settings' );
 
+        # Hide the User Profile fields
         add_action( 'admin_head', array( $this, 'user_profile_fields' ), 10, 1 );
+        # If the 'Avatar Display' is selected, update the option in the Discussion page
         if ( isset( $profile_fields['about_yourself'] ) ) {
             if ( is_array( $profile_fields['about_yourself'] ) && in_array( 'show_avatars', $profile_fields['about_yourself'] ) ) {
                 update_option( 'show_avatars', 0 );
             }
         }
+        # If the 'Admin Color Scheme' is selected, remove action
         if ( isset( $profile_fields['personal_options'] ) ) {
             if ( is_array( $profile_fields['personal_options'] ) && in_array( 'admin_color', $profile_fields['personal_options'] ) ) {
                 remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
@@ -30,7 +34,7 @@ class Fact_Maven_Disable_Blogging_Profile {
     //==============================
     // BEGIN THE FUNCTIONS
     //==============================
-    public function user_profile_fields() { // Hide user profile fields
+    public function user_profile_fields() {
         # Get the plugin options
         $profile_fields = get_option( 'factmaven_dsbl_profile_settings' );
         # Define the list of page to apply JavaScript
