@@ -1,8 +1,28 @@
 <?php
 
 // Example to get settings
-// $my_settings = get_option( 'dsbl_general_settings' );
+// $my_settings = get_option( 'factmaven_dsbl_general_settings' );
 // echo '<pre>'; print_r( $my_settings ); echo '</pre>';
+// echo '<pre>'; print_r( $my_settings['about_yourself'] ); echo '</pre>';
+
+// if ( isset( $my_settings['about_yourself'] ) ) {
+//     if ( in_array( 'show_avatars', $my_settings['about_yourself'] ) ) {
+//         echo 'YES!';
+//     }
+// }
+
+/*if ( is_array( $my_settings ) || is_object( $my_settings ) ) {
+    foreach ( $my_settings as $group => $item ) {
+        if( is_array($item) ) {
+            foreach ( $item as $value ) {
+                // echo( $value . '<br>' );
+                if ( in_array( 'show_avatars', $item ) ) {
+                    echo 'test';
+                }
+            }
+        }
+    }
+}*/
 
 // global $wp_admin_bar;
 // // echo '<pre>'; print_r( $wp_admin_bar ); echo '</pre>';

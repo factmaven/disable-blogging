@@ -59,7 +59,6 @@ class Fact_Maven_Disable_Blogging {
     /**
      * Returns all the settings fields
      *
-     * @return array settings fields
      */
     function get_settings_fields() {
         
@@ -92,7 +91,6 @@ class Fact_Maven_Disable_Blogging {
                 array(
                     'name' => 'disable_posts',
                     'label' => __( 'Posting', 'dsbl' ),
-                    'desc' => __( 'Access to the Posts menu is managed in the <strong>Admin Menu</strong> tab.', 'dsbl' ),
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
@@ -103,7 +101,6 @@ class Fact_Maven_Disable_Blogging {
                 array(
                     'name' => 'disable_comments',
                     'label' => __( 'Comments', 'dsbl' ),
-                    'desc' => __( 'Access to the Comments menu is managed in the <strong>Admin Menu</strong> tab.', 'dsbl' ),
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
@@ -125,7 +122,7 @@ class Fact_Maven_Disable_Blogging {
                 array(
                     'name' => 'disable_feeds',
                     'label' => __( 'Feeds & Related', 'dsbl' ),
-                    'desc' => __( 'Includes feeds, <a href="https://codex.wordpress.org/Glossary#Pingback" target="_blank">Pingbacks</a>, <a href="https://codex.wordpress.org/Glossary#Trackback" target="_blank">Trackbacks</a>, & <a href="https://codex.wordpress.org/XML-RPC_Support" target="_blank">XML-RPC</a>.', 'dsbl' ),
+                    'desc' => __( 'Includes <a href="https://codex.wordpress.org/Glossary#Pingback" target="_blank">Pingbacks</a>, <a href="https://codex.wordpress.org/Glossary#Trackback" target="_blank">Trackbacks</a>, & <a href="https://codex.wordpress.org/XML-RPC_Support" target="_blank">XML-RPC</a>.', 'dsbl' ),
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
@@ -139,12 +136,6 @@ class Fact_Maven_Disable_Blogging {
                     'name' => 'personal_options',
                     'label' => __( 'Personal Options', 'dsbl' ),
                     'type' => 'multicheck',
-                    'default' => array(
-                        'rich_editing' => 'rich_editing', // Visual Editor
-                        'admin_color' => 'admin_color', // Admin Color Scheme
-                        'comment_shortcuts' => 'comment_shortcuts', // Keyboard Shortcuts
-                        'admin_bar_front' => 'admin_bar_front' // Toolbar
-                    ),
                     'options' => array(
                         'rich_editing' => 'Visual Editor',
                         'admin_color' => 'Admin Color Scheme',
@@ -156,10 +147,6 @@ class Fact_Maven_Disable_Blogging {
                     'name' => 'name',
                     'label' => __( 'Name', 'dsbl' ),
                     'type' => 'multicheck',
-                    'default' => array(
-                        'nickname' => 'nickname',
-                        'display_name' => 'display_name'
-                    ),
                     'options' => array(
                         'first_name' => 'First Name',
                         'last_name' => 'Last Name',
@@ -171,19 +158,13 @@ class Fact_Maven_Disable_Blogging {
                     'name' => 'contact_info',
                     'label' => __( 'Contact Info', 'dsbl' ),
                     'type' => 'multicheck',
-                    'default' => array(
-                        'url' => 'url'
-                    ),
                     'options' => $options_contact
                 ),
                 array(
                     'name' => 'about_yourself',
                     'label' => __( 'About Yourself', 'dsbl' ),
-                    'desc' => __( 'Avatar settings can be managed in <a href="' . get_site_url() . '/wp-admin/options-discussion.php#show_avatars">Discussion</a> page.', 'dsbl' ),
+                    'desc' => __( 'Additional avatar settings can be managed in <a href="' . get_site_url() . '/wp-admin/options-discussion.php#show_avatars">Discussion</a> page.', 'dsbl' ),
                     'type' => 'multicheck',
-                    'default' => array(
-                        'description' => 'description'
-                    ),
                     'options' => array(
                         'description' => 'Biographical Info',
                         'show_avatars' => 'Avatar Display'
@@ -311,8 +292,7 @@ class Fact_Maven_Disable_Blogging {
 
     function plugin_page() {
         echo '<div class="wrap">
-        <h1>Blogging Settings</h1>
-        <p>Sed rhoncus magna a diam tempus, et porttitor libero malesuada.</p>';
+        <h1>Blogging Settings</h1>';
         // SANDBOX
         require_once dirname( __FILE__ ) . '/sandbox.php';
         // SANDBOX

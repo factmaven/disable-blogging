@@ -7,9 +7,16 @@ if ( ! defined( 'ABSPATH' ) ) { // Exit if accessed directly
 if ( ! class_exists( 'Fact_Maven_Disable_Blogging_General' ) ):
 class Fact_Maven_Disable_Blogging_General {
 
+    //==============================
+    // CALL THE FUNCTIONS
+    //==============================
     public function __construct() {
+        define( 'PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
         $general_settings = get_option( 'factmaven_dsbl_general_settings' );
-
+        
+        add_filter( 'custom_menu_order', '__return_true', 10, 1  );
+        add_filter( 'menu_order', array( $this, 'menu_order' ), 10, 1 );
+        # Disable all posting relate functions
         if ( $general_settings['disable_posts'] == 'disable' ) {
             add_action( 'admin_menu', array( $this, 'posts_menu' ), 10, 1 );
             add_action( 'manage_users_columns', array( $this, 'post_column' ), 10, 1 );
@@ -17,20 +24,37 @@ class Fact_Maven_Disable_Blogging_General {
             add_action( 'widgets_init', array( $this, 'widgets' ), 11, 1 );
             add_action( 'load-press-this.php', array( $this, 'press_this' ), 10, 1 );
             add_action( 'admin_init', array( $this, 'posting_options' ), 10, 1 );
-            add_action( 'admin_enqueue_scripts', array( $this, 'hide_settings' ), 10, 1 );
+            add_action( 'admin_enqueue_scripts', array( $this, 'hide_post_settings' ), 10, 1 );
             add_filter( 'enable_post_by_email_configuration', '__return_false', 10, 1 );
         }
-
+        # Disable all comment relating functions
         if ( $general_settings['disable_comments'] == 'disable' ) {
             add_action( 'admin_menu', array( $this, 'comments_menu' ), 10, 1 );
             add_action( 'init', array( $this, 'comments_column' ), 10, 1 );
-            add_action( 'admin_enqueue_scripts', array( $this, 'comment_settings' ), 10, 1 );
+            add_action( 'admin_enqueue_scripts', array( $this, 'hide_comment_settings' ), 10, 1 );
+            add_action( 'admin_init', array( $this, 'comment_options' ), 10, 1 );
+            add_filter( 'comments_template', array( $this, 'comments_template' ), 20, 1 );
+        }
+
+        if ( $general_settings['disable_feeds'] == 'disable' ) {
+            add_action( 'wp_loaded', array( $this, 'header_feeds' ), 1, 1 );
+            add_action( 'template_redirect', array( $this, 'filter_feeds' ), 1, 1 );
+            add_action( 'pre_ping', array( $this, 'internal_pingbacks' ), 10, 1 );
+            add_filter( 'wp_headers', array( $this, 'x_pingback' ), 10, 1 );
+            add_filter( 'bloginfo_url', array( $this, 'pingback_url' ), 1, 2 );
+            add_filter( 'bloginfo', array( $this, 'pingback_url' ), 1, 2 );
+            add_filter( 'xmlrpc_methods', array( $this, 'xmlrpc' ), 10, 1 );
+            add_filter( 'xmlrpc_enabled', '__return_false', 10, 1 );
         }
     }
 
-    /**
-     * Disable Posting related functions
-     */
+    //==============================
+    // BEGIN THE FUNCTIONS
+    //==============================
+    public function menu_order() { // move Pages up the top in the sidebar menu
+        return array( 'index.php', 'edit.php?post_type=page' );
+    }
+
     public function posts_menu() { // Remove menu/submenu items & redirect to page menu
         $menu_slug = array(
             'edit.php', // Posts
@@ -108,10 +132,9 @@ class Fact_Maven_Disable_Blogging_General {
         }
         update_option( 'default_pingback_flag ', 0 );
         update_option( 'default_ping_status ', 0 );
-        // update_option( 'default_comment_status', 0 );
     }
 
-    public function hide_settings() {
+    public function hide_post_settings() {
         global $pagenow;
         // wp_enqueue_style( 'dsbl-wp-admin', plugin_dir_url( __FILE__ ) . 'css/wp-admin.css' );
         if ( $pagenow == 'tools.php' ) {
@@ -151,7 +174,7 @@ class Fact_Maven_Disable_Blogging_General {
         }
     }
 
-    public function comment_settings() {
+    public function hide_comment_settings() {
         global $pagenow;
         wp_enqueue_style( 'dsbl-wp-admin', plugin_dir_url( __FILE__ ) . 'css/wp-admin.css' );
         if ( $pagenow == 'tools.php' ) {
@@ -160,6 +183,90 @@ class Fact_Maven_Disable_Blogging_General {
         if ( $pagenow == 'options-reading.php' ) {
             wp_enqueue_style( 'dsbl-options-reading', plugin_dir_url( __FILE__ ) . 'css/options-reading.css' );
         }
+    }
+
+    public function comment_options() {
+        # Allow people to post comments on new articles (unchecked)
+        update_option( 'default_comment_status', 0 );
+        # Comment must be manually approved (checked)
+        update_option( 'comment_moderation', 1 );
+    }
+
+    public function comments_template() { // Replaces theme's comments template with empty page
+        return PLUGIN_PATH . '/index.php';
+    }
+
+    public function header_feeds() { // Remove feed links from the header
+        $feed = array(
+            'feed_links' => 2, // General feeds
+            'feed_links_extra' => 3, // Extra feeds
+            'rsd_link' => 10, // Really Simply Discovery & EditURI
+            'wlwmanifest_link' => 10, // Windows Live Writer manifest
+            'index_rel_link' => 10, // Index link
+            'parent_post_rel_link' => 10, // Prev link
+            'start_post_rel_link' => 10, // Start link
+            'adjacent_posts_rel_link' => 10, // Relational links
+            'wp_generator' => 10 // WordPress version
+            );
+        foreach ( $feed as $function => $priority ) {
+            remove_action( 'wp_head', $function, $priority );
+        }
+    }
+
+    public function filter_feeds() { // Prevent redirect loop
+        if ( !is_feed() || is_404() ) {
+            return;
+        }
+        $this -> redirect_feeds();
+    }
+
+    private function redirect_feeds() { // Redirect all feeds to homepage
+        global $wp_rewrite, $wp_query;
+
+        if ( isset( $_GET['feed'] ) ) {
+            wp_safe_redirect( esc_url_raw( remove_query_arg( 'feed' ) ), 301 );
+            exit;
+        }
+
+        if ( get_query_var( 'feed' ) !== 'old' ) {
+            set_query_var( 'feed', '' );
+        }
+        redirect_canonical();
+
+        $url_struct = ( !is_singular() && is_comment_feed() ) ? $wp_rewrite -> get_comment_feed_permastruct() : $wp_rewrite -> get_feed_permastruct();
+        $url_struct = preg_quote( $url_struct, '#' );
+        $url_struct = str_replace( '%feed%', '(\w+)?', $url_struct );
+        $url_struct = preg_replace( '#/+#', '/', $url_struct );
+        $url_current = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $url_new = preg_replace( '#' . $url_struct . '/?$#', '', $url_current );
+
+        if ( $url_new != $url_current ) {
+            wp_safe_redirect( $url_new, 301 );
+            exit;
+        }
+    }
+
+    public function internal_pingbacks( &$links ) { // Disable internal pingbacks
+        foreach ( $links as $l => $link ) {
+            if ( 0 === strpos( $link, get_option( 'home' ) ) ) {
+                unset( $links[$l] );
+            }
+        }
+    }
+
+    public function x_pingback( $headers ) { // Disable x-pingback
+        unset( $headers['X-Pingback'] );
+        return $headers;
+    }
+
+    public function pingback_url( $output, $show ) { // Remove pingback URLs
+        if ( $show == 'pingback_url' ) $output = '';
+        return $output;
+    }
+
+    public function xmlrpc( $methods ) { // Disable XML-RPC methods
+        unset( $methods['pingback.ping'] );
+        return $methods;
     }
 }
 endif;

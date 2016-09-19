@@ -1,6 +1,7 @@
 ## Changelog
 ### 2.0.0
-* Rebuilt plugin with new settings API, everything is 100% customizable
+* Rebuilt plugin with new Settings API, everything is now 100% customizable
+* Reorder Pages menu further up (thanks to [Piet Bos](https://github.com/factmaven/disable-blogging/pull/2))
 
 ### 1.3.0 (08/14/16)
 * Added settings to toggle profile fields under "Users" > "Settings"

@@ -7,34 +7,53 @@ if ( ! defined( 'ABSPATH' ) ) { // Exit if accessed directly
 if ( ! class_exists( 'Fact_Maven_Disable_Blogging_Profile' ) ):
 class Fact_Maven_Disable_Blogging_Profile {
 
-    function __construct() {
+    //==============================
+    // CALL THE FUNCTIONS
+    //==============================
+    public function __construct() {
+        # Get the plugin options
+        $profile_fields = get_option( 'factmaven_dsbl_profile_settings' );
+
         add_action( 'admin_head', array( $this, 'user_profile_fields' ), 10, 1 );
+        if ( isset( $profile_fields['about_yourself'] ) ) {
+            if ( is_array( $profile_fields['about_yourself'] ) && in_array( 'show_avatars', $profile_fields['about_yourself'] ) ) {
+                update_option( 'show_avatars', 0 );
+            }
+        }
+        if ( isset( $profile_fields['personal_options'] ) ) {
+            if ( is_array( $profile_fields['personal_options'] ) && in_array( 'admin_color', $profile_fields['personal_options'] ) ) {
+                remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
+            }
+        }
     }
 
-    function user_profile_fields() { // Hide unused fields from user profile
+    //==============================
+    // BEGIN THE FUNCTIONS
+    //==============================
+    public function user_profile_fields() { // Hide user profile fields
+        # Get the plugin options
+        $profile_fields = get_option( 'factmaven_dsbl_profile_settings' );
+        # Define the list of page to apply JavaScript
         global $pagenow;
         $page = array(
             'profile.php',
             'user-edit.php',
             'user-new.php'
             );
-        $profile_fields = get_option( 'factmaven_dsbl_profile_settings' );
-
+        # Apply jQuery script in the header
         if ( in_array( $pagenow, $page, true ) ) {
             if ( is_array( $profile_fields ) || is_object( $profile_fields ) ) {
                 ?>
                 <script type="text/javascript">
                 jQuery(document).ready(function($) {
-                    $('form#your-profile > h2').hide();
+                    $('form#your-profile>h2').hide();
                 <?php
                     if ( is_array( $profile_fields ) || is_object( $profile_fields ) ) {
+                        # Hide each field that is define in the plugin's options
                         foreach ( $profile_fields as $group => $item ) {
-                            if( is_array($item) ) {
+                            if( is_array( $item ) ) {
                                 foreach ( $item as $value ) {
                                     echo( "$('#" . $value . "').closest('tr').hide();" );
-                                    if ( in_array( 'admin_color', $item ) ) {
-                                        remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
-                                    }
                                 }
                             }
                         }
@@ -49,4 +68,5 @@ class Fact_Maven_Disable_Blogging_Profile {
 }
 endif;
 
+# Instantiate the class
 new Fact_Maven_Disable_Blogging_Profile();
