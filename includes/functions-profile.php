@@ -42,7 +42,7 @@ class Fact_Maven_Disable_Blogging_Profile {
         $page = array(
             'profile.php',
             'user-edit.php',
-            'user-new.php'
+            'user-new.php',
             );
         # Apply jQuery script in the header
         if ( in_array( $pagenow, $page, true ) ) {

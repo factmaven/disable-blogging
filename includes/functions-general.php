@@ -75,12 +75,13 @@ class Fact_Maven_Disable_Blogging_General {
             add_action( 'pre_ping', array( $this, 'internal_pingbacks' ), 10, 1 );
             # Disable x-pingback
             add_filter( 'wp_headers', array( $this, 'x_pingback' ), 10, 1 );
-            # Remove pingback URLs
+            # Filter feed related content
+            add_action( 'plugins_loaded', array( $this, 'output_buffering' ), 10, 1 );
+            # Set pingback URl to blank for blog info
             add_filter( 'bloginfo_url', array( $this, 'pingback_url' ), 1, 2 );
             add_filter( 'bloginfo', array( $this, 'pingback_url' ), 1, 2 );
             # Disable XML-RPC methods
             add_filter( 'xmlrpc_methods', array( $this, 'xmlrpc' ), 10, 1 );
-            # Disable XML-RPC functionality
             add_filter( 'xmlrpc_enabled', '__return_false', 10, 1 );
         }
     }
@@ -90,7 +91,11 @@ class Fact_Maven_Disable_Blogging_General {
     //==============================
     public function reorder_menu() {
         # Return new page order
-        return array( 'index.php', 'edit.php?post_type=page' );
+        $menu_slug = array(
+            'index.php', // Dashboard
+            'edit.php?post_type=page', // Pages
+            );
+        return $menu_slug;
     }
 
     /* Disable Posting */
@@ -99,7 +104,7 @@ class Fact_Maven_Disable_Blogging_General {
         # Define the list of menu items to hide
         $menu_slug = array(
             'edit.php', // Posts
-            'separator1',  'separator2', 'separator3' // Separators
+            'separator1',  'separator2', 'separator3', // Separators
             );
         # Remove each menu item
         foreach ( $menu_slug as $main ) {
@@ -136,7 +141,7 @@ class Fact_Maven_Disable_Blogging_General {
         $toolbar = array(
             'wp-logo', // WordPress logo
             'new-post', // New > Post
-            'search' // Search
+            'search', // Search
             );
         foreach ( $toolbar as $item ) {
             $wp_admin_bar -> remove_menu( $item );
@@ -159,7 +164,7 @@ class Fact_Maven_Disable_Blogging_General {
             'dashboard_right_now' => 'normal', // At a Glance
             'dashboard_incoming_links' => 'normal', // Incoming Links
             'dashboard_activity' => 'normal', // Activity
-            'wpe_dify_news_feed' => 'normal' // WP Engine
+            'wpe_dify_news_feed' => 'normal', // WP Engine
             );
         # Remove each meta box
         foreach ( $meta_box as $id => $context ) {
@@ -178,7 +183,7 @@ class Fact_Maven_Disable_Blogging_General {
             'WP_Widget_Recent_Comments', // Recent Comments
             'WP_Widget_Recent_Posts', // Recent Posts
             'WP_Widget_RSS', // RSS
-            'WP_Widget_Tag_Cloud' // Tag Cloud
+            'WP_Widget_Tag_Cloud', // Tag Cloud
         );
         # Remove each widget
         foreach( $widgets as $item ) {
@@ -238,7 +243,7 @@ class Fact_Maven_Disable_Blogging_General {
         global $pagenow;
         $menu_slug = array(
             'edit-comments.php', // Comments
-            'separator1',  'separator2', 'separator3' // Separators
+            'separator1',  'separator2', 'separator3', // Separators
             );
         # Remove each menu item
         foreach ( $menu_slug as $main ) {
@@ -273,7 +278,7 @@ class Fact_Maven_Disable_Blogging_General {
         $toolbar = array(
             'wp-logo', // WordPress logo
             'comments', // Comments
-            'search' // Search
+            'search', // Search
             );
         foreach ( $toolbar as $item ) {
             $wp_admin_bar -> remove_menu( $item );
@@ -284,7 +289,7 @@ class Fact_Maven_Disable_Blogging_General {
         $menu_slug = array(
             'post' => 'comments', // Posts
             'page' => 'comments', // Pages
-            'attachment' => 'comments' // Media
+            'attachment' => 'comments', // Media
             );
         foreach ( $menu_slug as $item => $column ) {
             remove_post_type_support( $item, $column );
@@ -307,18 +312,21 @@ class Fact_Maven_Disable_Blogging_General {
 
     /* Disable Author Page */
     public function author_page() {
+        # If the author archive page is being accessed, redirect to homepage
         if ( is_author() ) {
             wp_safe_redirect( get_home_url(), 301 );
             exit;
         }
     }
 
-    public function author_link( $content ) {
+    public function author_link() {
+        # Return homepage URL
         return get_home_url();
     }
 
     /* Disable Feeds & Related */
     public function header_feeds() {
+        # Get a list of header items
         $feed = array(
             'feed_links' => 2, // General feeds
             'feed_links_extra' => 3, // Extra feeds
@@ -328,34 +336,39 @@ class Fact_Maven_Disable_Blogging_General {
             'parent_post_rel_link' => 10, // Prev link
             'start_post_rel_link' => 10, // Start link
             'adjacent_posts_rel_link' => 10, // Relational links
-            'wp_generator' => 10 // WordPress version
+            'wp_generator' => 10, // WordPress version
+            'wp_resource_hints' => 2, // Resource Hints
             );
+        # Remove each feed-related item from the header
         foreach ( $feed as $function => $priority ) {
             remove_action( 'wp_head', $function, $priority );
         }
     }
 
     public function filter_feeds() {
+        # If the query is not a feed or 404 page, return
         if ( ! is_feed() || is_404() ) {
             return;
         }
+        # Call function to redirect feeds
         $this -> redirect_feeds();
     }
 
     private function redirect_feeds() {
         global $wp_rewrite, $wp_query;
-
+        # If the query contains `feed` remove from URL
         if ( isset( $_GET['feed'] ) ) {
             wp_safe_redirect( esc_url_raw( remove_query_arg( 'feed' ) ), 301 );
             exit;
         }
-
+        # If the query contains `feed` remove from URL
         if ( get_query_var( 'feed' ) !== 'old' ) {
             set_query_var( 'feed', '' );
         }
+        # Automatically redirect feed links to the proper URL
         redirect_canonical();
 
-        $url_struct = ( !is_singular() && is_comment_feed() ) ? $wp_rewrite -> get_comment_feed_permastruct() : $wp_rewrite -> get_feed_permastruct();
+        $url_struct = ( ! is_singular() && is_comment_feed() ) ? $wp_rewrite -> get_comment_feed_permastruct() : $wp_rewrite -> get_feed_permastruct();
         $url_struct = preg_quote( $url_struct, '#' );
         $url_struct = str_replace( '%feed%', '(\w+)?', $url_struct );
         $url_struct = preg_replace( '#/+#', '/', $url_struct );
@@ -381,12 +394,43 @@ class Fact_Maven_Disable_Blogging_General {
         return $headers;
     }
 
+    public function output_buffering() {
+        # Remove 'pingback' from header
+        ob_start( array( $this, 'pingback_header' ) );
+        # Remove 'GMPG' from header
+        ob_start( array( $this, 'gmpg_header' ) );
+    }
+
+    public function pingback_header( $buffer ) {
+        # If in the admin panel, don't run
+        if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
+            return $buffer;
+        }
+        # Find and remove 'pingback' meta tags
+        $buffer = preg_replace( '/(<link.*?rel=("|\')pingback("|\').*?href=("|\')(.*?)("|\')(.*?)?\/?>|<link.*?href=("|\')(.*?)("|\').*?rel=("|\')pingback("|\')(.*?)?\/?>)/i', '', $buffer );
+        return $buffer;
+    }
+
+    public function gmpg_header( $buffer ) {
+        # If in the admin panel, don't run
+        if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
+            return $buffer;
+        }
+        # Find and remove 'profile' meta tags
+        $buffer = preg_replace( '/(<link.*?rel=("|\')profile("|\').*?href=("|\')(.*?)("|\')(.*?)?\/?>|<link.*?href=("|\')(.*?)("|\').*?rel=("|\')profile("|\')(.*?)?\/?>)/i', '', $buffer );
+        return $buffer;
+    }
+
     public function pingback_url( $output, $show ) {
-        if ( $show == 'pingback_url' ) $output = '';
+        # If pingback URL is called, set it to blank
+        if ( $show == 'pingback_url' ) {
+            $output = '';
+        }
         return $output;
     }
 
     public function xmlrpc( $methods ) {
+        # Unset XMLRPC pingback Ping
         unset( $methods['pingback.ping'] );
         return $methods;
     }

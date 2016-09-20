@@ -1,9 +1,4 @@
 <?php
-/**
- * WordPress settings API demo class
- *
- * @author Fact Maven Corp.
- */
 
 if ( ! class_exists( 'Fact_Maven_Disable_Blogging' ) ):
 class Fact_Maven_Disable_Blogging {
@@ -11,14 +6,17 @@ class Fact_Maven_Disable_Blogging {
     private $settings_api;
 
     function __construct() {
-        // Call the settings API
+        # Call the settings API
         $this->settings_api = new Fact_Maven_Disable_Blogging_Settings_API;
 
-        add_action( 'admin_init', array( $this, 'admin_init' ) );
-        add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+        # Set and instantiate the class
+        add_action( 'admin_init', array( $this, 'admin_init' ), 10, 1 );
+        add_action( 'admin_menu', array( $this, 'admin_menu' ), 10, 1 );
+        # Reorder 'Blogging' under 'General' submenu
+        add_filter( 'custom_menu_order', array( $this, 'submenu_order' ), 10, 1 );
     }
 
-    function admin_init() { // Set and initialize the settings
+    function admin_init() {
         $this->settings_api->set_sections( $this->get_settings_sections() );
         $this->settings_api->set_fields( $this->get_settings_fields() );
         $this->settings_api->admin_init();
@@ -32,6 +30,24 @@ class Fact_Maven_Disable_Blogging {
             'blogging', // URL slug
             array( $this, 'plugin_page' ) // Callback function
             );
+    }
+
+    function submenu_order( $menu_order ) {
+        # Get submenu key location based on slug
+        global $submenu;
+        $settings = $submenu['options-general.php'];
+        foreach ( $settings as $key => $details ) {
+            if ( $details[2] == 'blogging' ) {
+                $index = $key;
+            }
+        }
+        # Set the 'Blogging' menu below 'General'
+        $submenu['options-general.php'][11] = $submenu['options-general.php'][$index];
+        unset( $submenu['options-general.php'][$index] );
+        # Reorder the menu based on the keys in ascending order
+        ksort( $submenu['options-general.php'] );
+        # Return the new submenu order
+        return $menu_order;
     }
 
     function get_settings_sections() {
@@ -122,7 +138,7 @@ class Fact_Maven_Disable_Blogging {
                 array(
                     'name' => 'disable_feeds',
                     'label' => __( 'Feeds & Related', 'dsbl' ),
-                    'desc' => __( 'Includes <a href="https://codex.wordpress.org/Glossary#Pingback" target="_blank">Pingbacks</a>, <a href="https://codex.wordpress.org/Glossary#Trackback" target="_blank">Trackbacks</a>, & <a href="https://codex.wordpress.org/XML-RPC_Support" target="_blank">XML-RPC</a>.', 'dsbl' ),
+                    'desc' => __( 'Includes <a href="https://codex.wordpress.org/Glossary#Pingback" target="_blank">pingbacks</a>, <a href="https://codex.wordpress.org/Glossary#Trackback" target="_blank">trackbacks</a>, & <a href="https://codex.wordpress.org/XML-RPC_Support" target="_blank">XML-RPC</a>.', 'dsbl' ),
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
