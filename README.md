@@ -1,5 +1,7 @@
 # Disable Blogging 
 
+[![plugin version](https://img.shields.io/wordpress/plugin/v/disable-blogging.svg)](https://wordpress.org/plugins/disable-blogging)
+
 Disables posts, comments, feeds, and other related the blogging features in WordPress.
 
 ## Description 

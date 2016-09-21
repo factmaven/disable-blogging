@@ -55,6 +55,8 @@ class Fact_Maven_Disable_Blogging_General {
             add_action( 'admin_init', array( $this, 'comment_options' ), 10, 1 );
             # Replace comments template with empty page
             add_filter( 'comments_template', array( $this, 'comments_template' ), 20, 1 );
+            # Close all posts from comments
+            add_filter( 'comments_open', '__return_false', 10, 2 );
         }
 
         # Disable Author page
@@ -77,12 +79,17 @@ class Fact_Maven_Disable_Blogging_General {
             add_filter( 'wp_headers', array( $this, 'x_pingback' ), 10, 1 );
             # Filter feed related content
             add_action( 'plugins_loaded', array( $this, 'output_buffering' ), 10, 1 );
-            # Set pingback URl to blank for blog info
+            # Set pingback URI to blank for blog info
             add_filter( 'bloginfo_url', array( $this, 'pingback_url' ), 1, 2 );
             add_filter( 'bloginfo', array( $this, 'pingback_url' ), 1, 2 );
             # Disable XML-RPC methods
-            add_filter( 'xmlrpc_methods', array( $this, 'xmlrpc' ), 10, 1 );
+            add_filter( 'xmlrpc_methods', array( $this, 'xmlrpc_methods' ), 10, 1 );
+            # Return other XML-RPC features to false
             add_filter( 'xmlrpc_enabled', '__return_false', 10, 1 );
+            add_filter( 'pre_update_option_enable_xmlrpc', '__return_false', 10, 1 );
+            add_filter( 'pre_option_enable_xmlrpc', '__return_zero', 10, 1 );
+            # Close all posts from pings
+            add_filter( 'pings_open', '__return_false', 10, 2 );
         }
     }
 
@@ -367,14 +374,14 @@ class Fact_Maven_Disable_Blogging_General {
         }
         # Automatically redirect feed links to the proper URL
         redirect_canonical();
-
+        # Alternative to redirect `feed` queries if canonical doesn't work
         $url_struct = ( ! is_singular() && is_comment_feed() ) ? $wp_rewrite -> get_comment_feed_permastruct() : $wp_rewrite -> get_feed_permastruct();
         $url_struct = preg_quote( $url_struct, '#' );
         $url_struct = str_replace( '%feed%', '(\w+)?', $url_struct );
         $url_struct = preg_replace( '#/+#', '/', $url_struct );
         $url_current = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         $url_new = preg_replace( '#' . $url_struct . '/?$#', '', $url_current );
-
+        # If the new URL doesn't match the current URL, redirect
         if ( $url_new != $url_current ) {
             wp_safe_redirect( $url_new, 301 );
             exit;
@@ -382,6 +389,7 @@ class Fact_Maven_Disable_Blogging_General {
     }
 
     public function internal_pingbacks( &$links ) {
+        # Unset each internal ping
         foreach ( $links as $l => $link ) {
             if ( 0 === strpos( $link, get_option( 'home' ) ) ) {
                 unset( $links[$l] );
@@ -390,6 +398,7 @@ class Fact_Maven_Disable_Blogging_General {
     }
 
     public function x_pingback( $headers ) {
+        # Unset x-pingback
         unset( $headers['X-Pingback'] );
         return $headers;
     }
@@ -429,9 +438,17 @@ class Fact_Maven_Disable_Blogging_General {
         return $output;
     }
 
-    public function xmlrpc( $methods ) {
-        # Unset XMLRPC pingback Ping
+    public function xmlrpc_methods( $methods ) {
+        # Unset Pingback Ping
         unset( $methods['pingback.ping'] );
+        unset( $methods['pingback.extensions.getPingbacks'] );
+        # Unset discovery of existing users
+        unset( $methods['wp.getUsersBlogs'] );
+        # Unset list of available methods
+        unset( $methods['system.multicall'] );
+        unset( $methods['system.listMethods'] );
+        # Unset list of capabilities
+        unset( $methods['system.getCapabilities'] );
         return $methods;
     }
 }

@@ -1,10 +1,11 @@
 ## Changelog
 ### 2.0.0
 * Rebuilt plugin with new Settings API, everything is now 100% customizable (located in "Settings" > "Blogging")
-* Profile settings page relocated to "Settings" > "Blogging" (thanks [cjbj](https://wordpress.org/support/profile/cjbj))
-* Reorder Pages menu further up (thanks to [Piet Bos](https://wordpress.org/support/users/senlin/))
-* Force changes to the following options in the settings:
+* Profile settings page relocated to "Settings" > "Blogging"
+* Reorder "Pages" menu further up (thanks to [Piet Bos](https://wordpress.org/support/users/senlin/))
+* Built-in WordPress options in the settings are changed automatically:
 ** **Discussion**: Attempt to notify any blogs linked to from the article (unchecked)
+* Extra features added to disable pingbacks & trackbacks
 * Various code improvement and performance
 
 ### 1.3.0 (08/14/16)
