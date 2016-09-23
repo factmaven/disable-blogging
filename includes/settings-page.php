@@ -7,7 +7,7 @@ class Fact_Maven_Disable_Blogging {
 
     function __construct() {
         # Call the settings API
-        $this->settings_api = new Fact_Maven_Disable_Blogging_Settings_API;
+        $this -> settings_api = new Fact_Maven_Disable_Blogging_Settings_API;
 
         # Set and instantiate the class
         add_action( 'admin_init', array( $this, 'admin_init' ), 10, 1 );
@@ -17,9 +17,9 @@ class Fact_Maven_Disable_Blogging {
     }
 
     function admin_init() {
-        $this->settings_api->set_sections( $this->get_settings_sections() );
-        $this->settings_api->set_fields( $this->get_settings_fields() );
-        $this->settings_api->admin_init();
+        $this -> settings_api -> set_sections( $this -> get_settings_sections() );
+        $this -> settings_api -> set_fields( $this -> get_settings_fields() );
+        $this -> settings_api -> admin_init();
     }
 
     function admin_menu() {
@@ -54,20 +54,16 @@ class Fact_Maven_Disable_Blogging {
         $sections = array(
             array(
                 'id' => 'factmaven_dsbl_general_settings',
-                'title' => __( 'General', 'dsbl' )
+                'title' => __( 'General', 'dsbl' ),
             ),
             array(
                 'id' => 'factmaven_dsbl_profile_settings',
-                'title' => __( 'User Profile', 'dsbl' )
+                'title' => __( 'User Profile', 'dsbl' ),
             ),
             array(
                 'id' => 'factmaven_dsbl_menu_settings',
-                'title' => __( 'Admin Menu', 'dsbl' )
+                'title' => __( 'Admin Menu', 'dsbl' ),
             ),
-            array(
-                'id' => 'factmaven_dsbl_other_settings',
-                'title' => __( 'Other', 'dsbl' )
-            )
         );
         return $sections;
     }
@@ -107,44 +103,60 @@ class Fact_Maven_Disable_Blogging {
                 array(
                     'name' => 'disable_posts',
                     'label' => __( 'Posting', 'dsbl' ),
-                    'type' => 'radio',
-                    'default' => 'disable',
-                    'options' => array(
-                        'enable' => 'Enable',
-                        'disable'  => 'Disable'
-                    )
+                    'desc' => __( 'Disable posting related functions', 'dsbl' ),
+                    'type' => 'checkbox',
+                    'default' => 'on',
                 ),
                 array(
                     'name' => 'disable_comments',
                     'label' => __( 'Comments', 'dsbl' ),
-                    'type' => 'radio',
-                    'default' => 'disable',
-                    'options' => array(
-                        'enable' => 'Enable',
-                        'disable'  => 'Disable'
-                    )
+                    'desc' => __( 'Disable comment related functions', 'dsbl' ),
+                    'type' => 'checkbox',
+                    'default' => 'on',
+                ),
+                array(
+                    'name' => 'disable_comments',
+                    'label' => __( 'Comments', 'dsbl' ),
+                    'desc' => __( 'Disable comment related functions', 'dsbl' ),
+                    'type' => 'checkbox',
+                    'default' => 'on',
                 ),
                 array(
                     'name' => 'disable_author_page',
                     'label' => __( 'Author Page', 'dsbl' ),
-                    'desc' => __( 'Removes author links and redirects to the homepage.', 'dsbl' ),
-                    'type' => 'radio',
-                    'default' => 'disable',
-                    'options' => array(
-                        'enable' => 'Enable',
-                        'disable'  => 'Disable'
-                    )
+                    'desc' => __( 'Removes author links and redirects to the homepage', 'dsbl' ),
+                    'type' => 'checkbox',
+                    'default' => 'on',
                 ),
                 array(
                     'name' => 'disable_feeds',
                     'label' => __( 'Feeds & Related', 'dsbl' ),
-                    'desc' => __( 'Includes <a href="https://codex.wordpress.org/Glossary#Pingback" target="_blank">pingbacks</a>, <a href="https://codex.wordpress.org/Glossary#Trackback" target="_blank">trackbacks</a>, & <a href="https://codex.wordpress.org/XML-RPC_Support" target="_blank">XML-RPC</a>.', 'dsbl' ),
-                    'type' => 'radio',
-                    'default' => 'disable',
-                    'options' => array(
-                        'enable' => 'Enable',
-                        'disable'  => 'Disable'
-                    )
+                    'desc' => __( 'Disable feeds, <a href="https://codex.wordpress.org/Glossary#Pingback" target="_blank">pingbacks</a>, <a href="https://codex.wordpress.org/Glossary#Trackback" target="_blank">trackbacks</a>, & <a href="https://codex.wordpress.org/XML-RPC_Support" target="_blank">XML-RPC</a>', 'dsbl' ),
+                    'type' => 'checkbox',
+                    'default' => 'on',
+                ),
+                array(
+                    'name' => 'help_tabs',
+                    'label' => __( 'Help Tabs', 'dsbl' ),
+                    'desc' => __( 'Remove <span class="description">Help</span> tabs from the admin header', 'dsbl' ),
+                    'type' => 'checkbox',
+                    'default' => 'on',
+                ),
+                array(
+                    'name' => 'howdy',
+                    'label' => __( 'Change "Howdy," greeting', 'dsbl' ),
+                    'desc' => __( 'Leave the field blank to remove the greeting.', 'dsbl' ),
+                    'type' => 'text',
+                    'default' => NULL,
+                    'placeholder' => 'Howdy,',
+                    'sanitize_callback' => 'intval',
+                ),
+                array(
+                    'name' => 'query_strings',
+                    'label' => __( 'Query Strings', 'dsbl' ),
+                    'desc' => __( 'Remove query strings from static resources (<code>ver=</code>)', 'dsbl' ),
+                    'type' => 'checkbox',
+                    'default' => 'on',
                 ),
             ),
             'factmaven_dsbl_profile_settings' => array( // User Profile
@@ -152,17 +164,27 @@ class Fact_Maven_Disable_Blogging {
                     'name' => 'personal_options',
                     'label' => __( 'Personal Options', 'dsbl' ),
                     'type' => 'multicheck',
+                    'default' => array(
+                        'rich_editing' => 'rich_editing', // Visual Editor
+                        'admin_color' => 'admin_color', // Admin Color Scheme
+                        'comment_shortcuts' => 'comment_shortcuts', // Keyboard Shortcuts
+                        'admin_bar_front' => 'admin_bar_front', // Toolbar
+                    ),
                     'options' => array(
                         'rich_editing' => 'Visual Editor',
                         'admin_color' => 'Admin Color Scheme',
                         'comment_shortcuts' => 'Keyboard Shortcuts',
-                        'admin_bar_front' => 'Toolbar'
+                        'admin_bar_front' => 'Toolbar',
                     )
                 ),
                 array(
                     'name' => 'name',
                     'label' => __( 'Name', 'dsbl' ),
                     'type' => 'multicheck',
+                    'default' => array(
+                        'nickname' => 'nickname',
+                        'display_name' => 'display_name',
+                    ),
                     'options' => array(
                         'first_name' => 'First Name',
                         'last_name' => 'Last Name',
@@ -174,6 +196,9 @@ class Fact_Maven_Disable_Blogging {
                     'name' => 'contact_info',
                     'label' => __( 'Contact Info', 'dsbl' ),
                     'type' => 'multicheck',
+                    'default' => array(
+                        'url' => 'url',
+                    ),
                     'options' => $options_contact
                 ),
                 array(
@@ -181,6 +206,9 @@ class Fact_Maven_Disable_Blogging {
                     'label' => __( 'About Yourself', 'dsbl' ),
                     'desc' => __( 'Additional avatar settings can be managed in <a href="' . get_site_url() . '/wp-admin/options-discussion.php#show_avatars">Discussion</a> page.', 'dsbl' ),
                     'type' => 'multicheck',
+                    'default' => array(
+                        'description' => 'description',
+                    ),
                     'options' => array(
                         'description' => 'Biographical Info',
                         'show_avatars' => 'Avatar Display'
@@ -258,25 +286,11 @@ class Fact_Maven_Disable_Blogging {
                     'options' => $options_submenu
                 )
             ),
-            'factmaven_dsbl_other_settings' => array( // Other
-                array(
-                    'name' => 'redirect_menu',
-                    'label' => __( 'Redirect hidden menu items to', 'dsbl' ),
-                    'desc' => __( 'If none is selected, a denied message will be displayed instead.', 'dsbl' ),
-                    'type' => 'select',
-                    'default' => 'none',
-                    'options' => array(
-                        'index.php' => 'Dashboard',
-                        'edit.php?post_type=page' => 'Pages',
-                        'none' => '- None -'
-                    )
-                )
-            )
         );
 
         $options_yoast = array( // Yoast SEO plugin
             'name' => 'yoast_seo',
-            'label' => 'Yoast SEO', 
+            'label' => __( 'Yoast SEO', 'dsbl' ),
             'type' => 'multicheck',
             'options' => array(
                 'wpseo_author_title' => 'Title to use for Author page',
@@ -292,7 +306,7 @@ class Fact_Maven_Disable_Blogging {
 
         $options_um = array( // Ultimate Member plugin
             'name' => 'ultimate_member',
-            'label' => 'Ultimate Member', 
+            'label' => __( 'Ultimate Member', 'dsbl' ),
             'type' => 'multicheck',
             'options' => array(
                 'um_set_api_key' => 'Ultimate Member REST API',
@@ -312,8 +326,8 @@ class Fact_Maven_Disable_Blogging {
         // SANDBOX
         require_once dirname( __FILE__ ) . '/sandbox.php';
         // SANDBOX
-        $this->settings_api->show_navigation();
-        $this->settings_api->show_forms();
+        $this -> settings_api -> show_navigation();
+        $this -> settings_api -> show_forms();
         echo '</div>';
     }
 
@@ -327,7 +341,7 @@ class Fact_Maven_Disable_Blogging {
         $pages_options = array();
         if ( $pages ) {
             foreach ( $pages as $page) {
-                $pages_options[$page->ID] = $page->post_title;
+                $pages_options[$page -> ID] = $page -> post_title;
             }
         }
         return $pages_options;

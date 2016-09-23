@@ -21,7 +21,7 @@ class Fact_Maven_Disable_Blogging_Plugin_Meta {
         # Add meta links to plugin page
         add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
         # Add link to plugin settings
-        add_filter( 'plugin_action_links', array( $this, 'plugin_actions_links' ), 10, 2 );
+        add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
 
         # Settings API
         require_once dirname( __FILE__ ) . '/includes/settings-api.php';
@@ -49,7 +49,7 @@ class Fact_Maven_Disable_Blogging_Plugin_Meta {
         return $links;
     }
 
-    public function plugin_actions_links( $links, $file ) {
+    public function plugin_action_links( $links, $file ) {
         # IDisplay settings link on the right side of the plugin
         if ( $file == plugin_basename( __FILE__ ) && current_user_can( 'manage_options' ) ) {
             array_unshift(

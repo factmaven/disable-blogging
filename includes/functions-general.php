@@ -18,78 +18,96 @@ class Fact_Maven_Disable_Blogging_General {
         # Reorder `Pages` menu below the `Dashboard`
         add_filter( 'custom_menu_order', '__return_true', 10, 1 );
         add_filter( 'menu_order', array( $this, 'reorder_menu' ), 10, 1 );
-        # Disable all posting relate functions
-        if ( $general_settings['disable_posts'] == 'disable' ) {
-            # Remove posting related menu items & redirect to 'Pages' menu
-            add_action( 'admin_menu', array( $this, 'posts_menu' ), 10, 1 );
-            # Remove posting related toolbar menu items
-            add_action( 'wp_before_admin_bar_render', array( $this, 'post_toolbar_menu' ), 10, 1 );
-            # Remove 'Posts' column from 'Users' page
-            add_action( 'manage_users_columns', array( $this, 'post_column' ), 10, 1 );
-            # Remove blogging related meta boxes on the 'Dashboard'
-            add_action( 'wp_dashboard_setup', array( $this, 'meta_boxes' ), 10, 1 );
-            # Remove blog related widgets
-            add_action( 'widgets_init', array( $this, 'widgets' ), 11, 1 );
-            # Disable 'Press This' function and redirect to homepage
-            add_action( 'load-press-this.php', array( $this, 'press_this' ), 10, 1 );
-            # Update options in 'Reading' and 'Discussion' settings
-            add_action( 'admin_init', array( $this, 'posting_options' ), 10, 1 );
-            # Hide post related options in the settings
-            add_action( 'admin_enqueue_scripts', array( $this, 'hide_post_options' ), 10, 1 );
-            # Disable post-by-email functionality
-            add_filter( 'enable_post_by_email_configuration', '__return_false', 10, 1 );
-        }
-        # Disable all comment relating functions
-        if ( $general_settings['disable_comments'] == 'disable' ) {
-            # Remove commenting related menu items & redirect to 'Pages' menu
-            add_action( 'admin_menu', array( $this, 'comments_menu' ), 10, 1 );
-            # Remove commenting related toolbar menu items
-            add_action( 'wp_before_admin_bar_render', array( $this, 'comment_toolbar_menu' ), 10, 1 );
-            # Remove 'Comments' column
-            add_action( 'init', array( $this, 'comments_column' ), 10, 1 );
-            # Remove blogging related meta boxes on the 'Dashboard'
-            add_action( 'wp_dashboard_setup', array( $this, 'meta_boxes' ), 10, 1 );
-            # Remove blog related widgets
-            add_action( 'widgets_init', array( $this, 'widgets' ), 11, 1 );
-            # Update options in 'Discussion' settings
-            add_action( 'admin_init', array( $this, 'comment_options' ), 10, 1 );
-            # Replace comments template with empty page
-            add_filter( 'comments_template', array( $this, 'comments_template' ), 20, 1 );
-            # Close all posts from comments
-            add_filter( 'comments_open', '__return_false', 10, 2 );
-        }
 
-        # Disable Author page
-        if ( $general_settings['disable_author_page'] == 'disable' ) {
-            # Redirect author page to homepage
-            add_action( 'template_redirect', array( $this, 'author_page' ), 10, 1 );
-            # Replace author URL with the homepage
-            add_filter( 'author_link', array( $this, 'author_link' ), 10, 1 );
-        }
+        if ( is_array( $general_settings ) || is_object( $general_settings ) ) {
+            # Disable all posting relate functions
+            if ( $general_settings['disable_posts'] == 'on' ) {
+                # Remove posting related menu items & redirect to 'Pages' menu
+                add_action( 'admin_menu', array( $this, 'posts_menu' ), 10, 1 );
+                # Remove posting related toolbar menu items
+                add_action( 'wp_before_admin_bar_render', array( $this, 'post_toolbar_menu' ), 10, 1 );
+                # Remove 'Posts' column from 'Users' page
+                add_action( 'manage_users_columns', array( $this, 'post_column' ), 10, 1 );
+                # Remove blogging related meta boxes on the 'Dashboard'
+                add_action( 'wp_dashboard_setup', array( $this, 'meta_boxes' ), 10, 1 );
+                # Remove blog related widgets
+                add_action( 'widgets_init', array( $this, 'widgets' ), 11, 1 );
+                # Disable 'Press This' function and redirect to homepage
+                add_action( 'load-press-this.php', array( $this, 'press_this' ), 10, 1 );
+                # Update options in 'Reading' and 'Discussion' settings
+                add_action( 'admin_init', array( $this, 'posting_options' ), 10, 1 );
+                # Hide post related options in the settings
+                add_action( 'admin_enqueue_scripts', array( $this, 'hide_post_options' ), 10, 1 );
+                # Disable post-by-email functionality
+                add_filter( 'enable_post_by_email_configuration', '__return_false', 10, 1 );
+            }
+            # Disable all comment relating functions
+            if ( $general_settings['disable_comments'] == 'on' ) {
+                # Remove commenting related menu items & redirect to 'Pages' menu
+                add_action( 'admin_menu', array( $this, 'comments_menu' ), 10, 1 );
+                # Remove commenting related toolbar menu items
+                add_action( 'wp_before_admin_bar_render', array( $this, 'comment_toolbar_menu' ), 10, 1 );
+                # Remove 'Comments' column
+                add_action( 'init', array( $this, 'comments_column' ), 10, 1 );
+                # Remove blogging related meta boxes on the 'Dashboard'
+                add_action( 'wp_dashboard_setup', array( $this, 'meta_boxes' ), 10, 1 );
+                # Remove blog related widgets
+                add_action( 'widgets_init', array( $this, 'widgets' ), 11, 1 );
+                # Update options in 'Discussion' settings
+                add_action( 'admin_init', array( $this, 'comment_options' ), 10, 1 );
+                # Replace comments template with empty page
+                add_filter( 'comments_template', array( $this, 'comments_template' ), 20, 1 );
+                # Close all posts from comments
+                add_filter( 'comments_open', '__return_false', 10, 2 );
+            }
 
-        # Disable all feeds, pingbacks, trackbacks, & XML-RPC function
-        if ( $general_settings['disable_feeds'] == 'disable' ) {
-            # Remove feed links from the header
-            add_action( 'wp_loaded', array( $this, 'header_feeds' ), 1, 1 );
-            # Redirect all feeds to homepage
-            add_action( 'template_redirect', array( $this, 'filter_feeds' ), 1, 1 );
-            # Disable internal pingbacks
-            add_action( 'pre_ping', array( $this, 'internal_pingbacks' ), 10, 1 );
-            # Disable x-pingback
-            add_filter( 'wp_headers', array( $this, 'x_pingback' ), 10, 1 );
-            # Filter feed related content
-            add_action( 'plugins_loaded', array( $this, 'output_buffering' ), 10, 1 );
-            # Set pingback URI to blank for blog info
-            add_filter( 'bloginfo_url', array( $this, 'pingback_url' ), 1, 2 );
-            add_filter( 'bloginfo', array( $this, 'pingback_url' ), 1, 2 );
-            # Disable XML-RPC methods
-            add_filter( 'xmlrpc_methods', array( $this, 'xmlrpc_methods' ), 10, 1 );
-            # Return other XML-RPC features to false
-            add_filter( 'xmlrpc_enabled', '__return_false', 10, 1 );
-            add_filter( 'pre_update_option_enable_xmlrpc', '__return_false', 10, 1 );
-            add_filter( 'pre_option_enable_xmlrpc', '__return_zero', 10, 1 );
-            # Close all posts from pings
-            add_filter( 'pings_open', '__return_false', 10, 2 );
+            # Disable Author page
+            if ( $general_settings['disable_author_page'] == 'on' ) {
+                # Redirect author page to homepage
+                add_action( 'template_redirect', array( $this, 'author_page' ), 10, 1 );
+                # Replace author URL with the homepage
+                add_filter( 'author_link', array( $this, 'author_link' ), 10, 1 );
+            }
+
+            # Disable all feeds, pingbacks, trackbacks, & XML-RPC function
+            if ( $general_settings['disable_feeds'] == 'on' ) {
+                # Remove feed links from the header
+                add_action( 'wp_loaded', array( $this, 'header_feeds' ), 1, 1 );
+                # Redirect all feeds to homepage
+                add_action( 'template_redirect', array( $this, 'filter_feeds' ), 1, 1 );
+                # Disable internal pingbacks
+                add_action( 'pre_ping', array( $this, 'internal_pingbacks' ), 10, 1 );
+                # Disable x-pingback
+                add_filter( 'wp_headers', array( $this, 'x_pingback' ), 10, 1 );
+                # Filter feed related content
+                add_action( 'plugins_loaded', array( $this, 'output_buffering' ), 10, 1 );
+                # Set pingback URI to blank for blog info
+                add_filter( 'bloginfo_url', array( $this, 'pingback_url' ), 1, 2 );
+                add_filter( 'bloginfo', array( $this, 'pingback_url' ), 1, 2 );
+                # Disable XML-RPC methods
+                add_filter( 'xmlrpc_methods', array( $this, 'xmlrpc_methods' ), 10, 1 );
+                # Return other XML-RPC features to false
+                add_filter( 'xmlrpc_enabled', '__return_false', 10, 1 );
+                add_filter( 'pre_option_enable_xmlrpc', '__return_zero', 10, 1 );
+                # Close all posts from pings
+                add_filter( 'pings_open', '__return_false', 10, 2 );
+            }
+
+            if ( $general_settings['help_tabs'] == 'on' ) {
+                # Remove help tabs from admin header
+                add_action( 'admin_head', array( $this, 'help_tabs' ), PHP_INT_MAX, 1 );
+            }
+
+            if ( $general_settings['howdy'] == 'on' ) {
+                # Replace "Howdy," from the admin bar
+                add_filter( 'admin_bar_menu', array( $this, 'howdy' ), 25, 1 );
+            }
+
+            if ( $general_settings['query_strings'] == 'on' ) {
+                # Remove query strings from static resources
+                add_filter( 'script_loader_src', array( $this, 'query_strings' ), 10, 1 );
+                add_filter( 'style_loader_src', array( $this, 'query_strings' ), 10, 1 );
+            }
         }
     }
 
@@ -450,6 +468,28 @@ class Fact_Maven_Disable_Blogging_General {
         # Unset list of capabilities
         unset( $methods['system.getCapabilities'] );
         return $methods;
+    }
+
+    /* Disable Other Features */
+    public function help_tabs() {
+        # Remove help tabs
+        get_current_screen() -> remove_help_tabs();
+    }
+
+    public function howdy( $wp_admin_bar ) {
+        $general_settings = get_option( 'factmaven_dsbl_general_settings' );
+
+        $wp_admin_bar -> add_node( array(
+            'id' => 'my-account',
+            'title' => str_replace( 'Howdy, ', $general_settings['howdy'] . ' ', $wp_admin_bar -> get_node( 'my-account' ) -> title ),
+        ) );
+    }
+
+    public function query_strings( $src ) {
+        if ( strpos( $src, '?ver=' ) || strpos( $src, '&ver=' ) ) {
+            $src = remove_query_arg( 'ver', $src );
+        }
+        return $src;
     }
 }
 endif;
