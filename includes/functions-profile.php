@@ -1,11 +1,8 @@
 <?php
 
 # If accessed directly, exit
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! class_exists( 'Fact_Maven_Disable_Blogging_Profile' ) ):
 class Fact_Maven_Disable_Blogging_Profile {
 
     //==============================
@@ -70,7 +67,6 @@ class Fact_Maven_Disable_Blogging_Profile {
         }
     }
 }
-endif;
 
 # Instantiate the class
 new Fact_Maven_Disable_Blogging_Profile();

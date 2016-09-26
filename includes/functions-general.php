@@ -1,11 +1,8 @@
 <?php
 
 # If accessed directly, exit
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! class_exists( 'Fact_Maven_Disable_Blogging_General' ) ):
 class Fact_Maven_Disable_Blogging_General {
 
     //==============================
@@ -18,14 +15,14 @@ class Fact_Maven_Disable_Blogging_General {
         # Reorder `Pages` menu below the `Dashboard`
         add_filter( 'custom_menu_order', '__return_true', 10, 1 );
         add_filter( 'menu_order', array( $this, 'reorder_menu' ), 10, 1 );
+        # Remove blogging related toolbar menu items
+        add_action( 'wp_before_admin_bar_render', array( $this, 'toolbar_menu' ), 10, 1 );
+        # Remove blogging related menu items & redirect to 'Pages' menu
+        add_action( 'admin_menu', array( $this, 'sidebar_menu' ), 10, 1 );
 
         if ( is_array( $general_settings ) || is_object( $general_settings ) ) {
             # Disable all posting relate functions
             if ( $general_settings['disable_posts'] == 'on' ) {
-                # Remove posting related menu items & redirect to 'Pages' menu
-                add_action( 'admin_menu', array( $this, 'posts_menu' ), 10, 1 );
-                # Remove posting related toolbar menu items
-                add_action( 'wp_before_admin_bar_render', array( $this, 'post_toolbar_menu' ), 10, 1 );
                 # Remove 'Posts' column from 'Users' page
                 add_action( 'manage_users_columns', array( $this, 'post_column' ), 10, 1 );
                 # Remove blogging related meta boxes on the 'Dashboard'
@@ -43,10 +40,6 @@ class Fact_Maven_Disable_Blogging_General {
             }
             # Disable all comment relating functions
             if ( $general_settings['disable_comments'] == 'on' ) {
-                # Remove commenting related menu items & redirect to 'Pages' menu
-                add_action( 'admin_menu', array( $this, 'comments_menu' ), 10, 1 );
-                # Remove commenting related toolbar menu items
-                add_action( 'wp_before_admin_bar_render', array( $this, 'comment_toolbar_menu' ), 10, 1 );
                 # Remove 'Comments' column
                 add_action( 'init', array( $this, 'comments_column' ), 10, 1 );
                 # Remove blogging related meta boxes on the 'Dashboard'
@@ -94,7 +87,7 @@ class Fact_Maven_Disable_Blogging_General {
             }
 
             if ( $general_settings['help_tabs'] == 'on' ) {
-                # Remove help tabs from admin header
+                # Remove all help tabs from admin header
                 add_action( 'admin_head', array( $this, 'help_tabs' ), PHP_INT_MAX, 1 );
             }
 
@@ -123,53 +116,69 @@ class Fact_Maven_Disable_Blogging_General {
         return $menu_slug;
     }
 
-    /* Disable Posting */
-    public function posts_menu() {
-        /* Main Menu */
+    public function toolbar_menu() {
+        # Get the plugin options
+        $general_settings = get_option( 'factmaven_dsbl_general_settings' );
+        # Define the list of toolbar items to hide
+        $toolbar = array(
+            'wp-logo', // WordPress Logo
+            'search', // Search
+        );
+        if ( $general_settings['disable_posts'] == 'on' ) {
+            $toolbar[] = 'new-post'; // New > Post
+        }
+        if ( $general_settings['disable_comments'] == 'on' ) {
+            $toolbar[] = 'comments'; // Comments
+        }
+        # Remove each toolbar menu item
+        global $wp_admin_bar;
+        foreach ( $toolbar as $item ) {
+            $wp_admin_bar -> remove_menu( $item );
+        }
+    }
+
+    public function sidebar_menu() {
+        # Get the plugin options
+        $general_settings = get_option( 'factmaven_dsbl_general_settings' );
         # Define the list of menu items to hide
         $menu_slug = array(
-            'edit.php', // Posts
             'separator1',  'separator2', 'separator3', // Separators
-            );
+        );
+        if ( $general_settings['disable_posts'] == 'on' ) {
+            $menu_slug[] = 'edit.php'; // Posts
+        }
+        if ( $general_settings['disable_comments'] == 'on' ) {
+            $menu_slug[] = 'edit-comments.php'; // Comments
+        }
         # Remove each menu item
         foreach ( $menu_slug as $main ) {
             remove_menu_page( $main );
         }
-
-        /* Submenu */
-        # Define the list of menu items to hide
-        $menu_slug = array(
-            'tools.php' => 'tools.php', // Tools > Available Tools
-            'options-general.php' => 'options-writing.php', // Settings > Writing
-        );
         # Remove each submenu item
-        foreach( $menu_slug as $main => $sub ) {
-            remove_submenu_page( $main, $sub );
+        remove_submenu_page( 'tools.php', 'tools.php' ); // Tools > Available Tools
+        if ( $general_settings['disable_posts'] == 'on' ) {
+            remove_submenu_page( 'options-general.php', 'options-writing.php' ); // Settings > Writing
+        }
+        if ( $general_settings['disable_posts'] == 'on' ) {
+            remove_submenu_page( 'options-general.php', 'options-discussion.php' ); // Settings > Discussion
         }
         # Define the list of menu items to redirect
         global $pagenow;
-        $page = array(
-            'edit.php', // Posts
-            'post-new.php', // New Post
-            'edit-tags.php', // Tags
-            'options-writing.php', // Settings > Writing
-            );
+        $page_slug = array();
+        if ( $general_settings['disable_posts'] == 'on' ) {
+            $page_slug[] = 'edit.php'; // Posts
+            $page_slug[] = 'post-new.php'; // New Post
+            $page_slug[] = 'edit-tags.php'; // Tags
+            $page_slug[] = 'options-writing.php'; // Settings > Writing
+        }
+        if ( $general_settings['disable_comments'] == 'on' ) {
+            $page_slug[] = 'edit-comments.php'; // Comments
+            $page_slug[] = 'options-discussion.php'; // Settings > Discussion
+        }
         # If the menu items are being accessed, redirect to 'Pages'
-        if ( in_array( $pagenow, $page, true ) && ( ! isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
+        if ( in_array( $pagenow, $page_slug, true ) && ( ! isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
             wp_safe_redirect( admin_url( 'edit.php?post_type=page' ), 301 );
             exit;
-        }
-    }
-
-    public function post_toolbar_menu() {
-        global $wp_admin_bar;
-        $toolbar = array(
-            'wp-logo', // WordPress logo
-            'new-post', // New > Post
-            'search', // Search
-            );
-        foreach ( $toolbar as $item ) {
-            $wp_admin_bar -> remove_menu( $item );
         }
     }
 
@@ -262,54 +271,6 @@ class Fact_Maven_Disable_Blogging_General {
     }
 
     /* Disable Comments */
-    public function comments_menu() {
-        /* Main Menu */
-        # Define the list of menu items to hide
-        global $pagenow;
-        $menu_slug = array(
-            'edit-comments.php', // Comments
-            'separator1',  'separator2', 'separator3', // Separators
-            );
-        # Remove each menu item
-        foreach ( $menu_slug as $main ) {
-            remove_menu_page( $main );
-        }
-
-        /* Submenu */
-        # Define the list of menu items to hide
-        $menu_slug = array(
-            'options-general.php' => 'options-discussion.php', // Settings > Discussion
-        );
-        # Remove each submenu item
-        foreach( $menu_slug as $main => $sub ) {
-            remove_submenu_page( $main, $sub );
-        }
-
-        # Define the list of menu items to redirect
-        global $pagenow;
-        $page = array(
-            'edit-comments.php', // Comments
-            'options-discussion.php', // Settings > Discussion
-            );
-        # If the menu items are being accessed, redirect to 'Pages'
-        if ( in_array( $pagenow, $page, true ) && ( ! isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
-            wp_safe_redirect( admin_url( 'edit.php?post_type=page' ), 301 );
-            exit;
-        }
-    }
-
-    public function comment_toolbar_menu() {
-        global $wp_admin_bar;
-        $toolbar = array(
-            'wp-logo', // WordPress logo
-            'comments', // Comments
-            'search', // Search
-            );
-        foreach ( $toolbar as $item ) {
-            $wp_admin_bar -> remove_menu( $item );
-        }
-    }
-
     public function comments_column() {
         $menu_slug = array(
             'post' => 'comments', // Posts
@@ -481,7 +442,7 @@ class Fact_Maven_Disable_Blogging_General {
 
         $wp_admin_bar -> add_node( array(
             'id' => 'my-account',
-            'title' => str_replace( 'Howdy, ', $general_settings['howdy'] . ' ', $wp_admin_bar -> get_node( 'my-account' ) -> title ),
+            'title' => str_replace( 'Howdy, ', '', $wp_admin_bar -> get_node( 'my-account' ) -> title ),
         ) );
     }
 
@@ -492,7 +453,6 @@ class Fact_Maven_Disable_Blogging_General {
         return $src;
     }
 }
-endif;
 
 # Instantiate the class
 new Fact_Maven_Disable_Blogging_General();

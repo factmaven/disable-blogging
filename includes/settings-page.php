@@ -1,6 +1,5 @@
 <?php
 
-if ( ! class_exists( 'Fact_Maven_Disable_Blogging' ) ):
 class Fact_Maven_Disable_Blogging {
 
     private $settings_api;
@@ -144,12 +143,10 @@ class Fact_Maven_Disable_Blogging {
                 ),
                 array(
                     'name' => 'howdy',
-                    'label' => __( 'Change "Howdy," greeting', 'dsbl' ),
-                    'desc' => __( 'Leave the field blank to remove the greeting.', 'dsbl' ),
-                    'type' => 'text',
-                    'default' => NULL,
-                    'placeholder' => 'Howdy,',
-                    'sanitize_callback' => 'intval',
+                    'label' => __( '"Howdy," greeting', 'dsbl' ),
+                    'desc' => __( 'Remove the greeting in the admin bar next to the username', 'dsbl' ),
+                    'type' => 'checkbox',
+                    'default' => 'on',
                 ),
                 array(
                     'name' => 'query_strings',
@@ -237,23 +234,6 @@ class Fact_Maven_Disable_Blogging {
                     'options' => array(
                         'yes' => 'Yes',
                         'no' => 'No'
-                    )
-                ),
-                array(
-                    'name' => 'toolbar',
-                    'label' => __( 'Toolbar Menu', 'dsbl' ),
-                    'type' => 'multicheck',
-                    'default' => array(
-                        'wp-logo' => 'wp-logo', // WordPress logo
-                        'comments' => 'comments', // Comments
-                        'new-post' => 'new-post', // New > Post
-                        'search' => 'search' // Search
-                    ),
-                    'options' => array(
-                        'wp-logo' => 'WordPress logo',
-                        'comments' => 'Comments',
-                        'new-post' => 'New > Post',
-                        'search' => 'Search'
                     )
                 ),
                 array(
@@ -347,4 +327,3 @@ class Fact_Maven_Disable_Blogging {
         return $pages_options;
     }
 }
-endif;

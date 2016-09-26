@@ -76,3 +76,5 @@ http://www.hongkiat.com/blog/designers-developers-monthly-08-2016/
 http://wpcanban.com/wordpress/thu-thuat-wordpress/vo-hieu-hoa-tinh-nang-viet-bai-trong-wordpress.html
 ### Devid Bisset
 https://twitter.com/dimensionmedia/status/755962357516558336
+### bobwp
+https://bobwp.com/wordpress-plugin-roundup-disable-blogging-support-me-and-woocommerce-all-discounts/

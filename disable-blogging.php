@@ -10,11 +10,8 @@
  */
 
 # If accessed directly, exit
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! class_exists( 'Fact_Maven_Disable_Blogging_Plugin_Meta' ) ):
 class Fact_Maven_Disable_Blogging_Plugin_Meta {
 
     function __construct() {
@@ -60,7 +57,6 @@ class Fact_Maven_Disable_Blogging_Plugin_Meta {
         return $links;
     }
 }
-endif;
 
 # Instantiate the class
 new Fact_Maven_Disable_Blogging_Plugin_Meta();

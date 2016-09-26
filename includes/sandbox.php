@@ -3,8 +3,8 @@
 // DELETE FROM wp_options WHERE option_name LIKE 'factmaven_dsbl_%'
 
 // Example to get settings
-$my_settings = get_option( 'factmaven_dsbl_general_settings' );
-echo '<pre>'; print_r( $my_settings ); echo '</pre>';
+// $my_settings = get_option( 'factmaven_dsbl_general_settings' );
+// echo '<pre>'; print_r( $my_settings ); echo '</pre>';
 // echo '<pre>'; print_r( $my_settings['about_yourself'] ); echo '</pre>';
 
 // if ( isset( $my_settings['about_yourself'] ) ) {
