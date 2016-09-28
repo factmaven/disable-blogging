@@ -15,7 +15,7 @@ if ( !defined( 'ABSPATH' ) ) { // Exit if accessed directly
 
 
 if ( !class_exists( 'FMC_DisableBlogging' ) ) {
-    
+
     class FMC_DisableBlogging {
 
         public function __construct() {
@@ -53,9 +53,9 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             add_filter( 'author_link', array( $this, 'dsbl_author_link' ), 10, 1 );
             add_filter( 'comments_template', array( $this, 'dsbl_comments_template' ), 20, 1 );
             add_filter( 'script_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
-            add_filter( 'style_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );           
+            add_filter( 'style_loader_src', array( $this, 'dsbl_script_version' ), 10, 1 );
         }
- 
+
         /* FUNCTIONS
         -------------------------------------------------------------- */
 
@@ -74,7 +74,7 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
                 'wpe_dify_news_feed' => 'normal' // WP Engine
                 );
             foreach ( $metabox as $id => $context ) {
-                remove_meta_box( $id, 'dashboard', $context ); 
+                remove_meta_box( $id, 'dashboard', $context );
             }
         }
 
@@ -100,7 +100,7 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
                 'options-writing.php', // Settings > Writing
                 'options-discussion.php' // Settings > Discussion
                 );
-            if ( in_array( $pagenow, $page, true ) && ( !isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
+            if ( in_array( $pagenow, $page, true ) && $_SERVER["REQUEST_METHOD"] == "GET" && ( !isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
                 wp_safe_redirect( admin_url( 'edit.php?post_type=page' ), 301 );
                 exit;
             }
@@ -156,7 +156,7 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
                 'title' => str_replace( 'Howdy, ', '', $wp_admin_bar -> get_node( 'my-account' ) -> title ),
             ) );
         }
-        
+
         public function dsbl_custom_menu_order() { // move Pages up the top in the sidebar menu
 			return array( 'index.php', 'edit.php?post_type=page' );
 		}
