@@ -39,11 +39,12 @@ class Fact_Maven_Disable_Blogging_Plugin_Meta {
 
     public function upgrader_process_complete( $upgrade_object, $options ) {
         # Remove old options with the prefix "dsbl_"
-        global $wpdb;
+        /*global $wpdb;
         $plugin_options = $wpdb -> get_results( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE 'dsbl_%'" );
         foreach( $plugin_options as $option ) {
             delete_option( $option -> option_name );
-        }
+        }*/
+        delete_option( 'dsbl_remove_profile_fields' );
     }
 
     public function plugin_row_meta( $links, $file ) {
