@@ -17,7 +17,6 @@ class Fact_Maven_Disable_Blogging_Plugin_Meta {
     function __construct() {
         # Run functions when upgrading the plugin to a new version
         add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete' ), 10, 2 );
-        register_deactivation_hook( __FILE__, 'upgrader_process_complete' );
         # Add meta links to plugin page
         add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
         # Add link to plugin settings
