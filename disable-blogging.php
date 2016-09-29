@@ -16,7 +16,7 @@ class Fact_Maven_Disable_Blogging_Plugin_Meta {
 
     function __construct() {
         # Run functions when upgrading the plugin to a new version
-        add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete' ), 10, 1 );
+        add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete' ), 10, 2 );
         # Add meta links to plugin page
         add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
         # Add link to plugin settings
@@ -37,7 +37,7 @@ class Fact_Maven_Disable_Blogging_Plugin_Meta {
         new Fact_Maven_Disable_Blogging();
     }
 
-    public function upgrader_process_complete() {
+    public function upgrader_process_complete( $upgrade_object, $options ) {
         # Remove old options with the prefix "dsbl_"
         global $wpdb;
         $plugin_options = $wpdb -> get_results( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE 'dsbl_%'" );
@@ -60,7 +60,7 @@ class Fact_Maven_Disable_Blogging_Plugin_Meta {
     }
 
     public function plugin_action_links( $links, $file ) {
-        # IDisplay settings link on the right side of the plugin
+        # Display settings link on the right side of the plugin
         if ( $file == plugin_basename( __FILE__ ) && current_user_can( 'manage_options' ) ) {
             array_unshift(
                 $links,
