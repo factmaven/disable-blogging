@@ -1,0 +1,27 @@
+/* Hide the admin menu icons */
+#adminmenu .wp-menu-image {
+    display: none;
+}
+/* Show the admin menu icons when the menu is collapsed */
+.folded #adminmenu .wp-menu-image {
+    display: inline;
+}
+@media only screen and ( max-width: 900px ) {
+    #adminmenu .wp-menu-image {
+        display: inline;
+    }
+}
+/* Add left padding to menu labels to account for the missing icons */
+#adminmenu div.wp-menu-name {
+    padding-left: 10px;
+}
+/* Hide the page title icons */
+.branch-3-6 .icon32,
+.branch-3-7 .icon32 {
+    display: none;
+}
+/* Add left margin if we're on the WordPress 3.6/3.7 branch */
+.branch-3-6 .wrap h2,
+.branch-3-7 .wrap h2 {
+    margin-left: 5px;
+}

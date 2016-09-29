@@ -1,9 +1,7 @@
 <?php
 
 # If uninstall is not called by WordPress, exit
-if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-    exit;
-}
+if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) )  exit;
 
 # Remove options with the prefix "factmaven_dsbl_"
 global $wpdb;

@@ -56,13 +56,21 @@ class Fact_Maven_Disable_Blogging {
                 'title' => __( 'General', 'dsbl' ),
             ),
             array(
+                'id' => 'factmaven_dsbl_extra_settings',
+                'title' => __( 'Extra', 'dsbl' ),
+            ),
+            array(
                 'id' => 'factmaven_dsbl_profile_settings',
-                'title' => __( 'User Profile', 'dsbl' ),
+                'title' => __( 'Profile', 'dsbl' ),
             ),
             array(
                 'id' => 'factmaven_dsbl_menu_settings',
-                'title' => __( 'Admin Menu', 'dsbl' ),
+                'title' => __( 'Menu', 'dsbl' ),
             ),
+            /*array(
+                'id' => 'dsbl_remove_profile_fields',
+                'title' => __( 'Test', 'dsbl' ),
+            ),*/
         );
         return $sections;
     }
@@ -102,38 +110,77 @@ class Fact_Maven_Disable_Blogging {
                 array(
                     'name' => 'disable_posts',
                     'label' => __( 'Posting', 'dsbl' ),
-                    'desc' => __( 'Disable posting related functions', 'dsbl' ),
-                    'type' => 'checkbox',
-                    'default' => 'on',
+                    'desc' => __( 'Previous posts will still be accessible.', 'dsbl' ),
+                    'type' => 'radio',
+                    'default' => 'disable',
+                    'options' => array(
+                        'enable' => 'Enable',
+                        'disable' => 'Disable',
+                    ),
                 ),
                 array(
                     'name' => 'disable_comments',
                     'label' => __( 'Comments', 'dsbl' ),
-                    'desc' => __( 'Disable comment related functions', 'dsbl' ),
-                    'type' => 'checkbox',
-                    'default' => 'on',
-                ),
-                array(
-                    'name' => 'disable_comments',
-                    'label' => __( 'Comments', 'dsbl' ),
-                    'desc' => __( 'Disable comment related functions', 'dsbl' ),
-                    'type' => 'checkbox',
-                    'default' => 'on',
+                    'desc' => __( 'Previous comments will be hidden.', 'dsbl' ),
+                    'type' => 'radio',
+                    'default' => 'disable',
+                    'options' => array(
+                        'enable' => 'Enable',
+                        'disable' => 'Disable',
+                    ),
                 ),
                 array(
                     'name' => 'disable_author_page',
                     'label' => __( 'Author Page', 'dsbl' ),
-                    'desc' => __( 'Removes author links and redirects to the homepage', 'dsbl' ),
-                    'type' => 'checkbox',
-                    'default' => 'on',
+                    'desc' => __( 'Redirects the author links to the homepage.', 'dsbl' ),
+                    'type' => 'radio',
+                    'default' => 'disable',
+                    'options' => array(
+                        'enable' => 'Enable',
+                        'disable' => 'Disable',
+                    ),
                 ),
                 array(
                     'name' => 'disable_feeds',
                     'label' => __( 'Feeds & Related', 'dsbl' ),
-                    'desc' => __( 'Disable feeds, <a href="https://codex.wordpress.org/Glossary#Pingback" target="_blank">pingbacks</a>, <a href="https://codex.wordpress.org/Glossary#Trackback" target="_blank">trackbacks</a>, & <a href="https://codex.wordpress.org/XML-RPC_Support" target="_blank">XML-RPC</a>', 'dsbl' ),
+                    'desc' => __( 'Includes <a href="https://codex.wordpress.org/Glossary#Pingback" target="_blank">pingbacks</a>, <a href="https://codex.wordpress.org/Glossary#Trackback" target="_blank">trackbacks</a>, & <a href="https://codex.wordpress.org/XML-RPC_Support" target="_blank">XML-RPC</a>.', 'dsbl' ),
+                    'type' => 'radio',
+                    'default' => 'disable',
+                    'options' => array(
+                        'enable' => 'Enable',
+                        'disable' => 'Disable',
+                    ),
+                ),
+                /*array(
+                    'name' => 'help_tabs',
+                    'label' => __( 'Help Tabs', 'dsbl' ),
+                    'desc' => __( 'Remove <span class="description">Help</span> tabs from the admin header', 'dsbl' ),
                     'type' => 'checkbox',
                     'default' => 'on',
                 ),
+                array(
+                    'name' => 'howdy',
+                    'label' => __( '"Howdy," greeting', 'dsbl' ),
+                    'desc' => __( 'Remove the greeting in the admin bar next to the username', 'dsbl' ),
+                    'type' => 'checkbox',
+                    'default' => 'on',
+                ),
+                array(
+                    'name' => 'query_strings',
+                    'label' => __( 'Query Strings', 'dsbl' ),
+                    'desc' => __( 'Remove query strings from static resources (<code>ver=</code>)', 'dsbl' ),
+                    'type' => 'checkbox',
+                    'default' => 'on',
+                ),
+                array(
+                    'name' => 'emojis',
+                    'label' => __( 'Emojis', 'dsbl' ),
+                    'desc' => __( 'Disable WordPress emojis', 'dsbl' ),
+                    'type' => 'checkbox',
+                    'default' => 'on',
+                ),*/
+            ),
+            'factmaven_dsbl_extra_settings' => array( // Extra Settings
                 array(
                     'name' => 'help_tabs',
                     'label' => __( 'Help Tabs', 'dsbl' ),
@@ -152,6 +199,13 @@ class Fact_Maven_Disable_Blogging {
                     'name' => 'query_strings',
                     'label' => __( 'Query Strings', 'dsbl' ),
                     'desc' => __( 'Remove query strings from static resources (<code>ver=</code>)', 'dsbl' ),
+                    'type' => 'checkbox',
+                    'default' => 'on',
+                ),
+                array(
+                    'name' => 'emojis',
+                    'label' => __( 'Emojis', 'dsbl' ),
+                    'desc' => __( 'Disable WordPress emojis', 'dsbl' ),
                     'type' => 'checkbox',
                     'default' => 'on',
                 ),

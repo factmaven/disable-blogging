@@ -10,19 +10,19 @@ class Fact_Maven_Disable_Blogging_Profile {
     //==============================
     public function __construct() {
         # Get the plugin options
-        $profile_fields = get_option( 'factmaven_dsbl_profile_settings' );
+        $settings = get_option( 'factmaven_dsbl_profile_settings' );
 
         # Hide the User Profile fields
         add_action( 'admin_head', array( $this, 'user_profile_fields' ), 10, 1 );
         # If the 'Avatar Display' is selected, update the option in the Discussion page
-        if ( isset( $profile_fields['about_yourself'] ) ) {
-            if ( is_array( $profile_fields['about_yourself'] ) && in_array( 'show_avatars', $profile_fields['about_yourself'] ) ) {
+        if ( isset( $settings['about_yourself'] ) ) {
+            if ( is_array( $settings['about_yourself'] ) && in_array( 'show_avatars', $settings['about_yourself'] ) ) {
                 update_option( 'show_avatars', 0 );
             }
         }
         # If the 'Admin Color Scheme' is selected, remove action
-        if ( isset( $profile_fields['personal_options'] ) ) {
-            if ( is_array( $profile_fields['personal_options'] ) && in_array( 'admin_color', $profile_fields['personal_options'] ) ) {
+        if ( isset( $settings['personal_options'] ) ) {
+            if ( is_array( $settings['personal_options'] ) && in_array( 'admin_color', $settings['personal_options'] ) ) {
                 remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
             }
         }
@@ -33,7 +33,7 @@ class Fact_Maven_Disable_Blogging_Profile {
     //==============================
     public function user_profile_fields() {
         # Get the plugin options
-        $profile_fields = get_option( 'factmaven_dsbl_profile_settings' );
+        $settings = get_option( 'factmaven_dsbl_profile_settings' );
         # Define the list of page to apply JavaScript
         global $pagenow;
         $page = array(
@@ -43,15 +43,15 @@ class Fact_Maven_Disable_Blogging_Profile {
             );
         # Apply jQuery script in the header
         if ( in_array( $pagenow, $page, true ) ) {
-            if ( is_array( $profile_fields ) || is_object( $profile_fields ) ) {
+            if ( is_array( $settings ) || is_object( $settings ) ) {
                 ?>
                 <script type="text/javascript">
                 jQuery(document).ready(function($) {
                     $('form#your-profile>h2').hide();
                 <?php
-                    if ( is_array( $profile_fields ) || is_object( $profile_fields ) ) {
+                    if ( is_array( $settings ) || is_object( $settings ) ) {
                         # Hide each field that is define in the plugin's options
-                        foreach ( $profile_fields as $group => $item ) {
+                        foreach ( $settings as $group => $item ) {
                             if( is_array( $item ) ) {
                                 foreach ( $item as $value ) {
                                     echo( "$('#" . $value . "').closest('tr').hide();" );
