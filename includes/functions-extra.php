@@ -10,7 +10,7 @@ class Fact_Maven_Disable_Blogging_Extra {
     //==============================
     public function __construct() {
         # Get the plugin options
-        $settings = get_option( 'factmaven_dsbl_general_settings' );
+        $settings = get_option( 'factmaven_dsbl_extra_settings' );
 
         if ( is_array( $settings ) || is_object( $settings ) ) {
             if ( $settings['help_tabs'] == 'on' ) {
@@ -51,8 +51,6 @@ class Fact_Maven_Disable_Blogging_Extra {
     }
 
     public function howdy( $wp_admin_bar ) {
-        $settings = get_option( 'factmaven_dsbl_general_settings' );
-
         $wp_admin_bar -> add_node( array(
             'id' => 'my-account',
             'title' => str_replace( 'Howdy, ', '', $wp_admin_bar -> get_node( 'my-account' ) -> title ),
