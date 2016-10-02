@@ -36,6 +36,7 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             add_filter( 'admin_bar_menu', array( $this, 'dsbl_howdy' ), 25, 1 );
 			add_filter( 'custom_menu_order', '__return_true', 10, 1  );
 			add_filter( 'menu_order', array( $this, 'dsbl_custom_menu_order' ), 10, 1 );
+			add_filter( 'dashboard_recent_posts_query_args', array( $this, 'dsbl_dashboard_recent_posts_query_args' ), 10, 1 );
 
             // FEEDS & RELATED
             add_action( 'wp_loaded', array( $this, 'dsbl_header_feeds' ), 1, 1 );
@@ -70,13 +71,32 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
                 'dashboard_right_now' => 'normal', // Right Now
                 'dashboard_recent_comments' => 'normal', // Recent Comments
                 'dashboard_incoming_links' => 'normal', // Incoming Links
-                'dashboard_activity' => 'normal', // Activity
+            //    'dashboard_activity' => 'normal', // Activity
                 'wpe_dify_news_feed' => 'normal' // WP Engine
                 );
             foreach ( $metabox as $id => $context ) {
                 remove_meta_box( $id, 'dashboard', $context );
             }
         }
+
+		public function dsbl_get_all_custom_post_types() {
+			$args = array(
+				'public'   => true,
+				'_builtin' => false
+			);
+			$output = 'names';
+			$operator = 'and';
+			$posttypes = get_post_types($args, $output, $operator);
+
+			return $posttypes;
+		}
+
+		public function dsbl_dashboard_recent_posts_query_args($query_args) {
+			$posttypes = $this->dsbl_get_all_custom_post_types();
+			$query_args['post_type'] = $posttypes;
+
+			return $query_args;
+		}
 
         public function dsbl_sidebar_menu() { // Remove menu/submenu items & redirect to page menu
             $menu = array(
