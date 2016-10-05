@@ -129,10 +129,12 @@ class Fact_Maven_Disable_Blogging_General {
         $settings = get_option( 'factmaven_dsbl_general_settings' );
         # Remove all menu separators
         global $menu;
-        foreach ( $menu as $group => $item ) {
-            # If the menu title is blank, it's a separator
-            if ( empty( $item[0] ) ) {
-                remove_menu_page( $item[2] );
+        if ( ( is_array( $settings ) || is_object( $settings ) ) && $settings['separator'] == 'on' ) {
+            foreach ( $menu as $group => $item ) {
+                # If the menu title is blank, it's a separator
+                if ( empty( $item[0] ) ) {
+                    remove_menu_page( $item[2] );
+                }
             }
         }
         # Check which menu item to hide based on the options

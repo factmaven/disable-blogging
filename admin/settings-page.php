@@ -97,7 +97,7 @@ class Fact_Maven_Disable_Blogging_Settings {
             if ( !empty( $item[0] ) ) {
                 $options_menu[$item[2]] = $item[0];
             }
-            # Else, label them as a 'Seperator'
+            # Else, label them as a 'Separator'
             else {
                 $item[0] = '<span class="description">- Separator -</span>';
                 $options_menu[$item[2]] = $item[0];
@@ -135,6 +135,13 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'enable' => 'Enable',
                         'disable' => 'Disable',
                     ),
+                ),
+                array(
+                    'name' => 'separator',
+                    'label' => __( 'Separators', 'dsbl' ),
+                    'desc' => __( 'Remove separators in between menu items', 'dsbl' ),
+                    'type' => 'checkbox',
+                    'default' => 'on',
                 ),
                 array(
                     'name' => 'disable_author_page',
@@ -296,7 +303,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                 array(
                     'name' => 'main_menu',
                     'label' => __( 'Main Menu', 'dsbl' ),
-                    'desc' => __( 'Hiding each <strong>seperator</strong> will remove the spacing in between the menu items.', 'dsbl' ),
+                    'desc' => __( 'Hiding each <strong>separator</strong> will remove the spacing in between the menu items.', 'dsbl' ),
                     'type' => 'multicheck',
                     'default' => array(
                         'edit.php' => 'edit.php', // Posts
@@ -360,22 +367,20 @@ class Fact_Maven_Disable_Blogging_Settings {
         return $settings_fields;
     }
 
-    /*function plugin_page() {
-        # Display the setting section and fields
-        echo '<div class="wrap">
-        <h1>Blogging Settings</h1>';
-        $this -> settings_api -> show_navigation();
-        $this -> settings_api -> show_forms();
-        echo '</div>';
-    }*/
-
     function plugin_page() {
         # Display the setting section and fields
-        echo '<div class="wrap">
-        <h1>Blogging Settings</h1>';
+        ?>
+        <div class="wrap">
+        <h1>Blogging Settings</h1>
+        <p>All blogging related functions are disabled by default. However, each function can be toggled here is there is a need to enable some of the blogging functionalities.</p>
+        <?php
+        # Show navigation tabs
         $this -> settings_api -> show_navigation();
+        # Show each section form
         $this -> settings_api -> show_forms();
-        echo '</div>';
+        ?>
+        </div>
+        <?php
     }
 
     /**
