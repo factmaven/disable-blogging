@@ -1,6 +1,6 @@
 <?php
 
-class Fact_Maven_Disable_Blogging {
+class Fact_Maven_Disable_Blogging_Settings {
 
     private $settings_api;
 
@@ -16,12 +16,16 @@ class Fact_Maven_Disable_Blogging {
     }
 
     function admin_init() {
+        # Setting sections
         $this -> settings_api -> set_sections( $this -> get_settings_sections() );
+        # Setting fields in each section
         $this -> settings_api -> set_fields( $this -> get_settings_fields() );
+        # Instantiate settings page
         $this -> settings_api -> admin_init();
     }
 
     function admin_menu() {
+        # Add the plugin settings page
         add_options_page(
             'Blogging Settings', // Page title
             'Blogging', // Menu title
@@ -50,6 +54,7 @@ class Fact_Maven_Disable_Blogging {
     }
 
     function get_settings_sections() {
+        # Create setting tabs for each section
         $sections = array(
             array(
                 'id' => 'factmaven_dsbl_general_settings',
@@ -67,10 +72,6 @@ class Fact_Maven_Disable_Blogging {
                 'id' => 'factmaven_dsbl_menu_settings',
                 'title' => __( 'Menu', 'dsbl' ),
             ),
-            /*array(
-                'id' => 'dsbl_remove_profile_fields',
-                'title' => __( 'Test', 'dsbl' ),
-            ),*/
         );
         return $sections;
     }
@@ -80,24 +81,29 @@ class Fact_Maven_Disable_Blogging {
      *
      */
     function get_settings_fields() {
-        
+        # List all contact fields
         $options_contact = [];
         $options_contact['url'] = 'Website';
+        # List additional contact fields if they exist
         foreach ( wp_get_user_contact_methods() as $value => $label ) {
             $options_contact[$value] = $label;
         }
-
+        # List all admin menu and submenu items
         global $menu, $submenu;
+        # Admin menu
         $options_menu = [];
         foreach ( $menu as $group => $item ) {
+            # If the menu title isn't blank, continue
             if ( !empty( $item[0] ) ) {
                 $options_menu[$item[2]] = $item[0];
             }
+            # Else, label them as a 'Seperator'
             else {
                 $item[0] = '<span class="description">- Separator -</span>';
                 $options_menu[$item[2]] = $item[0];
             }
         }
+        # Admin submenu
         $options_submenu = [];
         foreach ( $submenu as $group => $item ) {
             foreach ( $item as $key ) {
@@ -106,11 +112,12 @@ class Fact_Maven_Disable_Blogging {
         }
 
         $settings_fields = array(
-            'factmaven_dsbl_general_settings' => array( // General Settings
+            /* General Setting Fields */
+            'factmaven_dsbl_general_settings' => array(
                 array(
                     'name' => 'disable_posts',
                     'label' => __( 'Posting', 'dsbl' ),
-                    'desc' => __( 'Previous posts will still be accessible.', 'dsbl' ),
+                    'desc' => __( 'Links to previous posts will still be accessible.', 'dsbl' ),
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
@@ -121,7 +128,7 @@ class Fact_Maven_Disable_Blogging {
                 array(
                     'name' => 'disable_comments',
                     'label' => __( 'Comments', 'dsbl' ),
-                    'desc' => __( 'Previous comments will be hidden.', 'dsbl' ),
+                    'desc' => __( 'Previous comments will be hidden from view.', 'dsbl' ),
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
@@ -151,7 +158,10 @@ class Fact_Maven_Disable_Blogging {
                         'disable' => 'Disable',
                     ),
                 ),
-                /*array(
+            ),
+            /* Extra Setting Fields */
+            'factmaven_dsbl_extra_settings' => array(
+                array(
                     'name' => 'help_tabs',
                     'label' => __( 'Help Tabs', 'dsbl' ),
                     'desc' => __( 'Remove <span class="description">Help</span> tabs from the admin header', 'dsbl' ),
@@ -178,38 +188,30 @@ class Fact_Maven_Disable_Blogging {
                     'desc' => __( 'Disable WordPress emojis', 'dsbl' ),
                     'type' => 'checkbox',
                     'default' => 'on',
+                ),
+                array(
+                    'name' => 'google_font',
+                    'label' => __( 'Google Font', 'dsbl' ),
+                    'desc' => __( 'Remove all Google fonts references from all pages', 'dsbl' ),
+                    'type' => 'checkbox',
+                ),
+                array(
+                    'name' => 'admin_footer',
+                    'label' => __( 'Admin footer', 'dsbl' ),
+                    'desc' => __( 'Remove the WordPress credits in the lower right of the footer', 'dsbl' ),
+                    'type' => 'checkbox',
+                ),
+                /*array(
+                    'name' => 'footer',
+                    'label' => __( 'Admin footer', 'dsbl' ),
+                    'type' => 'multicheck',
+                    'options' => array(
+                        'thank_you' => 'WordPress "thank you"',
+                        'admin_color' => 'WordPress version',
+                    )
                 ),*/
             ),
-            'factmaven_dsbl_extra_settings' => array( // Extra Settings
-                array(
-                    'name' => 'help_tabs',
-                    'label' => __( 'Help Tabs', 'dsbl' ),
-                    'desc' => __( 'Remove <span class="description">Help</span> tabs from the admin header', 'dsbl' ),
-                    'type' => 'checkbox',
-                    'default' => 'on',
-                ),
-                array(
-                    'name' => 'howdy',
-                    'label' => __( '"Howdy," greeting', 'dsbl' ),
-                    'desc' => __( 'Remove the greeting in the admin bar next to the username', 'dsbl' ),
-                    'type' => 'checkbox',
-                    'default' => 'on',
-                ),
-                array(
-                    'name' => 'query_strings',
-                    'label' => __( 'Query Strings', 'dsbl' ),
-                    'desc' => __( 'Remove query strings from static resources (<code>ver=</code>)', 'dsbl' ),
-                    'type' => 'checkbox',
-                    'default' => 'on',
-                ),
-                array(
-                    'name' => 'emojis',
-                    'label' => __( 'Emojis', 'dsbl' ),
-                    'desc' => __( 'Disable WordPress emojis', 'dsbl' ),
-                    'type' => 'checkbox',
-                    'default' => 'on',
-                ),
-            ),
+            /* User Profile Setting Fields */
             'factmaven_dsbl_profile_settings' => array( // User Profile
                 array(
                     'name' => 'personal_options',
@@ -266,7 +268,8 @@ class Fact_Maven_Disable_Blogging {
                     )
                 )
             ),
-            'factmaven_dsbl_menu_settings' => array( // Admin Menu
+            /* Admin Menu Setting Fields */
+            'factmaven_dsbl_menu_settings' => array(
                 array(
                     'name' => 'redirect_menu',
                     'label' => __( 'Redirect hidden menu items to', 'dsbl' ),
@@ -299,9 +302,9 @@ class Fact_Maven_Disable_Blogging {
                         'edit.php' => 'edit.php', // Posts
                         'edit-comments.php' => 'edit-comments.php', // Comments
                         'separator1' => 'separator1', // Separator
-                        'separator2' => 'separator2' // Separator
+                        'separator2' => 'separator2', // Separator
                     ),
-                    'options' => $options_menu
+                    'options' => $options_menu,
                 ),
                 array(
                     'name' => 'submenu',
@@ -317,12 +320,12 @@ class Fact_Maven_Disable_Blogging {
                         'export.php' => 'export.php', // Tools > Export
                         'options-discussion.php' => 'options-discussion.php', // Settings > Discussion                   
                     ),
-                    'options' => $options_submenu
+                    'options' => $options_submenu,
                 )
             ),
         );
-
-        $options_yoast = array( // Yoast SEO plugin
+        # Yoast SEO plugin fields
+        $options_yoast = array(
             'name' => 'yoast_seo',
             'label' => __( 'Yoast SEO', 'dsbl' ),
             'type' => 'multicheck',
@@ -334,11 +337,12 @@ class Fact_Maven_Disable_Blogging {
                 'wpseo_content_analysis_disable' => 'Disable readability analysis'
             )
         );
+        # If the Yoast SEO plugin is installed, show additional fields to hide
         if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
             $settings_fields['factmaven_dsbl_profile_settings'][] = $options_yoast;
         }
-
-        $options_um = array( // Ultimate Member plugin
+        # Ultimate Member plugin fields
+        $options_um = array(
             'name' => 'ultimate_member',
             'label' => __( 'Ultimate Member', 'dsbl' ),
             'type' => 'multicheck',
@@ -347,19 +351,28 @@ class Fact_Maven_Disable_Blogging {
                 'um_role' => 'Community Role'
             )
         );
+        # If the Ultimate Member plugin is installed, show additional fields to hide
         if ( is_plugin_active( 'ultimate-member/index.php' ) ) {
             $settings_fields['factmaven_dsbl_profile_settings'][] = $options_um;
         }
 
+        # Return the list of the list of setting fields
         return $settings_fields;
     }
 
-    function plugin_page() {
+    /*function plugin_page() {
+        # Display the setting section and fields
         echo '<div class="wrap">
         <h1>Blogging Settings</h1>';
-        // SANDBOX
-        require_once dirname( __FILE__ ) . '/sandbox.php';
-        // SANDBOX
+        $this -> settings_api -> show_navigation();
+        $this -> settings_api -> show_forms();
+        echo '</div>';
+    }*/
+
+    function plugin_page() {
+        # Display the setting section and fields
+        echo '<div class="wrap">
+        <h1>Blogging Settings</h1>';
         $this -> settings_api -> show_navigation();
         $this -> settings_api -> show_forms();
         echo '</div>';

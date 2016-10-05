@@ -1,4 +1,7 @@
 <?php
+/**
+ * General Functions
+ */
 
 # If accessed directly, exit
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -124,10 +127,15 @@ class Fact_Maven_Disable_Blogging_General {
     public function sidebar_menu() {
         # Get the plugin options
         $settings = get_option( 'factmaven_dsbl_general_settings' );
-        # Define the list of menu items to hide
-        $menu_slug = array(
-            'separator1',  'separator2', 'separator3', // Separators
-        );
+        # Remove all menu separators
+        global $menu;
+        foreach ( $menu as $group => $item ) {
+            # If the menu title is blank, it's a separator
+            if ( empty( $item[0] ) ) {
+                remove_menu_page( $item[2] );
+            }
+        }
+        # Check which menu item to hide based on the options
         if ( is_array( $settings ) || is_object( $settings ) ) {
             if ( $settings['disable_posts'] == 'disable' ) {
                 $menu_slug[] = 'edit.php'; // Posts
@@ -166,8 +174,7 @@ class Fact_Maven_Disable_Blogging_General {
             }
         }
         # If the menu items are being accessed, redirect to 'Pages'
-        if ( in_array( $pagenow, $page_slug, true ) && ( ! isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
-        // if ( in_array( $pagenow, $page_slug, true ) && $_SERVER['REQUEST_METHOD'] == 'GET' && ( ! isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
+        if ( in_array( $pagenow, $page_slug, true ) && $_SERVER['REQUEST_METHOD'] == 'GET' && ( ! isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
             wp_safe_redirect( admin_url( 'edit.php?post_type=page' ), 301 );
             exit;
         }

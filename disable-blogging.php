@@ -12,20 +12,20 @@
 # If accessed directly, exit
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class Fact_Maven_Disable_Blogging_Plugin_Meta {
+class Fact_Maven_Disable_Blogging {
 
     function __construct() {
         # Run functions when upgrading the plugin to a new version
-        add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete' ), 10, 2 );
+        add_action( 'upgrader_process_complete', array( $this, 'remove_old_options' ), 10, 2 );
         # Add meta links to plugin page
         add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
         # Add link to plugin settings
         add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
 
         # Settings API
-        require_once dirname( __FILE__ ) . '/includes/settings-api.php';
+        require_once dirname( __FILE__ ) . '/admin/settings-api.php';
         # Settings Page
-        require_once dirname( __FILE__ ) . '/includes/settings-page.php';
+        require_once dirname( __FILE__ ) . '/admin/settings-page.php';
         # General Settings
         require_once dirname( __FILE__ ) . '/includes/functions-general.php';
         # Extra Settings
@@ -34,17 +34,19 @@ class Fact_Maven_Disable_Blogging_Plugin_Meta {
         require_once dirname( __FILE__ ) . '/includes/functions-profile.php';
 
         # Instantiate the class
-        new Fact_Maven_Disable_Blogging();
+        new Fact_Maven_Disable_Blogging_Settings();
     }
 
-    public function upgrader_process_complete( $upgrade_object, $options ) {
-        # Remove old options with the prefix "dsbl_"
-        /*global $wpdb;
-        $plugin_options = $wpdb -> get_results( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE 'dsbl_%'" );
-        foreach( $plugin_options as $option ) {
-            delete_option( $option -> option_name );
-        }*/
-        delete_option( 'dsbl_remove_profile_fields' );
+    public function remove_old_options( $upgrader_object, $options ) {
+        $current_plugin_path_name = plugin_basename( __FILE__ );
+
+        if ( $options['action'] == 'update' && $options['type'] == 'plugin' ){
+           foreach( $options['packages'] as $each_plugin ){
+              if ( $each_plugin==$current_plugin_path_name ){
+                 delete_option( 'dsbl_remove_profile_fields' );
+              }
+           }
+        }
     }
 
     public function plugin_row_meta( $links, $file ) {
@@ -73,4 +75,4 @@ class Fact_Maven_Disable_Blogging_Plugin_Meta {
 }
 
 # Instantiate the class
-new Fact_Maven_Disable_Blogging_Plugin_Meta();
+new Fact_Maven_Disable_Blogging();

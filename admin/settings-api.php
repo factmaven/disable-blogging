@@ -1,9 +1,11 @@
 <?php
-
 /**
  * Settings API wrapper class
  *
- * @version 1.3 (27-Sep-2016)
+ * @version 1.3.1 (2016-10-01)
+ *
+ * @author Tareq Hasan
+ * @link https://github.com/tareq1988/wordpress-settings-api-class
  */
 class Fact_Maven_Disable_Blogging_Settings_API {
 
@@ -95,7 +97,6 @@ class Fact_Maven_Disable_Blogging_Settings_API {
         //register settings sections
         foreach ( $this->settings_sections as $section ) {
             if ( false == get_option( $section['id'] ) ) {
-                // add_option( $section['id'] );
                 $defaults = array();
                 foreach ( $this->settings_fields[$section['id']] as $field ) {
                     $defaults[$field['name']] = isset( $field['default'] ) ? $field['default'] : '';
@@ -119,13 +120,16 @@ class Fact_Maven_Disable_Blogging_Settings_API {
         foreach ( $this->settings_fields as $section => $field ) {
             foreach ( $field as $option ) {
 
+                $name = $option['name'];
                 $type = isset( $option['type'] ) ? $option['type'] : 'text';
+                $label = isset( $option['label'] ) ? $option['label'] : '';
+                $callback = isset( $option['callback'] ) ? $option['callback'] : array( $this, 'callback_' . $type );
 
                 $args = array(
-                    'id'                => $option['name'],
-                    'label_for'         => $args['label_for'] = "{$section}[{$option['name']}]",
+                    'id'                => $name,
+                    'label_for'         => $args['label_for'] = "{$section}[{$name}]",
                     'desc'              => isset( $option['desc'] ) ? $option['desc'] : '',
-                    'name'              => $option['label'],
+                    'name'              => $label,
                     'section'           => $section,
                     'size'              => isset( $option['size'] ) ? $option['size'] : null,
                     'options'           => isset( $option['options'] ) ? $option['options'] : '',
@@ -138,7 +142,7 @@ class Fact_Maven_Disable_Blogging_Settings_API {
                     'step'              => isset( $option['step'] ) ? $option['step'] : '',
                 );
 
-                add_settings_field( $section . '[' . $option['name'] . ']', $option['label'], (isset($option['callback']) ? $option['callback'] : array($this, 'callback_' . $type )), $section, $section, $args );
+                add_settings_field( "{$section}[{$name}]", $label, $callback, $section, $section, $args );
             }
         }
 
@@ -220,9 +224,9 @@ class Fact_Maven_Disable_Blogging_Settings_API {
         $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
 
         $html  = '<fieldset>';
-        $html  .= sprintf( '<label for="wpuf-%1$s[%2$s]">', $args['section'], $args['id'] );
+        $html  .= sprintf( '<label for="%1$s[%2$s]">', $args['section'], $args['id'] );
         $html  .= sprintf( '<input type="hidden" name="%1$s[%2$s]" value="off" />', $args['section'], $args['id'] );
-        $html  .= sprintf( '<input type="checkbox" class="checkbox" id="wpuf-%1$s[%2$s]" name="%1$s[%2$s]" value="on" %3$s />', $args['section'], $args['id'], checked( $value, 'on', false ) );
+        $html  .= sprintf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[%2$s]" value="on" %3$s />', $args['section'], $args['id'], checked( $value, 'on', false ) );
         $html  .= sprintf( '%1$s</label>', $args['desc'] );
         $html  .= '</fieldset>';
 
@@ -241,8 +245,8 @@ class Fact_Maven_Disable_Blogging_Settings_API {
         $html .= sprintf( '<input type="hidden" name="%1$s[%2$s]" value="" />', $args['section'], $args['id'] );
         foreach ( $args['options'] as $key => $label ) {
             $checked = isset( $value[$key] ) ? $value[$key] : '0';
-            $html    .= sprintf( '<label for="wpuf-%1$s[%2$s][%3$s]">', $args['section'], $args['id'], $key );
-            $html    .= sprintf( '<input type="checkbox" class="checkbox" id="wpuf-%1$s[%2$s][%3$s]" name="%1$s[%2$s][%3$s]" value="%3$s" %4$s />', $args['section'], $args['id'], $key, checked( $checked, $key, false ) );
+            $html    .= sprintf( '<label for="%1$s[%2$s][%3$s]">', $args['section'], $args['id'], $key );
+            $html    .= sprintf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s][%3$s]" name="%1$s[%2$s][%3$s]" value="%3$s" %4$s />', $args['section'], $args['id'], $key, checked( $checked, $key, false ) );
             $html    .= sprintf( '%1$s</label><br>',  $label );
         }
 
@@ -263,8 +267,8 @@ class Fact_Maven_Disable_Blogging_Settings_API {
         $html  = '<fieldset>';
 
         foreach ( $args['options'] as $key => $label ) {
-            $html .= sprintf( '<label for="wpuf-%1$s[%2$s][%3$s]">',  $args['section'], $args['id'], $key );
-            $html .= sprintf( '<input type="radio" class="radio" id="wpuf-%1$s[%2$s][%3$s]" name="%1$s[%2$s]" value="%3$s" %4$s />', $args['section'], $args['id'], $key, checked( $value, $key, false ) );
+            $html .= sprintf( '<label for="%1$s[%2$s][%3$s]">',  $args['section'], $args['id'], $key );
+            $html .= sprintf( '<input type="radio" class="radio" id="%1$s[%2$s][%3$s]" name="%1$s[%2$s]" value="%3$s" %4$s />', $args['section'], $args['id'], $key, checked( $value, $key, false ) );
             $html .= sprintf( '%1$s</label><br>', $label );
         }
 
@@ -594,8 +598,7 @@ class Fact_Maven_Disable_Blogging_Settings_API {
 
                     file_frame.on('select', function () {
                         attachment = file_frame.state().get('selection').first().toJSON();
-
-                        self.prev('.wpsa-url').val(attachment.url);
+                        self.prev('.wpsa-url').val(attachment.url).change();
                     });
 
                     // Finally, open the modal
@@ -603,12 +606,22 @@ class Fact_Maven_Disable_Blogging_Settings_API {
                 });
         });
         </script>
+        <?php
+        $this->_style_fix();
+    }
 
+    function _style_fix() {
+        global $wp_version;
+
+        if (version_compare($wp_version, '3.8', '<=')):
+        ?>
         <style type="text/css">
             /** WordPress 3.8 Fix **/
             .form-table th { padding: 20px 10px; }
             #wpbody-content .metabox-holder { padding-top: 5px; }
         </style>
         <?php
+        endif;
     }
-} 
+
+}

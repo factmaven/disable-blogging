@@ -39,6 +39,9 @@ class Fact_Maven_Disable_Blogging_Extra {
                 remove_filter( 'comment_text_rss', 'wp_staticize_emoji', 10 );
                 remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email', 10 );
             }
+            if ( $settings['google_fonts'] == 'on' ) {
+                add_action( 'plugins_loaded', array( $this, 'google_fonts' ), 10, 1 );
+            }
         }
     }
 
@@ -87,6 +90,13 @@ class Fact_Maven_Disable_Blogging_Extra {
             $urls = array_diff( $urls, array( $emoji_svg_url ) );
         }
         return $urls;
+    }
+
+    public function google_fonts() {
+        ob_start( 'remove_google_fonts' );
+    }
+    public function remove_google_fonts( $buffer ) {
+        
     }
 }
 
