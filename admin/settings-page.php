@@ -57,19 +57,19 @@ class Fact_Maven_Disable_Blogging_Settings {
         # Create setting tabs for each section
         $sections = array(
             array(
-                'id' => 'factmaven_dsbl_general_settings',
+                'id' => 'factmaven_dsbl_general',
                 'title' => __( 'General', 'dsbl' ),
             ),
             array(
-                'id' => 'factmaven_dsbl_extra_settings',
+                'id' => 'factmaven_dsbl_extra',
                 'title' => __( 'Extra', 'dsbl' ),
             ),
             array(
-                'id' => 'factmaven_dsbl_profile_settings',
+                'id' => 'factmaven_dsbl_profile',
                 'title' => __( 'Profile', 'dsbl' ),
             ),
             array(
-                'id' => 'factmaven_dsbl_menu_settings',
+                'id' => 'factmaven_dsbl_menu',
                 'title' => __( 'Menu', 'dsbl' ),
             ),
         );
@@ -113,9 +113,9 @@ class Fact_Maven_Disable_Blogging_Settings {
 
         $settings_fields = array(
             /* General Setting Fields */
-            'factmaven_dsbl_general_settings' => array(
+            'factmaven_dsbl_general' => array(
                 array(
-                    'name' => 'disable_posts',
+                    'name' => 'posts',
                     'label' => __( 'Posting', 'dsbl' ),
                     'desc' => __( 'Links to previous posts will still be accessible.', 'dsbl' ),
                     'type' => 'radio',
@@ -126,7 +126,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                     ),
                 ),
                 array(
-                    'name' => 'disable_comments',
+                    'name' => 'comments',
                     'label' => __( 'Comments', 'dsbl' ),
                     'desc' => __( 'Previous comments will be hidden from view.', 'dsbl' ),
                     'type' => 'radio',
@@ -137,14 +137,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                     ),
                 ),
                 array(
-                    'name' => 'separator',
-                    'label' => __( 'Separators', 'dsbl' ),
-                    'desc' => __( 'Remove separators in between menu items', 'dsbl' ),
-                    'type' => 'checkbox',
-                    'default' => 'on',
-                ),
-                array(
-                    'name' => 'disable_author_page',
+                    'name' => 'author_page',
                     'label' => __( 'Author Page', 'dsbl' ),
                     'desc' => __( 'Redirects the author links to the homepage.', 'dsbl' ),
                     'type' => 'radio',
@@ -155,7 +148,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                     ),
                 ),
                 array(
-                    'name' => 'disable_feeds',
+                    'name' => 'feeds',
                     'label' => __( 'Feeds & Related', 'dsbl' ),
                     'desc' => __( 'Includes <a href="https://codex.wordpress.org/Glossary#Pingback" target="_blank">pingbacks</a>, <a href="https://codex.wordpress.org/Glossary#Trackback" target="_blank">trackbacks</a>, & <a href="https://codex.wordpress.org/XML-RPC_Support" target="_blank">XML-RPC</a>.', 'dsbl' ),
                     'type' => 'radio',
@@ -167,7 +160,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                 ),
             ),
             /* Extra Setting Fields */
-            'factmaven_dsbl_extra_settings' => array(
+            'factmaven_dsbl_extra' => array(
                 array(
                     'name' => 'help_tabs',
                     'label' => __( 'Help Tabs', 'dsbl' ),
@@ -184,42 +177,48 @@ class Fact_Maven_Disable_Blogging_Settings {
                 ),
                 array(
                     'name' => 'query_strings',
-                    'label' => __( 'Query Strings', 'dsbl' ),
-                    'desc' => __( 'Remove query strings from static resources (<code>ver=</code>)', 'dsbl' ),
-                    'type' => 'checkbox',
-                    'default' => 'on',
+                    'label' => __( 'Have query string version', 'dsbl' ),
+                    'desc' => __( 'It will improve cache performance and overall <a href="https://developers.google.com/speed/pagespeed" target="_blank">page speed</a> score.', 'dsbl' ),
+                    'type' => 'radio',
+                    'default' => 'removed',
+                    'options' => array(
+                        // 'shown' => '<strong>Shown</strong>: <code>' . get_stylesheet_uri() . '?ver=' . get_bloginfo( 'version' ) . '</code>',
+                        'shown' => '<strong>Shown</strong>: <code>../' . str_replace( ' ', '', strtolower( wp_get_theme() ) ) . '/style.css?ver=' . get_bloginfo( 'version' ) . '</code>',
+                        'removed' => '<strong>Removed</strong>: <code>../' . str_replace( ' ', '', strtolower( wp_get_theme() ) ) . '/style.css</code>',
+                    ),
                 ),
+                /*array(
+                    'name' => 'emojis',
+                    'label' => __( 'WordPress\' <a href="https://codex.wordpress.org/Emoji" target="_blank">Emojis</a>', 'dsbl' ),
+                    'desc' => __( 'Removes the bloated code to add support for emoji\'s in older browsers.', 'dsbl' ),
+                    'type' => 'select',
+                    'default' => 'disable',
+                    'options' => array(
+                        'enable' => 'Enable',
+                        'disable' => 'Disable',
+                    ),
+                ),*/
                 array(
                     'name' => 'emojis',
-                    'label' => __( 'Emojis', 'dsbl' ),
-                    'desc' => __( 'Disable WordPress emojis', 'dsbl' ),
+                    'label' => __( '<a href="https://codex.wordpress.org/Emoji" target="_blank">Emojis</a> Support', 'dsbl' ),
+                    'desc' => __( 'Remove code in header used to add support for emoji\'s<p class="description">Emoji\'s will still work in browsers which have built in support for them.</p>', 'dsbl' ),
                     'type' => 'checkbox',
                     'default' => 'on',
-                ),
-                array(
-                    'name' => 'google_font',
-                    'label' => __( 'Google Font', 'dsbl' ),
-                    'desc' => __( 'Remove all Google fonts references from all pages', 'dsbl' ),
-                    'type' => 'checkbox',
                 ),
                 array(
                     'name' => 'admin_footer',
-                    'label' => __( 'Admin footer', 'dsbl' ),
-                    'desc' => __( 'Remove the WordPress credits in the lower right of the footer', 'dsbl' ),
-                    'type' => 'checkbox',
-                ),
-                /*array(
-                    'name' => 'footer',
-                    'label' => __( 'Admin footer', 'dsbl' ),
-                    'type' => 'multicheck',
+                    'label' => __( 'Change admin footer to', 'dsbl' ),
+                    'type' => 'radio',
+                    'default' => 'site_info',
                     'options' => array(
-                        'thank_you' => 'WordPress "thank you"',
-                        'admin_color' => 'WordPress version',
-                    )
-                ),*/
+                        'default' => '<strong>Default</strong>: <code>Thank you for creating with <a href="https://wordpress.org/" target="_blank">WordPress</a>.</code>',
+                        'site_info' => '<strong>Site Info</strong>: <code>Copyright &copy; ' . date("Y") . ' <a href="' . site_url() . '">' . get_bloginfo( 'name' ) . '</a></code>',
+                        'remove' => '<strong>None</strong>: Remove the WordPress credits',
+                    ),
+                ),
             ),
             /* User Profile Setting Fields */
-            'factmaven_dsbl_profile_settings' => array( // User Profile
+            'factmaven_dsbl_profile' => array( // User Profile
                 array(
                     'name' => 'personal_options',
                     'label' => __( 'Personal Options', 'dsbl' ),
@@ -273,10 +272,17 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'description' => 'Biographical Info',
                         'show_avatars' => 'Avatar Display'
                     )
-                )
+                ),
+                /*array(
+                    'name' => 'additional_fields',
+                    'label' => __( 'Textarea Input', 'dsbl' ),
+                    'desc' => __( 'Textarea description', 'dsbl' ),
+                    'placeholder' => __( 'Textarea placeholder', 'dsbl' ),
+                    'type' => 'textarea'
+                ),*/
             ),
             /* Admin Menu Setting Fields */
-            'factmaven_dsbl_menu_settings' => array(
+            'factmaven_dsbl_menu' => array(
                 array(
                     'name' => 'redirect_menu',
                     'label' => __( 'Redirect hidden menu items to', 'dsbl' ),
@@ -290,11 +296,22 @@ class Fact_Maven_Disable_Blogging_Settings {
                     )
                 ),
                 array(
-                    'name' => 'hide_dashicons',
+                    'name' => 'dashicons',
                     'label' => __( 'Hide all menu <a target="_blank" href="https://developer.wordpress.org/resource/dashicons">dashicons</a>', 'dsbl' ),
                     'desc' => __( 'The icons will only be shown when the menu is collapsed.', 'dsbl' ),
                     'type' => 'select',
                     'default' => 'no',
+                    'options' => array(
+                        'yes' => 'Yes',
+                        'no' => 'No'
+                    )
+                ),
+                array(
+                    'name' => 'separator',
+                    'label' => __( 'Remove separators', 'dsbl' ),
+                    'desc' => __( 'This is the spacing between some of the menu items.', 'dsbl' ),
+                    'type' => 'select',
+                    'default' => 'yes',
                     'options' => array(
                         'yes' => 'Yes',
                         'no' => 'No'
@@ -346,7 +363,7 @@ class Fact_Maven_Disable_Blogging_Settings {
         );
         # If the Yoast SEO plugin is installed, show additional fields to hide
         if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
-            $settings_fields['factmaven_dsbl_profile_settings'][] = $options_yoast;
+            $settings_fields['factmaven_dsbl_profile'][] = $options_yoast;
         }
         # Ultimate Member plugin fields
         $options_um = array(
@@ -360,7 +377,7 @@ class Fact_Maven_Disable_Blogging_Settings {
         );
         # If the Ultimate Member plugin is installed, show additional fields to hide
         if ( is_plugin_active( 'ultimate-member/index.php' ) ) {
-            $settings_fields['factmaven_dsbl_profile_settings'][] = $options_um;
+            $settings_fields['factmaven_dsbl_profile'][] = $options_um;
         }
 
         # Return the list of the list of setting fields

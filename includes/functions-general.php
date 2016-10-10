@@ -13,7 +13,7 @@ class Fact_Maven_Disable_Blogging_General {
     //==============================
     public function __construct() {
         # Get the plugin options
-        $settings = get_option( 'factmaven_dsbl_general_settings' );
+        $settings = get_option( 'factmaven_dsbl_general' );
 
         # Reorder `Pages` menu below the `Dashboard`
         add_filter( 'custom_menu_order', '__return_true', 10, 1 );
@@ -25,7 +25,7 @@ class Fact_Maven_Disable_Blogging_General {
 
         if ( is_array( $settings ) || is_object( $settings ) ) {
             # Disable all posting relate functions
-            if ( $settings['disable_posts'] == 'disable' ) {
+            if ( $settings['posts'] == 'disable' ) {
                 # Remove 'Posts' column from 'Users' page
                 add_action( 'manage_users_columns', array( $this, 'post_column' ), 10, 1 );
                 # Remove blogging related meta boxes on the 'Dashboard'
@@ -42,7 +42,7 @@ class Fact_Maven_Disable_Blogging_General {
                 add_filter( 'enable_post_by_email_configuration', '__return_false', 10, 1 );
             }
             # Disable all comment relating functions
-            if ( $settings['disable_comments'] == 'disable' ) {
+            if ( $settings['comments'] == 'disable' ) {
                 # Remove 'Comments' column
                 add_action( 'init', array( $this, 'comments_column' ), 10, 1 );
                 # Remove blogging related meta boxes on the 'Dashboard'
@@ -57,14 +57,14 @@ class Fact_Maven_Disable_Blogging_General {
                 add_filter( 'comments_open', '__return_false', 10, 2 );
             }
             # Disable Author page
-            if ( $settings['disable_author_page'] == 'disable' ) {
+            if ( $settings['author_page'] == 'disable' ) {
                 # Redirect author page to homepage
                 add_action( 'template_redirect', array( $this, 'author_page' ), 10, 1 );
                 # Replace author URL with the homepage
                 add_filter( 'author_link', array( $this, 'author_link' ), 10, 1 );
             }
             # Disable all feeds, pingbacks, trackbacks, & XML-RPC function
-            if ( $settings['disable_feeds'] == 'disable' ) {
+            if ( $settings['feeds'] == 'disable' ) {
                 # Remove feed links from the header
                 add_action( 'wp_loaded', array( $this, 'header_feeds' ), 1, 1 );
                 # Redirect all feeds to homepage
@@ -103,17 +103,17 @@ class Fact_Maven_Disable_Blogging_General {
 
     public function toolbar_menu() {
         # Get the plugin options
-        $settings = get_option( 'factmaven_dsbl_general_settings' );
+        $settings = get_option( 'factmaven_dsbl_general' );
         # Define the list of toolbar items to hide
         $toolbar = array(
             'wp-logo', // WordPress Logo
             'search', // Search
         );
         if ( is_array( $settings ) || is_object( $settings ) ) {
-            if ( $settings['disable_posts'] == 'disable' ) {
+            if ( $settings['posts'] == 'disable' ) {
                 $toolbar[] = 'new-post'; // New > Post
             }
-            if ( $settings['disable_comments'] == 'disable' ) {
+            if ( $settings['comments'] == 'disable' ) {
                 $toolbar[] = 'comments'; // Comments
             }
         }
@@ -126,23 +126,14 @@ class Fact_Maven_Disable_Blogging_General {
 
     public function sidebar_menu() {
         # Get the plugin options
-        $settings = get_option( 'factmaven_dsbl_general_settings' );
-        # Remove all menu separators
-        global $menu;
-        if ( ( is_array( $settings ) || is_object( $settings ) ) && $settings['separator'] == 'on' ) {
-            foreach ( $menu as $group => $item ) {
-                # If the menu title is blank, it's a separator
-                if ( empty( $item[0] ) ) {
-                    remove_menu_page( $item[2] );
-                }
-            }
-        }
+        $settings = get_option( 'factmaven_dsbl_general' );
         # Check which menu item to hide based on the options
+        $menu_slug = [];
         if ( is_array( $settings ) || is_object( $settings ) ) {
-            if ( $settings['disable_posts'] == 'disable' ) {
+            if ( $settings['posts'] == 'disable' ) {
                 $menu_slug[] = 'edit.php'; // Posts
             }
-            if ( $settings['disable_comments'] == 'disable' ) {
+            if ( $settings['comments'] == 'disable' ) {
                 $menu_slug[] = 'edit-comments.php'; // Comments
             }
         }
@@ -153,10 +144,10 @@ class Fact_Maven_Disable_Blogging_General {
         # Remove each submenu item
         remove_submenu_page( 'tools.php', 'tools.php' ); // Tools > Available Tools
         if ( is_array( $settings ) || is_object( $settings ) ) {
-            if ( $settings['disable_posts'] == 'disable' ) {
+            if ( $settings['posts'] == 'disable' ) {
                 remove_submenu_page( 'options-general.php', 'options-writing.php' ); // Settings > Writing
             }
-            if ( $settings['disable_posts'] == 'disable' ) {
+            if ( $settings['posts'] == 'disable' ) {
                 remove_submenu_page( 'options-general.php', 'options-discussion.php' ); // Settings > Discussion
             }
         }
@@ -164,13 +155,13 @@ class Fact_Maven_Disable_Blogging_General {
         global $pagenow;
         $page_slug = array();
         if ( is_array( $settings ) || is_object( $settings ) ) {
-            if ( $settings['disable_posts'] == 'disable' ) {
+            if ( $settings['posts'] == 'disable' ) {
                 $page_slug[] = 'edit.php'; // Posts
                 $page_slug[] = 'post-new.php'; // New Post
                 $page_slug[] = 'edit-tags.php'; // Tags
                 $page_slug[] = 'options-writing.php'; // Settings > Writing
             }
-            if ( $settings['disable_comments'] == 'disable' ) {
+            if ( $settings['comments'] == 'disable' ) {
                 $page_slug[] = 'edit-comments.php'; // Comments
                 $page_slug[] = 'options-discussion.php'; // Settings > Discussion
             }

@@ -10,7 +10,7 @@ class Fact_Maven_Disable_Blogging_Extra {
     //==============================
     public function __construct() {
         # Get the plugin options
-        $settings = get_option( 'factmaven_dsbl_extra_settings' );
+        $settings = get_option( 'factmaven_dsbl_extra' );
 
         if ( is_array( $settings ) || is_object( $settings ) ) {
             if ( $settings['help_tabs'] == 'on' ) {
@@ -39,8 +39,8 @@ class Fact_Maven_Disable_Blogging_Extra {
                 remove_filter( 'comment_text_rss', 'wp_staticize_emoji', 10 );
                 remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email', 10 );
             }
-            if ( $settings['google_fonts'] == 'on' ) {
-                add_action( 'plugins_loaded', array( $this, 'google_fonts' ), 10, 1 );
+            if ( $settings['admin_footer'] != 'default' ) {
+                add_filter( 'admin_footer_text', array( $this, 'admin_footer' ), 10, 1 );
             }
         }
     }
@@ -61,7 +61,7 @@ class Fact_Maven_Disable_Blogging_Extra {
     }
 
     public function query_strings( $src ) {
-        if ( strpos( $src, '?ver=' ) || strpos( $src, '&ver=' ) ) {
+        if ( strpos( $src, '?ver=' ) || strpos( $src, '&ver=' ) || strpos( $src, '&v=' ) ) {
             $src = remove_query_arg( 'ver', $src );
         }
         return $src;
@@ -92,11 +92,17 @@ class Fact_Maven_Disable_Blogging_Extra {
         return $urls;
     }
 
-    public function google_fonts() {
-        ob_start( 'remove_google_fonts' );
-    }
-    public function remove_google_fonts( $buffer ) {
-        
+    public function admin_footer( $footer_text ) {
+        # Get the plugin options
+        $settings = get_option( 'factmaven_dsbl_extra' );
+        if ( is_array( $settings ) || is_object( $settings ) ) {
+            if ( $settings['admin_footer'] == 'site_info' ) {
+                return __( 'Copyright &copy; ' . date("Y") . ' <a href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . '</a>', 'dsbl' );
+            }
+            if ( $settings['admin_footer'] == 'remove' ) {
+                return;
+            }
+        }
     }
 }
 

@@ -32,6 +32,8 @@ class Fact_Maven_Disable_Blogging {
         require_once dirname( __FILE__ ) . '/includes/functions-extra.php';
         # Profile Settings
         require_once dirname( __FILE__ ) . '/includes/functions-profile.php';
+        # Menu Settings
+        require_once dirname( __FILE__ ) . '/includes/functions-menu.php';
 
         # Instantiate the class
         new Fact_Maven_Disable_Blogging_Settings();

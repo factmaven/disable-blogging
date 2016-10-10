@@ -3,18 +3,17 @@
 // DELETE FROM wp_options WHERE option_name LIKE 'factmaven_dsbl_%'
 
 // Example to get settings
-// $my_settings = get_option( 'factmaven_dsbl_general_settings' );
-// echo '<pre>'; print_r( $my_settings ); echo '</pre>';
-// echo '<pre>'; print_r( $my_settings['about_yourself'] ); echo '</pre>';
+$settings = get_option( 'factmaven_dsbl_profile' );
+// echo '<pre>'; print_r( $settings ); echo '</pre>';
+echo '<pre>'; print_r( $settings['additional_fields'] ); echo '</pre>';
 
-// if ( isset( $my_settings['about_yourself'] ) ) {
-//     if ( in_array( 'show_avatars', $my_settings['about_yourself'] ) ) {
-//         echo 'YES!';
-//     }
-// }
+if ( isset( $settings['additional_fields'] ) ) {
+    $test = explode( "\n", $settings['additional_fields'] );
+    echo '<pre>'; print_r( $test ); echo '</pre>';
+}
 
-/*if ( is_array( $my_settings ) || is_object( $my_settings ) ) {
-    foreach ( $my_settings as $group => $item ) {
+/*if ( is_array( $settings ) || is_object( $settings ) ) {
+    foreach ( $settings as $group => $item ) {
         if( is_array($item) ) {
             foreach ( $item as $value ) {
                 // echo( $value . '<br>' );
@@ -30,8 +29,8 @@
 // // echo '<pre>'; print_r( $wp_admin_bar ); echo '</pre>';
 // echo '<pre>'; print_r( $wp_admin_bar['user-actions']['parent'] ); echo '</pre>';
 
-// if ( is_array( $my_settings ) || is_object( $my_settings ) ) {
-//     foreach ( $my_settings as $group => $item ) {
+// if ( is_array( $settings ) || is_object( $settings ) ) {
+//     foreach ( $settings as $group => $item ) {
 //         // echo '<pre>'; print_r( $item ); echo '</pre>';
 //         if( is_array($item) ) {
 //             foreach ( $item as $value ) {
@@ -41,8 +40,8 @@
 //     }
 // }
 
-// if ( is_array( $my_settings ) || is_object( $my_settings ) ) {
-//     foreach ( $my_settings as $group => $item ) {
+// if ( is_array( $settings ) || is_object( $settings ) ) {
+//     foreach ( $settings as $group => $item ) {
 //         if( is_array($item) ) {
 //             foreach ( $item as $value ) {
 //                 echo '<pre>'; print_r( $value ); echo '</pre>';

@@ -10,7 +10,7 @@ class Fact_Maven_Disable_Blogging_Profile {
     //==============================
     public function __construct() {
         # Get the plugin options
-        $settings = get_option( 'factmaven_dsbl_profile_settings' );
+        $settings = get_option( 'factmaven_dsbl_profile' );
 
         # Hide the User Profile fields
         add_action( 'admin_head', array( $this, 'user_profile_fields' ), 10, 1 );
@@ -33,7 +33,7 @@ class Fact_Maven_Disable_Blogging_Profile {
     //==============================
     public function user_profile_fields() {
         # Get the plugin options
-        $settings = get_option( 'factmaven_dsbl_profile_settings' );
+        $settings = get_option( 'factmaven_dsbl_profile' );
         # Define the list of page to apply JavaScript
         global $pagenow;
         $page = array(
@@ -42,7 +42,7 @@ class Fact_Maven_Disable_Blogging_Profile {
             'user-new.php',
             );
         # Apply jQuery script in the header
-        if ( in_array( $pagenow, $page, true ) ) {
+        if ( in_array( $pagenow, $page, TRUE ) ) {
             if ( is_array( $settings ) || is_object( $settings ) ) {
                 ?>
                 <script type="text/javascript">
@@ -52,12 +52,19 @@ class Fact_Maven_Disable_Blogging_Profile {
                     if ( is_array( $settings ) || is_object( $settings ) ) {
                         # Hide each field that is define in the plugin's options
                         foreach ( $settings as $group => $item ) {
-                            if( is_array( $item ) ) {
+                            if ( is_array( $item ) ) {
                                 foreach ( $item as $value ) {
                                     echo( "$('#" . $value . "').closest('tr').hide();" );
                                 }
                             }
                         }
+                        /*if ( isset( $settings['additional_fields'] ) ) {
+                            $additional_fields = explode( "\n", $settings['additional_fields'] );
+                            // echo '<pre>'; print_r( $additional_fields ); echo '</pre>';
+                            foreach ($additional_fields as $key => $value) {
+                                echo( "$('#" . $value . "').closest('tr').hide();" );
+                            }
+                        }*/
                     }
                 ?>
                 } );
