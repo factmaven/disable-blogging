@@ -14,10 +14,14 @@ class Fact_Maven_Disable_Blogging_Profile {
 
         # Hide the User Profile fields
         add_action( 'admin_head', array( $this, 'user_profile_fields' ), 10, 1 );
-        # If the 'Avatar Display' is selected, update the option in the Discussion page
+        # If the 'Avatar Display' is selected, uncheck the option in the Discussion page
         if ( isset( $settings['about_yourself'] ) ) {
             if ( is_array( $settings['about_yourself'] ) && in_array( 'show_avatars', $settings['about_yourself'] ) ) {
                 update_option( 'show_avatars', 0 );
+            }
+            # Else, enable the avatar option in the Discussion page
+            else {
+                update_option( 'show_avatars', 1 );
             }
         }
         # If the 'Admin Color Scheme' is selected, remove action
@@ -49,23 +53,24 @@ class Fact_Maven_Disable_Blogging_Profile {
                 jQuery(document).ready(function($) {
                     $('form#your-profile>h2').hide();
                 <?php
-                    if ( is_array( $settings ) || is_object( $settings ) ) {
-                        # Hide each field that is define in the plugin's options
-                        foreach ( $settings as $group => $item ) {
-                            if ( is_array( $item ) ) {
-                                foreach ( $item as $value ) {
-                                    echo( "$('#" . $value . "').closest('tr').hide();" );
-                                }
-                            }
-                        }
-                        /*if ( isset( $settings['additional_fields'] ) ) {
-                            $additional_fields = explode( "\n", $settings['additional_fields'] );
-                            // echo '<pre>'; print_r( $additional_fields ); echo '</pre>';
-                            foreach ($additional_fields as $key => $value) {
+                if ( is_array( $settings ) || is_object( $settings ) ) {
+                    # Hide each field that is define in the plugin's options
+                    foreach ( $settings as $group => $item ) {
+                        if ( is_array( $item ) ) {
+                            foreach ( $item as $value ) {
                                 echo( "$('#" . $value . "').closest('tr').hide();" );
                             }
-                        }*/
+                        }
                     }
+                    /*if ( isset( $settings['additional_fields'] ) ) {
+                        $new_field = explode( "\n", $settings['additional_fields'] );
+                        // echo '<pre>'; print_r( $new_field ); echo '</pre>';
+                        foreach ( $new_field as $key => $value ) {
+                            // echo( "$('label[for=" . $value . "]').remove();" );
+                            echo '$(\'label[for="' . $value . '"]\').closest(\'tr\').remove();';
+                        }
+                    }*/
+                }
                 ?>
                 } );
                 </script>

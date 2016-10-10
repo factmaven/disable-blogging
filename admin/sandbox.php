@@ -5,11 +5,22 @@
 // Example to get settings
 $settings = get_option( 'factmaven_dsbl_profile' );
 // echo '<pre>'; print_r( $settings ); echo '</pre>';
-echo '<pre>'; print_r( $settings['additional_fields'] ); echo '</pre>';
+// echo '<pre>'; print_r( $settings['additional_fields'] ); echo '</pre>';
+
+/*if ( isset( $settings['additional_fields'] ) ) {
+    $additional_fields = explode( "\n", $settings['additional_fields'] );
+    // echo '<pre>'; print_r( $additional_fields ); echo '</pre>';
+    foreach ( $additional_fields as $key => $value ) {
+        echo( "$('#" . $value . "').closest('tr').hide();" );
+    }
+}*/
 
 if ( isset( $settings['additional_fields'] ) ) {
-    $test = explode( "\n", $settings['additional_fields'] );
-    echo '<pre>'; print_r( $test ); echo '</pre>';
+    $new_field = explode( "\n", $settings['additional_fields'] );
+    // echo '<pre>'; print_r( $new_field ); echo '</pre>';
+    foreach ( $new_field as $key => $value ) {
+        echo '<pre>'; print_r( $value ); echo '</pre>';
+    }
 }
 
 /*if ( is_array( $settings ) || is_object( $settings ) ) {

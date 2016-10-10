@@ -14,11 +14,11 @@ class Fact_Maven_Disable_Blogging_Menu {
 
         if ( is_array( $settings ) || is_object( $settings ) ) {
             # Hide all menu dashicons
-            if ( $settings['dashicons'] == 'yes' ) {
+            if ( $settings['dashicons'] == 'hidden' ) {
                 add_action( 'admin_enqueue_scripts', array( $this, 'admin_icons' ), 10, 1 );
             }
             # Remove menu separators
-            if ( $settings['separator'] == 'yes' ) {
+            if ( $settings['separator'] == 'removed' ) {
                 add_action( 'admin_menu', array( $this, 'separator' ), 10, 1 );
             }
         }

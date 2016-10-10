@@ -187,21 +187,10 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'removed' => '<strong>Removed</strong>: <code>../' . str_replace( ' ', '', strtolower( wp_get_theme() ) ) . '/style.css</code>',
                     ),
                 ),
-                /*array(
-                    'name' => 'emojis',
-                    'label' => __( 'WordPress\' <a href="https://codex.wordpress.org/Emoji" target="_blank">Emojis</a>', 'dsbl' ),
-                    'desc' => __( 'Removes the bloated code to add support for emoji\'s in older browsers.', 'dsbl' ),
-                    'type' => 'select',
-                    'default' => 'disable',
-                    'options' => array(
-                        'enable' => 'Enable',
-                        'disable' => 'Disable',
-                    ),
-                ),*/
                 array(
                     'name' => 'emojis',
-                    'label' => __( '<a href="https://codex.wordpress.org/Emoji" target="_blank">Emojis</a> Support', 'dsbl' ),
-                    'desc' => __( 'Remove code in header used to add support for emoji\'s<p class="description">Emoji\'s will still work in browsers which have built in support for them.</p>', 'dsbl' ),
+                    'label' => __( '<a href="https://codex.wordpress.org/Emoji" target="_blank">Emoji</a> Support', 'dsbl' ),
+                    'desc' => __( 'Remove code in header used to add support for emojis<p class="description">Emojis will still work in browsers which have built in support for them.</p>', 'dsbl' ),
                     'type' => 'checkbox',
                     'default' => 'on',
                 ),
@@ -263,7 +252,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                 array(
                     'name' => 'about_yourself',
                     'label' => __( 'About Yourself', 'dsbl' ),
-                    'desc' => __( 'Additional avatar settings can be managed in <a href="' . get_site_url() . '/wp-admin/options-discussion.php#show_avatars">Discussion</a> page.', 'dsbl' ),
+                    'desc' => __( 'If Comments are enabled, additional avatar settings can be managed in <a href="' . admin_url( 'options-discussion.php#show_avatars' ) . '">Discussion</a> page.', 'dsbl' ),
                     'type' => 'multicheck',
                     'default' => array(
                         'description' => 'description',
@@ -273,17 +262,17 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'show_avatars' => 'Avatar Display'
                     )
                 ),
-                /*array(
+                array(
                     'name' => 'additional_fields',
-                    'label' => __( 'Textarea Input', 'dsbl' ),
-                    'desc' => __( 'Textarea description', 'dsbl' ),
-                    'placeholder' => __( 'Textarea placeholder', 'dsbl' ),
-                    'type' => 'textarea'
-                ),*/
+                    'label' => __( 'Additional Fields', 'dsbl' ),
+                    'desc' => __( 'List each extra profile fields added by theme or plugins, per line. Read the <a href="https://wordpress.org/plugins/disable-blogging/faq" target="_blank">FAQ</a> on how to.', 'dsbl' ),
+                    'placeholder' => __( "some_label\nanother_label\nyet_another_label", 'dsbl' ),
+                    'type' => 'textarea',
+                ),
             ),
             /* Admin Menu Setting Fields */
             'factmaven_dsbl_menu' => array(
-                array(
+                /*array(
                     'name' => 'redirect_menu',
                     'label' => __( 'Redirect hidden menu items to', 'dsbl' ),
                     'desc' => __( 'If none is selected, a denied message will be displayed instead.', 'dsbl' ),
@@ -292,35 +281,34 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'options' => array(
                         'index.php' => 'Dashboard',
                         'edit.php?post_type=page' => 'Pages',
-                        'none' => '- None -'
+                        'none' => '- None -',
                     )
-                ),
+                ),*/
                 array(
                     'name' => 'dashicons',
-                    'label' => __( 'Hide all menu <a target="_blank" href="https://developer.wordpress.org/resource/dashicons">dashicons</a>', 'dsbl' ),
-                    'desc' => __( 'The icons will only be shown when the menu is collapsed.', 'dsbl' ),
+                    'label' => __( 'Have menu <a target="_blank" href="https://developer.wordpress.org/resource/dashicons">dashicons</a>', 'dsbl' ),
+                    'desc' => __( 'Will only be shown when the menu is collapsed.', 'dsbl' ),
                     'type' => 'select',
-                    'default' => 'no',
+                    'default' => 'shown',
                     'options' => array(
-                        'yes' => 'Yes',
-                        'no' => 'No'
+                        'shown' => 'Shown',
+                        'hidden' => 'Hidden',
                     )
                 ),
                 array(
                     'name' => 'separator',
-                    'label' => __( 'Remove separators', 'dsbl' ),
+                    'label' => __( 'Menu separators will be', 'dsbl' ),
                     'desc' => __( 'This is the spacing between some of the menu items.', 'dsbl' ),
                     'type' => 'select',
-                    'default' => 'yes',
+                    'default' => 'removed',
                     'options' => array(
-                        'yes' => 'Yes',
-                        'no' => 'No'
+                        'shown' => 'Shown',
+                        'removed' => 'Removed',
                     )
                 ),
-                array(
+                /*array(
                     'name' => 'main_menu',
                     'label' => __( 'Main Menu', 'dsbl' ),
-                    'desc' => __( 'Hiding each <strong>separator</strong> will remove the spacing in between the menu items.', 'dsbl' ),
                     'type' => 'multicheck',
                     'default' => array(
                         'edit.php' => 'edit.php', // Posts
@@ -329,8 +317,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'separator2' => 'separator2', // Separator
                     ),
                     'options' => $options_menu,
-                ),
-                array(
+                ),*/
+                /*array(
                     'name' => 'submenu',
                     'label' => __( 'Submenu', 'dsbl' ),
                     'type' => 'multicheck',
@@ -345,59 +333,23 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'options-discussion.php' => 'options-discussion.php', // Settings > Discussion                   
                     ),
                     'options' => $options_submenu,
-                )
+                ),*/
             ),
         );
-        # Yoast SEO plugin fields
-        $options_yoast = array(
-            'name' => 'yoast_seo',
-            'label' => __( 'Yoast SEO', 'dsbl' ),
-            'type' => 'multicheck',
-            'options' => array(
-                'wpseo_author_title' => 'Title to use for Author page',
-                'wpseo_author_metadesc' => 'Meta description to use for Author page',
-                'wpseo_author_exclude' => 'Exclude user from Author-sitemap',
-                'wpseo_keyword_analysis_disable' => 'Disable SEO analysis',
-                'wpseo_content_analysis_disable' => 'Disable readability analysis'
-            )
-        );
-        # If the Yoast SEO plugin is installed, show additional fields to hide
-        if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
-            $settings_fields['factmaven_dsbl_profile'][] = $options_yoast;
-        }
-        # Ultimate Member plugin fields
-        $options_um = array(
-            'name' => 'ultimate_member',
-            'label' => __( 'Ultimate Member', 'dsbl' ),
-            'type' => 'multicheck',
-            'options' => array(
-                'um_set_api_key' => 'Ultimate Member REST API',
-                'um_role' => 'Community Role'
-            )
-        );
-        # If the Ultimate Member plugin is installed, show additional fields to hide
-        if ( is_plugin_active( 'ultimate-member/index.php' ) ) {
-            $settings_fields['factmaven_dsbl_profile'][] = $options_um;
-        }
-
         # Return the list of the list of setting fields
         return $settings_fields;
     }
 
     function plugin_page() {
         # Display the setting section and fields
-        ?>
-        <div class="wrap">
-        <h1>Blogging Settings</h1>
-        <p>All blogging related functions are disabled by default. However, each function can be toggled here is there is a need to enable some of the blogging functionalities.</p>
-        <?php
+        require_once ('sandbox.php');
+        echo '<div class="wrap">
+        <h1>Blogging Settings</h1>';
         # Show navigation tabs
         $this -> settings_api -> show_navigation();
         # Show each section form
         $this -> settings_api -> show_forms();
-        ?>
-        </div>
-        <?php
+        echo '</div>';
     }
 
     /**

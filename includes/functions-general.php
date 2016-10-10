@@ -147,7 +147,7 @@ class Fact_Maven_Disable_Blogging_General {
             if ( $settings['posts'] == 'disable' ) {
                 remove_submenu_page( 'options-general.php', 'options-writing.php' ); // Settings > Writing
             }
-            if ( $settings['posts'] == 'disable' ) {
+            if ( $settings['comments'] == 'disable' ) {
                 remove_submenu_page( 'options-general.php', 'options-discussion.php' ); // Settings > Discussion
             }
         }

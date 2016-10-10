@@ -21,7 +21,7 @@ class Fact_Maven_Disable_Blogging_Extra {
                 # Replace "Howdy," from the admin bar
                 add_filter( 'admin_bar_menu', array( $this, 'howdy' ), 25, 1 );
             }
-            if ( $settings['query_strings'] == 'on' ) {
+            if ( $settings['query_strings'] == 'removed' ) {
                 # Remove query strings from static resources
                 add_filter( 'script_loader_src', array( $this, 'query_strings' ), 10, 1 );
                 add_filter( 'style_loader_src', array( $this, 'query_strings' ), 10, 1 );
