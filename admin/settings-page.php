@@ -368,3 +368,5 @@ class Fact_Maven_Disable_Blogging_Settings {
         return $pages_options;
     }
 }
+
+new Fact_Maven_Disable_Blogging_Settings();

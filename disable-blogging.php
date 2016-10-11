@@ -3,78 +3,25 @@
  * Plugin Name: Disable Blogging
  * Plugin URI: https://wordpress.org/plugins/disable-blogging/
  * Description: Turn WordPress into a non-blogging, CMS platform by disabling posts, comments, feeds, and other related the blogging features.
- * Author: <a href="https://www.factmaven.com/#plugins">Fact Maven</a>
+ * Version: 2.0.0
+ * Author: Fact Maven
+ * Author URI: https://www.factmaven.com/
  * License: GPLv3
  * Text Domain: disable-blogging
- * Version: 2.0.0
  */
 
 # If accessed directly, exit
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class Fact_Maven_Disable_Blogging {
+# Defines used throughout the plugin
+define( 'DSBL_BASE', plugin_basename( __FILE__ ) );
+define( 'DSBL_PATH', plugin_dir_path( __FILE__ ) );
 
-    function __construct() {
-        # Run functions when upgrading the plugin to a new version
-        add_action( 'upgrader_process_complete', array( $this, 'remove_old_options' ), 10, 2 );
-        # Add meta links to plugin page
-        add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
-        # Add link to plugin settings
-        add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
-
-        # Settings API
-        require_once dirname( __FILE__ ) . '/admin/settings-api.php';
-        # Settings Page
-        require_once dirname( __FILE__ ) . '/admin/settings-page.php';
-        # General Settings
-        require_once dirname( __FILE__ ) . '/includes/functions-general.php';
-        # Extra Settings
-        require_once dirname( __FILE__ ) . '/includes/functions-extra.php';
-        # Profile Settings
-        require_once dirname( __FILE__ ) . '/includes/functions-profile.php';
-        # Menu Settings
-        require_once dirname( __FILE__ ) . '/includes/functions-menu.php';
-
-        # Instantiate the class
-        new Fact_Maven_Disable_Blogging_Settings();
-    }
-
-    public function remove_old_options( $upgrader_object, $options ) {
-        $current_plugin_path_name = plugin_basename( __FILE__ );
-
-        if ( $options['action'] == 'update' && $options['type'] == 'plugin' ){
-           foreach( $options['packages'] as $each_plugin ){
-              if ( $each_plugin==$current_plugin_path_name ){
-                 delete_option( 'dsbl_remove_profile_fields' );
-              }
-           }
-        }
-    }
-
-    public function plugin_row_meta( $links, $file ) {
-        # Display meta links on left side of the plugin
-        if ( strpos( $file, plugin_basename( __FILE__ ) ) !== false ) {
-            $meta = array(
-                'support' => '<a href="https://wordpress.org/support/plugin/disable-blogging" target="_blank"><span class="dashicons dashicons-sos"></span> ' . __( 'Support' ) . '</a>',
-                'review' => '<a href="https://wordpress.org/support/view/plugin-reviews/disable-blogging" target="_blank"><span class="dashicons dashicons-nametag"></span> ' . __( 'Review' ) . '</a>',
-                'github' => '<a href="https://github.com/factmaven/disable-blogging" target="_blank"><span class="dashicons dashicons-randomize"></span> ' . __( 'GitHub' ) . '</a>',
-            );
-            $links = array_merge( $links, $meta );
-        }
-        return $links;
-    }
-
-    public function plugin_action_links( $links, $file ) {
-        # Display settings link on the right side of the plugin
-        if ( $file == plugin_basename( __FILE__ ) && current_user_can( 'manage_options' ) ) {
-            array_unshift(
-                $links,
-                sprintf( '<a href="options-general.php?page=blogging">%s</a>', __( 'Settings' ) )
-            );
-        }
-        return $links;
-    }
-}
-
-# Instantiate the class
-new Fact_Maven_Disable_Blogging();
+# Call the required files
+require_once( DSBL_PATH . 'admin/plugin-meta.php' );
+require_once( DSBL_PATH . 'admin/settings-api.php' );
+require_once( DSBL_PATH . 'admin/settings-page.php' );
+require_once( DSBL_PATH . 'includes/functions-general.php' );
+require_once( DSBL_PATH . 'includes/functions-extra.php' );
+require_once( DSBL_PATH . 'includes/functions-profile.php' );
+require_once( DSBL_PATH . 'includes/functions-menu.php' );
