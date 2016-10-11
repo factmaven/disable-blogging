@@ -3,7 +3,7 @@
     Plugin Name: Disable Blogging
     Plugin URI: https://wordpress.org/plugins/disable-blogging/
     Description: Disables posts, comments, feeds, and other related the blogging features. A must have plugin to turn WordPress into a non-blogging CMS platform.
-    Version: 1.3.0
+    Version: 1.3.1
     Author: <a href="https://www.factmaven.com/">Fact Maven Corp.</a>
     License: GPLv3
     Text Domain: disable-blogging
