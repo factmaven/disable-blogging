@@ -167,7 +167,7 @@ class Fact_Maven_Disable_Blogging_General {
             }
         }
         # If the menu items are being accessed, redirect to 'Pages'
-        if ( in_array( $pagenow, $page_slug, true ) && $_SERVER['REQUEST_METHOD'] == 'GET' && ( ! isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
+        if ( in_array( $pagenow, $page_slug, TRUE ) && $_SERVER['REQUEST_METHOD'] == 'GET' && ( ! isset( $_GET['post_type'] ) || isset( $_GET['post_type'] ) && $_GET['post_type'] == 'post' ) ) {
             wp_safe_redirect( admin_url( 'edit.php?post_type=page' ), 301 );
             exit;
         }

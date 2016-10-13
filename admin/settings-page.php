@@ -82,13 +82,23 @@ class Fact_Maven_Disable_Blogging_Settings {
      */
     function get_settings_fields() {
         # List all contact fields
-        $options_contact = [];
         $options_contact['url'] = 'Website';
         # List additional contact fields if they exist
         foreach ( wp_get_user_contact_methods() as $value => $label ) {
             $options_contact[$value] = $label;
         }
-        # List all admin menu and submenu items
+
+        global $menu;
+        # Admin menu
+        $options_redirect['none'] = '- None -';
+        foreach ( $menu as $group => $item ) {
+            # If the menu title isn't blank, continue
+            if ( ! empty( $item[0] ) ) {
+                # Set each page slug as the value and display the label, also remove the number count
+                $options_redirect[$item[2]] = preg_replace( '/<span(.*?)span>/', '', $item[0] );
+            }
+        }
+        /*# List all admin menu and submenu items
         global $menu, $submenu;
         # Admin menu
         $options_menu = [];
@@ -109,7 +119,7 @@ class Fact_Maven_Disable_Blogging_Settings {
             foreach ( $item as $key ) {
                 $options_submenu[$key[2]] = $key[0];
             }
-        }
+        }*/
 
         $settings_fields = array(
             /* General Setting Fields */
@@ -237,7 +247,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'first_name' => 'First Name',
                         'last_name' => 'Last Name',
                         'nickname' => 'Nickname',
-                        'display_name' => 'Display Name'
+                        'display_name' => 'Display Name',
                     )
                 ),
                 array(
@@ -247,16 +257,14 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'default' => array(
                         'url' => 'url',
                     ),
-                    'options' => $options_contact
+                    'options' => $options_contact,
                 ),
                 array(
                     'name' => 'about_yourself',
                     'label' => __( 'About Yourself', 'dsbl' ),
                     'desc' => __( 'If Comments are enabled, additional avatar settings can be managed in <a href="' . admin_url( 'options-discussion.php#show_avatars' ) . '">Discussion</a> page.', 'dsbl' ),
                     'type' => 'multicheck',
-                    'default' => array(
-                        'description' => 'description',
-                    ),
+                    'default' => 'description',
                     'options' => array(
                         'description' => 'Biographical Info',
                         'show_avatars' => 'Avatar Display'
@@ -265,25 +273,13 @@ class Fact_Maven_Disable_Blogging_Settings {
                 array(
                     'name' => 'additional_fields',
                     'label' => __( 'Additional Fields', 'dsbl' ),
-                    'desc' => __( 'List each extra profile fields added by theme or plugins, per line. Read the <a href="https://wordpress.org/plugins/disable-blogging/faq" target="_blank">FAQ</a> on how to.', 'dsbl' ),
+                    'desc' => __( 'Hide additional profile fields created by plugins/theme by their label ID.<br>Read the <a href="https://wordpress.org/plugins/disable-blogging/faq" target="_blank">FAQ</a> on how to find the label IDs.', 'dsbl' ),
                     'placeholder' => __( "some_label\nanother_label\nyet_another_label", 'dsbl' ),
                     'type' => 'textarea',
                 ),
             ),
             /* Admin Menu Setting Fields */
             'factmaven_dsbl_menu' => array(
-                /*array(
-                    'name' => 'redirect_menu',
-                    'label' => __( 'Redirect hidden menu items to', 'dsbl' ),
-                    'desc' => __( 'If none is selected, a denied message will be displayed instead.', 'dsbl' ),
-                    'type' => 'select',
-                    'default' => 'none',
-                    'options' => array(
-                        'index.php' => 'Dashboard',
-                        'edit.php?post_type=page' => 'Pages',
-                        'none' => '- None -',
-                    )
-                ),*/
                 array(
                     'name' => 'dashicons',
                     'label' => __( 'Have menu <a target="_blank" href="https://developer.wordpress.org/resource/dashicons">dashicons</a>', 'dsbl' ),
@@ -305,6 +301,21 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'shown' => 'Shown',
                         'removed' => 'Removed',
                     )
+                ),
+                array(
+                    'name' => 'redirect_menu',
+                    'label' => __( 'Redirect hidden menu items to', 'dsbl' ),
+                    'desc' => __( 'If <strong>none</strong> is selected, hidden menu items will still be manually accessible.', 'dsbl' ),
+                    'type' => 'select',
+                    'default' => 'none',
+                    'options' => $options_redirect,
+                ),
+                array(
+                    'name' => 'main_menu',
+                    'label' => __( 'Admin Menu<br><sup>(parent menu only)</sup>', 'dsbl' ),
+                    'desc' => __( 'Hide unwanted menu items by their slug - one per line.<br>Read the <a href="https://wordpress.org/plugins/disable-blogging/faq" target="_blank">FAQ</a> on how to find the slug name.', 'dsbl' ),
+                    'placeholder' => __( "index.php\ntools.php\nadmin.php?page=slug", 'dsbl' ),
+                    'type' => 'textarea',
                 ),
                 /*array(
                     'name' => 'main_menu',
@@ -342,7 +353,6 @@ class Fact_Maven_Disable_Blogging_Settings {
 
     function plugin_page() {
         # Display the setting section and fields
-        require_once ('sandbox.php');
         echo '<div class="wrap">
         <h1>Blogging Settings</h1>';
         # Show navigation tabs

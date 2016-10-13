@@ -62,14 +62,13 @@ class Fact_Maven_Disable_Blogging_Profile {
                             }
                         }
                     }
-                    /*if ( isset( $settings['additional_fields'] ) ) {
-                        $new_field = explode( "\n", $settings['additional_fields'] );
-                        // echo '<pre>'; print_r( $new_field ); echo '</pre>';
-                        foreach ( $new_field as $key => $value ) {
-                            // echo( "$('label[for=" . $value . "]').remove();" );
-                            echo '$(\'label[for="' . $value . '"]\').closest(\'tr\').remove();';
+                    # Convert each new line in the textarea as an array item
+                    $new_field = explode( "\n", str_replace( "\r", "", $settings['additional_fields'] ) );
+                    foreach ( $new_field as $key => $value ) {
+                        if ( $value != NULL ) {
+                            echo( "$('#" . $value . "').closest('tr').hide();" );
                         }
-                    }*/
+                    }
                 }
                 ?>
                 } );

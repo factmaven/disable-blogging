@@ -22,7 +22,7 @@ class Fact_Maven_Disable_Blogging_Menu {
                 add_action( 'admin_menu', array( $this, 'separator' ), 10, 1 );
             }
         }
-
+        add_action( 'admin_menu', array( $this, 'main_menu' ), 10, 1 );
     }
 
     //==============================
@@ -41,6 +41,25 @@ class Fact_Maven_Disable_Blogging_Menu {
             if ( empty( $item[0] ) ) {
                 remove_menu_page( $item[2] );
             }
+        }
+    }
+
+    public function main_menu() {
+        # Get the plugin options
+        $settings = get_option( 'factmaven_dsbl_menu' );
+        if ( isset( $settings['main_menu'] ) ) {
+            # Convert each new line in the textarea as an array item
+            $menu_slug = explode( "\n", str_replace( "\r", "", $settings['main_menu'] ) );
+            foreach ( $menu_slug as $key => $value ) {
+                # Remove each menu item
+                remove_menu_page( $value );
+            }
+        }
+        global $pagenow;
+        # If the menu items accessed and option is not set to 'none', redirect to selected page
+        if ( isset( $menu_slug ) && in_array( $pagenow, $menu_slug, TRUE ) && $settings['redirect_menu'] != 'none' ) {
+            wp_redirect( admin_url( $settings['redirect_menu'] ), 301 );
+            exit;
         }
     }
 }
