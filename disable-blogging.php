@@ -18,18 +18,16 @@ define( 'DSBL_BASE', plugin_basename( __FILE__ ) );
 define( 'DSBL_PATH', plugin_dir_path( __FILE__ ) );
 define( 'DSBL_VER', '2.0.0' );
 
-$version = get_option( 'factmaven_dsbl_version' );
-if ( $version < DSBL_VER ) {
-    # Remove options with the prefix "factmaven_dsbl_"
+
+if ( get_option( 'factmaven_dsbl_version' ) < DSBL_VER ) {
+    # Remove options with "dsbl_"
     global $wpdb;
-    $plugin_options = $wpdb -> get_results( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE 'factmaven_dsbl_%'" );
+    $plugin_options = $wpdb -> get_results( "SELECT option_name FROM $wpdb -> options WHERE option_name LIKE '%dsbl_%'" );
     foreach( $plugin_options as $option ) {
     delete_option( $option -> option_name );
     }
-    # Delete previous option from v1.3.0
-    delete_option( 'dsbl_remove_profile_fields' );
-    # Add options for plugin version
-    add_option( 'factmaven_dsbl_version', '2.0.0' );
+    # Add options for new plugin version
+    add_option( 'factmaven_dsbl_version', DSBL_VER );
 }
 
 # Call the required files
