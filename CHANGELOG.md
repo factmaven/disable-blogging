@@ -1,39 +1,52 @@
 ## Changelog
-### 2.0.0
+### 2.0.0 [2016-10-13]
+**Improvements**:
 * Rebuilt plugin with new Settings API, everything is now 100% customizable
-** Profile settings page relocated to "Settings" > "Blogging"
-* Reorder "Pages" menu further up (thanks to [Piet Bos](https://wordpress.org/support/users/senlin/))
-* Built-in WordPress options in the settings are changed automatically:
-** **Discussion**: Attempt to notify any blogs linked to from the article (unchecked)
-* Blog-related options are removed from the settings
-* Extra features added to disable pingbacks & trackbacks
-* Option to hide admin icons is added
-* Various code improvement and performance
+* Reordered "Pages" menu further up underneath "Dashboard" (thanks to [Piet Bos](https://wordpress.org/support/users/senlin/))
+* "Activity" meta box will show custom post types instead (thanks to [SECT](https://github.com/sectsect))
+* **Extra Features**
+  * Remove code in header used to add support for [emojis](https://codex.wordpress.org/Emoji)
+  * Change or admin footer
+* **Profile Features**
+  * Hide additional profile fields created by plugins/theme by their label ID
+* **Menu Features**
+  * Option to hide [dashicons](https://developer.wordpress.org/resource/dashicons)
+  * Option to remove separators
+* Blog-related options are hidden from the Settings
+* Set the following blog options in the Settings:
+  * **Reading**: Set default the reading settings to a static page
+  * **Discussion**: Unchecked "*attempt to notify any blogs linked to from the article*"
+  * **Discussion**: Unchecked "*allow link notifications from other blogs (pingbacks and trackbacks) on new articles*"
+* Extra more extensive features added to disable blog-related features
 
-### 1.3.0 (08/14/16)
+**Fixes**:
+* Comments column showing up in Pages
+* Custom Taxonomy redirecting to Pages upon update ([issue #3](https://github.com/factmaven/disable-blogging/pull/3)
+
+### 1.3.0 [2016-08-14]
 * Added settings to toggle profile fields under "Users" > "Settings"
-* Posts & comments column removed (`dsbl_page_comments` is now `dsbl_columns`)
-* Author page is disabled and redirects to homepage (`dsbl_author_page` and `dsbl_author_link`)
-* Remove WP Engine meta box (`dsbl_meta_boxes`)
+* Posts & comments column removed
+* Author page is disabled and redirects to homepage
+* Remove WP Engine meta box
 
-### 1.2.5 (07/19/16)
+### 1.2.5 [2016-07-19]
 * Restored "Email" field in user profile
 
-### 1.2.4 (07/08/16)
+### 1.2.4 [2016-07-08]
 * Simplified function to hide user profile fields
 
-### 1.2.3 (06/30/16)
+### 1.2.3 [2016-06-30]
 * "Dashboard" redirects to "Profile" menu instead of "Pages"
 
-### 1.2.2 (06/25/16) 
+### 1.2.2 [2016-06-25] 
 * Fixed redirect loop from `dsbl_feeds` (now `dsbl_header_feeds`)
 * The plugin's meta links function is in `includes/plugin-meta.php`
 * Replace `dsbl_false_return` function with `__return_false` instead
 
-### 1.2.1 (06/21/16) 
+### 1.2.1 [2016-06-21] 
 * Removed plugin directory define
 
-### 1.2.0 (06/10/16) 
+### 1.2.0 [2016-06-10] 
 * Restored "Nickname" and "Display name" fields in user profile
 * Restored default user roles
 * Renabled theme & plugin editor
@@ -47,8 +60,7 @@
 * Improved code structure
 * Improved other functions
 
-### 1.1.0 (05/31/16) 
-* Updated `readme.txt`
+### 1.1.0 [2016-05-31] 
 * Added plugin meta links
 * Removes "Howdy," from the admin bar
 * Hide certain fields from user profile
@@ -63,5 +75,5 @@
 * Disable theme's comment template
 * Various code improvements
 
-### 1.0.0 (05/18/16) 
+### 1.0.0 [2016-05-18] 
 * Initial release, huzzah!

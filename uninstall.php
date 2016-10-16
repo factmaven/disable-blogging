@@ -1,6 +1,7 @@
 <?php
 /**
- * This magic file is run automatically when the users deletes the plugin.
+ * This magic file is run automatically when the
+ * users deletes the plugin.
  */
 
 # If uninstall is not called by WordPress, exit

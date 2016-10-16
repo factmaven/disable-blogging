@@ -30,6 +30,8 @@ class Fact_Maven_Disable_Blogging_General {
                 add_action( 'manage_users_columns', array( $this, 'post_column' ), 10, 1 );
                 # Remove blogging related meta boxes on the 'Dashboard'
                 add_action( 'wp_dashboard_setup', array( $this, 'meta_boxes' ), 10, 1 );
+                # Display custom post types in the 'Activity' meta box instead of posts
+                add_filter( 'dashboard_recent_posts_query_args', array( $this, 'activity_meta_box' ), 10, 1 );
                 # Remove blog related widgets
                 add_action( 'widgets_init', array( $this, 'widgets' ), 11, 1 );
                 # Disable 'Press This' function and redirect to homepage
@@ -43,18 +45,20 @@ class Fact_Maven_Disable_Blogging_General {
             }
             # Disable all comment relating functions
             if ( $settings['comments'] == 'disable' ) {
-                # Remove 'Comments' column
-                add_action( 'init', array( $this, 'comments_column' ), 10, 1 );
+                # Disable support for comments in post types
+                add_action( 'init', array( $this, 'comment_support' ), 10, 1 );
                 # Remove blogging related meta boxes on the 'Dashboard'
                 add_action( 'wp_dashboard_setup', array( $this, 'meta_boxes' ), 10, 1 );
+                # Hide 'Recent Comments' section in the 'Activity' meta box
+                add_action( 'admin_enqueue_scripts', array( $this, 'activity_comments' ), 10, 1 );
                 # Remove blog related widgets
                 add_action( 'widgets_init', array( $this, 'widgets' ), 11, 1 );
                 # Update options in 'Discussion' settings
                 add_action( 'admin_init', array( $this, 'comment_options' ), 10, 1 );
-                # Replace comments template with empty page
-                add_filter( 'comments_template', array( $this, 'comments_template' ), 20, 1 );
-                # Close all posts from comments
-                add_filter( 'comments_open', '__return_false', 10, 2 );
+                # Hide existing comments from all post types
+                add_filter( 'comments_array', array( $this, 'existing_comments' ), 10, 2 );
+                # Close all posts from receiving comments
+                add_filter( 'comments_open', '__return_false', 20, 2 );
             }
             # Disable Author page
             if ( $settings['author_page'] == 'disable' ) {
@@ -84,7 +88,7 @@ class Fact_Maven_Disable_Blogging_General {
                 add_filter( 'xmlrpc_enabled', '__return_false', 10, 1 );
                 add_filter( 'pre_option_enable_xmlrpc', '__return_zero', 10, 1 );
                 # Close all posts from pings
-                add_filter( 'pings_open', '__return_false', 10, 2 );
+                add_filter( 'pings_open', '__return_false', 20, 2 );
             }
         }
     }
@@ -188,13 +192,32 @@ class Fact_Maven_Disable_Blogging_General {
             'dashboard_quick_press' => 'side', // Quick Draft
             'dashboard_right_now' => 'normal', // At a Glance
             'dashboard_incoming_links' => 'normal', // Incoming Links
-            'dashboard_activity' => 'normal', // Activity
             'wpe_dify_news_feed' => 'normal', // WP Engine
             );
         # Remove each meta box
         foreach ( $meta_box as $id => $context ) {
             remove_meta_box( $id, 'dashboard', $context ); 
         }
+    }
+
+    public function activity_comments() {
+        global $pagenow;
+        if ( $pagenow == 'index.php' ) {
+            wp_enqueue_style( 'factmaven-dsbl-dashboard', plugin_dir_url( __FILE__ ) . 'css/dashboard.css' );
+        }
+    }
+
+    public function activity_meta_box( $query_args ) {
+        $args = array(
+            'public'   => TRUE,
+            '_builtin' => FALSE,
+        );
+        $output = 'names';
+        $operator = 'and';
+        $posttypes = get_post_types( $args, $output, $operator );
+
+        $query_args['post_type'] = $posttypes;
+        return $query_args;
     }
 
     public function widgets() {
@@ -229,16 +252,11 @@ class Fact_Maven_Disable_Blogging_General {
             update_option( 'page_for_posts', 0 );
             update_option( 'page_on_front', 1 );
         }
-
         /* Discussion Settings */
         # 'Attempt to notify any blogs linked to from the article' (unchecked)
         update_option( 'default_pingback_flag ', 0 );
         # 'Allow link notifications from other blogs (pingbacks and trackbacks) on new articles' (unchecked)
         update_option( 'default_ping_status ', 0 );
-
-        /* Permalink Settings */
-        # 'Post name - http://example.com/sample-post/' (selected)
-        update_option( 'permalink_structure ', '/%postname%/' );
     }
 
     public function post_options() {
@@ -255,21 +273,16 @@ class Fact_Maven_Disable_Blogging_General {
         if ( $pagenow == 'options-reading.php' ) {
             wp_enqueue_style( 'factmaven-dsbl-options-reading', plugin_dir_url( __FILE__ ) . 'css/options-reading.css' );
         }
-        # If pagenow is 'Permalinks', hide options
-        if ( $pagenow == 'options-permalink.php' ) {
-            wp_enqueue_style( 'factmaven-dsbl-options-reading', plugin_dir_url( __FILE__ ) . 'css/options-permalink.css' );
-        }
     }
 
     /* Disable Comments */
-    public function comments_column() {
-        $menu_slug = array(
-            'post' => 'comments', // Posts
-            'page' => 'comments', // Pages
-            'attachment' => 'comments', // Media
-            );
-        foreach ( $menu_slug as $item => $column ) {
-            remove_post_type_support( $item, $column );
+    public function comment_support() {
+        $post_types = get_post_types();
+        foreach ( $post_types as $type ) {
+            if ( post_type_supports( $type, 'comments' ) ) {
+                remove_post_type_support( $type, 'comments' );
+                // remove_post_type_support( $type, 'trackbacks' );
+            }
         }
     }
 
@@ -282,9 +295,9 @@ class Fact_Maven_Disable_Blogging_General {
         update_option( 'comment_whitelist', 1 );
     }
 
-    public function comments_template() {
-        # Return blank file for comment template
-        return plugin_dir_path( __FILE__ ) . 'index.php';
+    public function existing_comments( $comments ) {
+        $comments = array();
+        return $comments;
     }
 
     /* Disable Author Page */

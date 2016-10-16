@@ -192,7 +192,6 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'radio',
                     'default' => 'removed',
                     'options' => array(
-                        // 'shown' => '<strong>Shown</strong>: <code>' . get_stylesheet_uri() . '?ver=' . get_bloginfo( 'version' ) . '</code>',
                         'shown' => '<strong>Shown</strong>: <code>../' . str_replace( ' ', '', strtolower( wp_get_theme() ) ) . '/style.css?ver=' . get_bloginfo( 'version' ) . '</code>',
                         'removed' => '<strong>Removed</strong>: <code>../' . str_replace( ' ', '', strtolower( wp_get_theme() ) ) . '/style.css</code>',
                     ),
