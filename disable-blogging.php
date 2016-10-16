@@ -22,7 +22,7 @@ define( 'DSBL_VER', '2.0.0' );
 if ( get_option( 'factmaven_dsbl_version' ) < DSBL_VER ) {
     # Remove options with "dsbl_"
     global $wpdb;
-    $plugin_options = $wpdb -> get_results( "SELECT option_name FROM $wpdb -> options WHERE option_name LIKE '%dsbl_%'" );
+    $plugin_options = $wpdb -> get_results( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE '%dsbl_%'" );
     foreach( $plugin_options as $option ) {
     delete_option( $option -> option_name );
     }
