@@ -23,6 +23,7 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             define( 'DSBL_PLUGIN', plugin_dir_path( __FILE__ ) );
             include( DSBL_PLUGIN . 'includes/settings-profile.php' );
             include( DSBL_PLUGIN . 'includes/plugin-meta.php' );
+            add_option( 'factmaven_dsbl_version', '1.3.0' );
 
             // ADMIN DASHBOARD
             add_action( 'wp_dashboard_setup', array( $this, 'dsbl_meta_boxes' ), 10, 1 );
@@ -34,9 +35,9 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             add_action( 'admin_head', array( $this, 'dsbl_help_tabs' ), 999, 1 );
             add_filter( 'enable_post_by_email_configuration', '__return_false', 10, 1 );
             add_filter( 'admin_bar_menu', array( $this, 'dsbl_howdy' ), 25, 1 );
-			add_filter( 'custom_menu_order', '__return_true', 10, 1  );
-			add_filter( 'menu_order', array( $this, 'dsbl_custom_menu_order' ), 10, 1 );
-			add_filter( 'dashboard_recent_posts_query_args', array( $this, 'dsbl_dashboard_recent_posts_query_args' ), 10, 1 );
+            add_filter( 'custom_menu_order', '__return_true', 10, 1  );
+            add_filter( 'menu_order', array( $this, 'dsbl_custom_menu_order' ), 10, 1 );
+            add_filter( 'dashboard_recent_posts_query_args', array( $this, 'dsbl_dashboard_recent_posts_query_args' ), 10, 1 );
 
             // FEEDS & RELATED
             add_action( 'wp_loaded', array( $this, 'dsbl_header_feeds' ), 1, 1 );
@@ -71,7 +72,6 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
                 'dashboard_right_now' => 'normal', // Right Now
                 'dashboard_recent_comments' => 'normal', // Recent Comments
                 'dashboard_incoming_links' => 'normal', // Incoming Links
-            //    'dashboard_activity' => 'normal', // Activity
                 'wpe_dify_news_feed' => 'normal' // WP Engine
                 );
             foreach ( $metabox as $id => $context ) {
@@ -79,24 +79,24 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
             }
         }
 
-		public function dsbl_get_all_custom_post_types() {
-			$args = array(
-				'public'   => true,
-				'_builtin' => false
-			);
-			$output = 'names';
-			$operator = 'and';
-			$posttypes = get_post_types($args, $output, $operator);
+        public function dsbl_get_all_custom_post_types() {
+            $args = array(
+                'public'   => true,
+                '_builtin' => false
+            );
+            $output = 'names';
+            $operator = 'and';
+            $posttypes = get_post_types($args, $output, $operator);
 
-			return $posttypes;
-		}
+            return $posttypes;
+        }
 
-		public function dsbl_dashboard_recent_posts_query_args($query_args) {
-			$posttypes = $this->dsbl_get_all_custom_post_types();
-			$query_args['post_type'] = $posttypes;
+        public function dsbl_dashboard_recent_posts_query_args($query_args) {
+            $posttypes = $this->dsbl_get_all_custom_post_types();
+            $query_args['post_type'] = $posttypes;
 
-			return $query_args;
-		}
+            return $query_args;
+        }
 
         public function dsbl_sidebar_menu() { // Remove menu/submenu items & redirect to page menu
             $menu = array(
@@ -178,8 +178,8 @@ if ( !class_exists( 'FMC_DisableBlogging' ) ) {
         }
 
         public function dsbl_custom_menu_order() { // move Pages up the top in the sidebar menu
-			return array( 'index.php', 'edit.php?post_type=page' );
-		}
+            return array( 'index.php', 'edit.php?post_type=page' );
+        }
 
 
         // FEEDS & RELATED
