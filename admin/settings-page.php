@@ -11,8 +11,6 @@ class Fact_Maven_Disable_Blogging_Settings {
         # Set and instantiate the class
         add_action( 'admin_init', array( $this, 'admin_init' ), 10, 1 );
         add_action( 'admin_menu', array( $this, 'admin_menu' ), 10, 1 );
-        # Reorder 'Blogging' under 'General' submenu
-        add_filter( 'custom_menu_order', array( $this, 'submenu_order' ), 10, 1 );
     }
 
     function admin_init() {
@@ -33,6 +31,10 @@ class Fact_Maven_Disable_Blogging_Settings {
             'blogging', // URL slug
             array( $this, 'plugin_page' ) // Callback function
             );
+        # Reorder 'Blogging' under 'General' submenu
+        if ( current_user_can( 'manage_options' ) ) {
+            add_filter( 'custom_menu_order', array( $this, 'submenu_order' ), 10, 1 );
+        }
     }
 
     function submenu_order( $menu_order ) {
@@ -263,10 +265,12 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'label' => __( 'About Yourself', 'dsbl' ),
                     'desc' => __( 'If Comments are enabled, additional avatar settings can be managed in <a href="' . admin_url( 'options-discussion.php#show_avatars' ) . '">Discussion</a> page.', 'dsbl' ),
                     'type' => 'multicheck',
-                    'default' => 'description',
+                    'default' => array(
+                        'description' => 'description',
+                    ),
                     'options' => array(
                         'description' => 'Biographical Info',
-                        'show_avatars' => 'Avatar Display'
+                        'show_avatars' => 'Avatar Display',
                     )
                 ),
                 array(
@@ -354,6 +358,12 @@ class Fact_Maven_Disable_Blogging_Settings {
         # Display the setting section and fields
         echo '<div class="wrap">
         <h1>Blogging Settings</h1>';
+        /*foreach ( wp_load_alloptions() as $key => $value ) {
+            if ( strpos( $key, 'factmaven_dsbl' ) === 0 ) {
+                // $list[$key] = $value;
+                echo '<pre>'; print_r( $key ); echo '</pre>';
+            }
+        }*/
         # Show navigation tabs
         $this -> settings_api -> show_navigation();
         # Show each section form
