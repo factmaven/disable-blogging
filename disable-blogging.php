@@ -29,7 +29,7 @@ if ( ( get_option( 'factmaven_dsbl_version' ) < DSBL_VER ) || ! get_option( 'fac
     # Delete previous option from v1.3.0
     delete_option( 'dsbl_remove_profile_fields' );
     # Add options for new plugin version
-    add_option( 'factmaven_dsbl_version', DSBL_VER );
+    update_option( 'factmaven_dsbl_version', DSBL_VER );
 }
 
 # Call the required files
