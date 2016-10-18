@@ -1,6 +1,10 @@
 <?php
 /**
- * General Functions
+ * General Plugin Functions
+ * Enable or disable all blogging related functions.
+ *
+ * @author Fact Maven Corp.
+ * @link https://wordpress.org/plugins/disable-blogging/
  */
 
 # If accessed directly, exit
@@ -11,9 +15,11 @@ class Fact_Maven_Disable_Blogging_General {
     //==============================
     // CALL THE FUNCTIONS
     //==============================
+    private $settings;
+
     public function __construct() {
         # Get the plugin options
-        $settings = get_option( 'factmaven_dsbl_general' );
+        $this->settings = get_option( 'factmaven_dsbl_general' );
 
         # Reorder `Pages` menu below the `Dashboard`
         add_filter( 'custom_menu_order', '__return_true', 10, 1 );
@@ -22,18 +28,18 @@ class Fact_Maven_Disable_Blogging_General {
         add_action( 'wp_before_admin_bar_render', array( $this, 'toolbar_menu' ), 10, 1 );
         # Remove blogging related menu items & redirect to 'Pages' menu
         add_action( 'admin_menu', array( $this, 'sidebar_menu' ), 10, 1 );
+        # Remove blog related widgets
+        add_action( 'widgets_init', array( $this, 'widgets' ), 11, 1 );
+        # Remove blogging related meta boxes on the 'Dashboard'
+        add_action( 'wp_dashboard_setup', array( $this, 'meta_boxes' ), 10, 1 );
 
-        if ( is_array( $settings ) || is_object( $settings ) ) {
+        if ( is_array( $this->settings ) || is_object( $this->settings ) ) {
             # Disable all posting relate functions
-            if ( $settings['posts'] == 'disable' ) {
+            if ( $this->settings['posts'] == 'disable' ) {
                 # Remove 'Posts' column from 'Users' page
                 add_action( 'manage_users_columns', array( $this, 'post_column' ), 10, 1 );
-                # Remove blogging related meta boxes on the 'Dashboard'
-                add_action( 'wp_dashboard_setup', array( $this, 'meta_boxes' ), 10, 1 );
                 # Display custom post types in the 'Activity' meta box instead of posts
                 add_filter( 'dashboard_recent_posts_query_args', array( $this, 'activity_meta_box' ), 10, 1 );
-                # Remove blog related widgets
-                add_action( 'widgets_init', array( $this, 'widgets' ), 11, 1 );
                 # Disable 'Press This' function and redirect to homepage
                 add_action( 'load-press-this.php', array( $this, 'press_this' ), 10, 1 );
                 # Update options in 'Reading' and 'Discussion' settings
@@ -44,15 +50,11 @@ class Fact_Maven_Disable_Blogging_General {
                 add_filter( 'enable_post_by_email_configuration', '__return_false', 10, 1 );
             }
             # Disable all comment relating functions
-            if ( $settings['comments'] == 'disable' ) {
-                # Disable support for comments in post types
+            if ( $this->settings['comments'] == 'disable' ) {
+                # Disable support for comments & trackbacks  in all post types
                 add_action( 'init', array( $this, 'comment_support' ), 10, 1 );
-                # Remove blogging related meta boxes on the 'Dashboard'
-                add_action( 'wp_dashboard_setup', array( $this, 'meta_boxes' ), 10, 1 );
                 # Hide 'Recent Comments' section in the 'Activity' meta box
                 add_action( 'admin_enqueue_scripts', array( $this, 'activity_comments' ), 10, 1 );
-                # Remove blog related widgets
-                add_action( 'widgets_init', array( $this, 'widgets' ), 11, 1 );
                 # Update options in 'Discussion' settings
                 add_action( 'admin_init', array( $this, 'comment_options' ), 10, 1 );
                 # Hide existing comments from all post types
@@ -60,15 +62,15 @@ class Fact_Maven_Disable_Blogging_General {
                 # Close all posts from receiving comments
                 add_filter( 'comments_open', '__return_false', 20, 2 );
             }
-            # Disable Author page
-            if ( $settings['author_page'] == 'disable' ) {
+            # Disable author page
+            if ( $this->settings['author_page'] == 'disable' ) {
                 # Redirect author page to homepage
                 add_action( 'template_redirect', array( $this, 'author_page' ), 10, 1 );
                 # Replace author URL with the homepage
                 add_filter( 'author_link', array( $this, 'author_link' ), 10, 1 );
             }
             # Disable all feeds, pingbacks, trackbacks, & XML-RPC function
-            if ( $settings['feeds'] == 'disable' ) {
+            if ( $this->settings['feeds'] == 'disable' ) {
                 # Remove feed links from the header
                 add_action( 'wp_loaded', array( $this, 'header_feeds' ), 1, 1 );
                 # Redirect all feeds to homepage
@@ -77,6 +79,7 @@ class Fact_Maven_Disable_Blogging_General {
                 add_action( 'pre_ping', array( $this, 'internal_pingbacks' ), 10, 1 );
                 # Disable x-pingback
                 add_filter( 'wp_headers', array( $this, 'x_pingback' ), 10, 1 );
+
                 # Filter feed related content
                 add_action( 'plugins_loaded', array( $this, 'output_buffering' ), 10, 1 );
                 # Set pingback URI to blank for blog info
@@ -89,6 +92,8 @@ class Fact_Maven_Disable_Blogging_General {
                 add_filter( 'pre_option_enable_xmlrpc', '__return_zero', 10, 1 );
                 # Close all posts from pings
                 add_filter( 'pings_open', '__return_false', 20, 2 );
+                # Remove the generator name from the RSS feeds
+                add_filter( 'the_generator', '__return_false', 10, 1 ); 
             }
         }
     }
@@ -97,27 +102,27 @@ class Fact_Maven_Disable_Blogging_General {
     // BEGIN THE FUNCTIONS
     //==============================
     public function reorder_menu() {
-        # Return new page order
+        # Reorder 
         $menu_slug = array(
             'index.php', // Dashboard
             'edit.php?post_type=page', // Pages
             );
+        # Return new page order
         return $menu_slug;
     }
 
     public function toolbar_menu() {
-        # Get the plugin options
-        $settings = get_option( 'factmaven_dsbl_general' );
         # Define the list of toolbar items to hide
         $toolbar = array(
             'wp-logo', // WordPress Logo
             'search', // Search
         );
-        if ( is_array( $settings ) || is_object( $settings ) ) {
-            if ( $settings['posts'] == 'disable' ) {
+        # Remove additional toolbar items depending on the options
+        if ( is_array( $this->settings ) || is_object( $this->settings ) ) {
+            if ( $this->settings['posts'] == 'disable' ) {
                 $toolbar[] = 'new-post'; // New > Post
             }
-            if ( $settings['comments'] == 'disable' ) {
+            if ( $this->settings['comments'] == 'disable' ) {
                 $toolbar[] = 'comments'; // Comments
             }
         }
@@ -129,15 +134,13 @@ class Fact_Maven_Disable_Blogging_General {
     }
 
     public function sidebar_menu() {
-        # Get the plugin options
-        $settings = get_option( 'factmaven_dsbl_general' );
-        # Check which menu item to hide based on the options
+        # Remove menu items based on the options
         $menu_slug = [];
-        if ( is_array( $settings ) || is_object( $settings ) ) {
-            if ( $settings['posts'] == 'disable' ) {
+        if ( is_array( $this->settings ) || is_object( $this->settings ) ) {
+            if ( $this->settings['posts'] == 'disable' ) {
                 $menu_slug[] = 'edit.php'; // Posts
             }
-            if ( $settings['comments'] == 'disable' ) {
+            if ( $this->settings['comments'] == 'disable' ) {
                 $menu_slug[] = 'edit-comments.php'; // Comments
             }
         }
@@ -147,25 +150,26 @@ class Fact_Maven_Disable_Blogging_General {
         }
         # Remove each submenu item
         remove_submenu_page( 'tools.php', 'tools.php' ); // Tools > Available Tools
-        if ( is_array( $settings ) || is_object( $settings ) ) {
-            if ( $settings['posts'] == 'disable' ) {
+        # Remove additional submenu items bases on options
+        if ( is_array( $this->settings ) || is_object( $this->settings ) ) {
+            if ( $this->settings['posts'] == 'disable' ) {
                 remove_submenu_page( 'options-general.php', 'options-writing.php' ); // Settings > Writing
             }
-            if ( $settings['comments'] == 'disable' ) {
+            if ( $this->settings['comments'] == 'disable' ) {
                 remove_submenu_page( 'options-general.php', 'options-discussion.php' ); // Settings > Discussion
             }
         }
-        # Define the list of menu items to redirect
+        # Redirect menu items to 'Pages' depending on the options
         global $pagenow;
-        $page_slug = array();
-        if ( is_array( $settings ) || is_object( $settings ) ) {
-            if ( $settings['posts'] == 'disable' ) {
+        $page_slug = [];
+        if ( is_array( $this->settings ) || is_object( $this->settings ) ) {
+            if ( $this->settings['posts'] == 'disable' ) {
                 $page_slug[] = 'edit.php'; // Posts
                 $page_slug[] = 'post-new.php'; // New Post
                 $page_slug[] = 'edit-tags.php'; // Tags
                 $page_slug[] = 'options-writing.php'; // Settings > Writing
             }
-            if ( $settings['comments'] == 'disable' ) {
+            if ( $this->settings['comments'] == 'disable' ) {
                 $page_slug[] = 'edit-comments.php'; // Comments
                 $page_slug[] = 'options-discussion.php'; // Settings > Discussion
             }
@@ -177,14 +181,33 @@ class Fact_Maven_Disable_Blogging_General {
         }
     }
 
-    public function post_column( $column ) {
-        # Unset the 'Posts' column
-        unset( $column['posts'] );
-        return $column;
+    public function widgets() {
+        # Define the list of widget to remove
+        $widgets = array(
+            'WP_Widget_Calendar', // Calendar
+            'WP_Widget_Links', // Links
+            'WP_Widget_Meta', // Meta
+            'WP_Widget_RSS', // RSS
+        );
+        if ( is_array( $this->settings ) || is_object( $this->settings ) ) {
+            if ( $this->settings['posts'] == 'disable' ) {
+                $widgets[] = 'WP_Widget_Archives'; // Archives
+                $widgets[] = 'WP_Widget_Categories'; // Categories
+                $widgets[] = 'WP_Widget_Recent_Posts'; // Recent Posts
+                $widgets[] = 'WP_Widget_Tag_Cloud'; // Tag Cloud
+            }
+            if ( $this->settings['comments'] == 'disable' ) {
+                $widgets[] = 'WP_Widget_Recent_Comments'; // Recent Comments
+            }
+        }
+        # Remove each widget
+        foreach( $widgets as $item ) {
+            unregister_widget( $item );
+        }
     }
 
     public function meta_boxes() {
-        # Remove the `Welcome` panel
+        # Remove the 'Welcome' panel
         remove_action( 'welcome_panel', 'wp_welcome_panel' ); // Welcome
         # Define the list of meta boxes to remove
         $meta_box = array(
@@ -193,50 +216,36 @@ class Fact_Maven_Disable_Blogging_General {
             'dashboard_right_now' => 'normal', // At a Glance
             'dashboard_incoming_links' => 'normal', // Incoming Links
             'wpe_dify_news_feed' => 'normal', // WP Engine
-            );
+        );
         # Remove each meta box
         foreach ( $meta_box as $id => $context ) {
             remove_meta_box( $id, 'dashboard', $context ); 
         }
     }
 
+    /* Disable Posts */
+    public function post_column( $column ) {
+        # Unset the 'Posts' column
+        unset( $column['posts'] );
+        return $column;
+    }
+
     public function activity_comments() {
         global $pagenow;
+        # If pagenow is 'Dashboard', hide comments section in 'Activity' meta box
         if ( $pagenow == 'index.php' ) {
             wp_enqueue_style( 'factmaven-dsbl-dashboard', plugin_dir_url( __FILE__ ) . 'css/dashboard.css' );
         }
     }
 
     public function activity_meta_box( $query_args ) {
-        $args = array(
-            'public'   => TRUE,
-            '_builtin' => FALSE,
-        );
-        $output = 'names';
-        $operator = 'and';
-        $posttypes = get_post_types( $args, $output, $operator );
-
-        $query_args['post_type'] = $posttypes;
+        # Return custom posts types in 'Activity' meta box
+        $query_args['post_type'] = get_post_types(
+            array(
+                'public' => TRUE,
+                '_builtin' => FALSE,
+            ), 'names', 'and' );
         return $query_args;
-    }
-
-    public function widgets() {
-        # Define the list of widget to remove
-        $widgets = array(
-            'WP_Widget_Archives', // Archives
-            'WP_Widget_Calendar', // Calendar
-            'WP_Widget_Categories', // Categories
-            'WP_Widget_Links', // Links
-            'WP_Widget_Meta', // Meta
-            'WP_Widget_Recent_Comments', // Recent Comments
-            'WP_Widget_Recent_Posts', // Recent Posts
-            'WP_Widget_RSS', // RSS
-            'WP_Widget_Tag_Cloud', // Tag Cloud
-        );
-        # Remove each widget
-        foreach( $widgets as $item ) {
-            unregister_widget( $item );
-        }
     }
 
     public function press_this() {
@@ -277,11 +286,11 @@ class Fact_Maven_Disable_Blogging_General {
 
     /* Disable Comments */
     public function comment_support() {
-        $post_types = get_post_types();
-        foreach ( $post_types as $type ) {
+        # If post type supports comments, remove comment & trackback support
+        foreach ( get_post_types() as $type ) {
             if ( post_type_supports( $type, 'comments' ) ) {
                 remove_post_type_support( $type, 'comments' );
-                // remove_post_type_support( $type, 'trackbacks' );
+                remove_post_type_support( $type, 'trackbacks' );
             }
         }
     }
@@ -296,22 +305,23 @@ class Fact_Maven_Disable_Blogging_General {
     }
 
     public function existing_comments( $comments ) {
-        $comments = array();
+        # Return empty array of comments
+        $comments = [];
         return $comments;
     }
 
     /* Disable Author Page */
     public function author_page() {
-        # If the author archive page is being accessed, redirect to homepage
+        # If the author page is being accessed, redirect to homepage
         if ( is_author() ) {
-            wp_safe_redirect( get_home_url(), 301 );
+            wp_safe_redirect( home_url(), 301 );
             exit;
         }
     }
 
     public function author_link() {
         # Return homepage URL
-        return get_home_url();
+        return home_url();
     }
 
     /* Disable Feeds & Related */
@@ -341,7 +351,7 @@ class Fact_Maven_Disable_Blogging_General {
             return;
         }
         # Call function to redirect feeds
-        $this -> redirect_feeds();
+        $this->redirect_feeds();
     }
 
     private function redirect_feeds() {

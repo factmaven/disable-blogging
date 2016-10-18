@@ -1,5 +1,5 @@
 ## Changelog
-### 2.0.0 [2016-10-13]
+### 2.0.0 [2016-10-17]
 **Improvements**:
 * Rebuilt plugin with new Settings API, everything is now 100% customizable
 * Reordered "Pages" menu further up underneath "Dashboard" (thanks to [Piet Bos](https://wordpress.org/support/users/senlin/))
@@ -18,6 +18,7 @@
   * **Discussion**: Unchecked "*attempt to notify any blogs linked to from the article*"
   * **Discussion**: Unchecked "*allow link notifications from other blogs (pingbacks and trackbacks) on new articles*"
 * Extra more extensive features added to disable blog-related features
+* Various code improvements
 
 **Fixes**:
 * Comments column showing up in Pages

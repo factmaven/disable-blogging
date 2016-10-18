@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings API wrapper class
+ * Settings API wrapper class.
  *
  * @version 1.3.1 (2016-10-01)
  *

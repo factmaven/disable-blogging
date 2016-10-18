@@ -1,25 +1,33 @@
 <?php
+/**
+ * Settings page with all of the options to
+ * choose which functions to run. This depends
+ * on the Settings API Wrapper to generate the fields.
+ *
+ * @author Fact Maven Corp.
+ * @link https://wordpress.org/plugins/disable-blogging/
+ */
 
 class Fact_Maven_Disable_Blogging_Settings {
-
+    # Define the Setting API variable
     private $settings_api;
 
     function __construct() {
         # Call the settings API
-        $this -> settings_api = new Fact_Maven_Disable_Blogging_Settings_API;
-
+        $this->settings_api = new Fact_Maven_Disable_Blogging_Settings_API;
         # Set and instantiate the class
         add_action( 'admin_init', array( $this, 'admin_init' ), 10, 1 );
+        # Create the plugin's settings page
         add_action( 'admin_menu', array( $this, 'admin_menu' ), 10, 1 );
     }
 
     function admin_init() {
         # Setting sections
-        $this -> settings_api -> set_sections( $this -> get_settings_sections() );
+        $this->settings_api->set_sections( $this->get_settings_sections() );
         # Setting fields in each section
-        $this -> settings_api -> set_fields( $this -> get_settings_fields() );
+        $this->settings_api->set_fields( $this->get_settings_fields() );
         # Instantiate settings page
-        $this -> settings_api -> admin_init();
+        $this->settings_api->admin_init();
     }
 
     function admin_menu() {
@@ -31,8 +39,9 @@ class Fact_Maven_Disable_Blogging_Settings {
             'blogging', // URL slug
             array( $this, 'plugin_page' ) // Callback function
             );
-        # Reorder 'Blogging' under 'General' submenu
+        # If current user can 'manage_options' reorder plugin settings link
         if ( current_user_can( 'manage_options' ) ) {
+            # Reorder 'Blogging' under 'General' submenu
             add_filter( 'custom_menu_order', array( $this, 'submenu_order' ), 10, 1 );
         }
     }
@@ -78,10 +87,6 @@ class Fact_Maven_Disable_Blogging_Settings {
         return $sections;
     }
 
-    /**
-     * Returns all the settings fields
-     *
-     */
     function get_settings_fields() {
         # List all contact fields
         $options_contact['url'] = 'Website';
@@ -94,35 +99,19 @@ class Fact_Maven_Disable_Blogging_Settings {
         # Admin menu
         $options_redirect['none'] = '- None -';
         foreach ( $menu as $group => $item ) {
-            # If the menu title isn't blank, continue
-            if ( ! empty( $item[0] ) ) {
+            # If the menu title isn't blank and a custom setting, continue
+            if ( ! empty( $item[0] ) && strstr( $item[2], '.php' ) ) {
                 # Set each page slug as the value and display the label, also remove the number count
                 $options_redirect[$item[2]] = preg_replace( '/<span(.*?)span>/', '', $item[0] );
             }
-        }
-        /*# List all admin menu and submenu items
-        global $menu, $submenu;
-        # Admin menu
-        $options_menu = [];
-        foreach ( $menu as $group => $item ) {
-            # If the menu title isn't blank, continue
-            if ( !empty( $item[0] ) ) {
-                $options_menu[$item[2]] = $item[0];
-            }
-            # Else, label them as a 'Separator'
-            else {
-                $item[0] = '<span class="description">- Separator -</span>';
-                $options_menu[$item[2]] = $item[0];
+            # If the menu title isn't blank and is a custom menu, continue
+            if ( ! empty( $item[0] ) && ! strstr( $item[2], '.php' ) ) {
+                # Set each page slug as the value and display the label, also remove the number count
+                $options_redirect['admin.php?page=' . $item[2]] = preg_replace( '/<span(.*?)span>/', '', $item[0] );
             }
         }
-        # Admin submenu
-        $options_submenu = [];
-        foreach ( $submenu as $group => $item ) {
-            foreach ( $item as $key ) {
-                $options_submenu[$key[2]] = $key[0];
-            }
-        }*/
 
+        # Create the settings fields
         $settings_fields = array(
             /* General Setting Fields */
             'factmaven_dsbl_general' => array(
@@ -218,7 +207,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                 ),
             ),
             /* User Profile Setting Fields */
-            'factmaven_dsbl_profile' => array( // User Profile
+            'factmaven_dsbl_profile' => array(
                 array(
                     'name' => 'personal_options',
                     'label' => __( 'Personal Options', 'dsbl' ),
@@ -234,7 +223,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'admin_color' => 'Admin Color Scheme',
                         'comment_shortcuts' => 'Keyboard Shortcuts',
                         'admin_bar_front' => 'Toolbar',
-                    )
+                    ),
                 ),
                 array(
                     'name' => 'name',
@@ -249,7 +238,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'last_name' => 'Last Name',
                         'nickname' => 'Nickname',
                         'display_name' => 'Display Name',
-                    )
+                    ),
                 ),
                 array(
                     'name' => 'contact_info',
@@ -271,7 +260,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'options' => array(
                         'description' => 'Biographical Info',
                         'show_avatars' => 'Avatar Display',
-                    )
+                    ),
                 ),
                 array(
                     'name' => 'additional_fields',
@@ -292,7 +281,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'options' => array(
                         'shown' => 'Shown',
                         'hidden' => 'Hidden',
-                    )
+                    ),
                 ),
                 array(
                     'name' => 'separator',
@@ -303,7 +292,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'options' => array(
                         'shown' => 'Shown',
                         'removed' => 'Removed',
-                    )
+                    ),
                 ),
                 array(
                     'name' => 'redirect_menu',
@@ -320,34 +309,6 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'placeholder' => __( "index.php\ntools.php\nadmin.php?page=slug", 'dsbl' ),
                     'type' => 'textarea',
                 ),
-                /*array(
-                    'name' => 'main_menu',
-                    'label' => __( 'Main Menu', 'dsbl' ),
-                    'type' => 'multicheck',
-                    'default' => array(
-                        'edit.php' => 'edit.php', // Posts
-                        'edit-comments.php' => 'edit-comments.php', // Comments
-                        'separator1' => 'separator1', // Separator
-                        'separator2' => 'separator2', // Separator
-                    ),
-                    'options' => $options_menu,
-                ),*/
-                /*array(
-                    'name' => 'submenu',
-                    'label' => __( 'Submenu', 'dsbl' ),
-                    'type' => 'multicheck',
-                    'default' => array(
-                        'edit.php' => 'edit.php', // Posts > All Posts
-                        'post-new.php' => 'post-new.php', // Posts > Add New
-                        'edit-tags.php?taxonomy=category' => 'edit-tags.php?taxonomy=category', // Posts > Categories
-                        'edit-tags.php?taxonomy=post_tag' => 'edit-tags.php?taxonomy=post_tag', // Posts > Tags
-                        'tools.php' => 'tools.php', // Tools > Available Tools
-                        'import.php' => 'import.php', // Tools > Import
-                        'export.php' => 'export.php', // Tools > Export
-                        'options-discussion.php' => 'options-discussion.php', // Settings > Discussion                   
-                    ),
-                    'options' => $options_submenu,
-                ),*/
             ),
         );
         # Return the list of the list of setting fields
@@ -358,34 +319,24 @@ class Fact_Maven_Disable_Blogging_Settings {
         # Display the setting section and fields
         echo '<div class="wrap">
         <h1>Blogging Settings</h1>';
-        /*foreach ( wp_load_alloptions() as $key => $value ) {
-            if ( strpos( $key, 'factmaven_dsbl' ) === 0 ) {
-                // $list[$key] = $value;
-                echo '<pre>'; print_r( $key ); echo '</pre>';
-            }
-        }*/
-        # Show navigation tabs
-        $this -> settings_api -> show_navigation();
+        $this->settings_api->show_navigation();
         # Show each section form
-        $this -> settings_api -> show_forms();
+        $this->settings_api->show_forms();
         echo '</div>';
     }
 
-    /**
-     * Get all the pages
-     *
-     * @return array page names with key value pairs
-     */
     function get_pages() {
+        # Get all of the pages
         $pages = get_pages();
         $pages_options = array();
         if ( $pages ) {
-            foreach ( $pages as $page) {
-                $pages_options[$page -> ID] = $page -> post_title;
+            foreach ( $pages as $page ) {
+                $pages_options[$page->ID] = $page->post_title;
             }
         }
         return $pages_options;
     }
 }
 
+# Instantiate the class
 new Fact_Maven_Disable_Blogging_Settings();
