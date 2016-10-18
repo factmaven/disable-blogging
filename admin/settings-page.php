@@ -306,7 +306,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'name' => 'main_menu',
                     'label' => __( 'Admin Menu<br><sup>(parent menu only)</sup>', 'dsbl' ),
                     'desc' => __( 'Hide unwanted menu items by their slug - one per line.<br>Read the <a href="https://wordpress.org/plugins/disable-blogging/faq" target="_blank">FAQ</a> on how to find the slug name.', 'dsbl' ),
-                    'placeholder' => __( "index.php\ntools.php\nadmin.php?page=slug", 'dsbl' ),
+                    'placeholder' => __( "index.php\ntools.php\nplugin-slug", 'dsbl' ),
                     'type' => 'textarea',
                 ),
             ),
