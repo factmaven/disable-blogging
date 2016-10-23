@@ -1,149 +1,125 @@
-=== Disable Blogging ===
+=== Disable Blogging in WordPress ===
 Contributors: factmaven, ethanosullivan
-Tags: disable wordpress blogging, disable blogging, disable blog, disable feeds, feeds, blog, posts, comments, remove query strings, query strings, user profile, hide user profile fields
-Requires at least: 4.5
-Tested up to: 4.5.3
-Stable tag: 1.3.0
+Tags: wordpress, disable wordpress blogging, disable blogging, disable blog, disable feeds, feeds, blog, posts, comments, remove query strings, query strings, user profile, hide user profile fields, disable emoji, emoji, disable author pages, author pages, disable pingback, pingback, disable trackback, trackback, disable xml-rpc, xml-rpc, disable xmlrpc, xmlrpc, remove help tab, help tab, remove howdy, howdy, admin footer, hide dashicons, dashicons, hide menu separators, menu separators, separators, hide admin menu, admin menu
+Requires at least: 3.7.0
+Tested up to: 4.6.1
+Stable tag: 2.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Disables posts, comments, feeds, and other related the blogging features. A must have plugin to turn WordPress into a non-blogging CMS platform.
 
 == Description ==
-**Disable Blogging** is a plugin that disables all blog related functionalities (posts, comments, feeds, etc.) on WordPress' front-end and the back-end. This makes for a cleaner and simpler WordPress platform to be used for static websites.
+> Turn WordPress into a non-blogging CMS platform. **Disable Blogging** is a plugin that disables all blog related functionalities (posts, comments, feeds, etc.) on the front-end and back-end. This results in a cleaner and simpler WordPress platform to be used for static websites.
 
-= Remove sidebar & toolbar menu items =
-In the admin dashboard - `Posts`, `Comments`, and other blog related menu items are removed from sidebar and toolbar and redirected to `Pages` menu.
+= Disable all posting & comments functions =
+*Posts*, *Comments*, and other blog related menu items are removed from sidebar and toolbar and redirected to *Pages* menu. Additionally, it also changes the following:
 
-= Disable all posting & commenting functions =
-Comments are disallowed and disabled on pages and all blog related widgets are removed.
+* Removes blog related [widgets](https://codex.wordpress.org/WordPress_Widgets)
+* Removes blog related meta boxes on the *Dashboard*
+* Removes *Posts* and *Comments* columns
+* Disable "[*Press This*](https://codex.wordpress.org/Press_This) and [post-by-email](https://codex.wordpress.org/Post_to_your_blog_using_email)"
+* Change & hide all blogging options in WordPress' settings
+* *and so more...*
 
-= Remove all feed links from the header =
-This includes pingbacks, trackbacks, XML-RPC, Windows Live Writer.
+**Note**: Links to previous posts will still be accessible and previous comments will be hidden from view.
+
+= Disable author pages =
+All author pages (`../author=?`) redirect to the the homepage. This helps prevent user enumeration - a common technique hackers use to revel usernames.
+
+= Disable all feeds & related =
+This includes [pingbacks](https://codex.wordpress.org/Glossary#Pingback), [trackbacks](https://codex.wordpress.org/Glossary#Trackback), and [https://codex.wordpress.org/XML-RPC_Support].
 
 = Simplify user profile page =
-Hide unused fields (such as "Biographical Info") and options (such as "Admin Color Scheme") from the `Profile` page to reduce clutter.
+Hide unused fields and options from the `Profile` page to reduce clutter. This includes custom fields created by plugins and themes.
 
-= Other additional features included =
-* Disabling "Press This" function
-* Disabling posting via email
-* Removes "Howdy," from the toolbar
-* Removes "Help" tabs in upper right in the dashboard
-* Removes query strings (`ver=`) from static resources
+= Simplify the admin menu =
+Hide unused menu items created by plugins or themes, and redirect them elsewhere. Additional options include:
+
+* Hide menu [dashicons](https://developer.wordpress.org/resource/dashicons)
+* Hide menu separators, which is the spacing between some of the menu items
+
+= Extra features include =
+* Remove "*Help*" tabs from the admin header
+* Remove the "*Howdy,*" greeting in the admin bar next to the username
+* Have query string version removed form static resources
+  * **Before**: `../twentysixteen/style.css?ver=4.6.1`
+  * **After**: `../twentysixteen/style.css`
+* Remove code in header used to disable for [emoji](https://codex.wordpress.org/Emoji) support
+* Remove or modify the admin footer
 
 = Notice =
-This plugin does not delete any data on WordPress. It simply hides and disables those features that are blog related. If you have any existing, posts, comments, categories and tags on your website; they must be manually deleted if you do not want to keep any of that information.
+This plugin does not delete any data on WordPress. It simply hides and disables those features that are blog related. If you have any existing, posts, comments, categories and tags on your website; they must be manually deleted if you do not want to keep any of that information. All plugin features can be enabled or disabled in the plugin's settings (*Settings* > *Blogging*).
 
 = Contribute on GitHub =
-[View this plugin on GitHub](https://github.com/factmaven/disable-blogging)
-
-We're always looking for suggestions to improve our plugin!
+Want to help improve this plugin? Head over to our [GitHub page](https://github.com/factmaven/disable-blogging). A special thanks to those who've contributed so far: [Piet Bos](https://github.com/senlin), [SECT](https://github.com/sectsect), [cjbj](https://wordpress.org/support/profile/cjbj)
 
 == Installation ==
-1. Upload the plugin to the `/wp-content/plugins/` directory.
+1. Upload the plugin to the `../wp-content/plugins/` directory.
 1. Activate the plugin through the `Plugins` menu in WordPress.
 1. Let it settle in a for a minute and be amazed.
 
-= Notice =
-No settings or configuration needed, activate and enjoy.
+= Settings Page =
+By default all blogging functionality are disabled. However, these options can be updated in the plugin's *Settings* > *Blogging*.
 
 == Frequently Asked Questions ==
 = Are these changes permanent? =
-No, this plugin simply disables, hides, and redirects all of the blogging functions. You can easily revert back by simply disabling the plugin.
+No, this plugin simply disables, hides, and redirects all of the blogging functions. You can easily revert WordPress back to a blogging platform by simply disabling the plugin.
 
-= So these blogging functions are just hidden from view? =
-No, they are also disabled from being access as well for added security. If someone were to access the *Posts* menu:
-`.../wp-admin/post.php`
-They would be redirected to the *Pages* menu:
-`.../wp-admin/edit.php?post_type=page`
+= How do I find the label IDs to hide additional profile fields? =
+1. Navigate to the `Users` > `Your Profile`
+1. Open up your browser's web inspector (ex: [Chrome](https://developer.chrome.com/devtools))
+1. Use the element selector and select the label on the left side of field that you want to hide, for example:
+  * `<label for="first_name">First Name</label>`
+1. For each `<label for=` tag, you will find the ID's of each field, for example:
+  * `first_name`
 
-= I can still access the XML-RPC when I visit ".../xmlrpc.php" even though it's removed from my header =
-If you have access to your `.htaccess` on your hosting you can add the following code to redirect the links to your homepage
-`
-<IfModule mod_alias.c>
-RedirectMatch 301 /xmlrpc.php /
-</IfModule>
-`
-You can do the same for the Windows Live Writer XML and feed.
+= How do I find the slug name to hide additional admin menu items? =
+1. Navigate to the parent menu that you want to hide
+1. If you look at the URL of the menu item, you will see the menu slug, for example:
+  * `http://example.com/wp-admin/upload.php` (Media)
+  * `http://example.com/wp-admin/admin.php?page=custom-plugin`
+1. At the end of each URL you will list them as the following in the option:
+  * `upload.php`
+  * `custom-plugin`
 
-= I like all of the features in this plugin except for (insert_feature_here), how can I disable it? =
-It's fairly simple. You can disable the function by doing the following:
+**Note**: Currently only the parent menu items can be hidden, entering the submenu slugs will not work.
 
-1. Open up the plugin's main file `disable-blogging.php` to edit
-1. At the beginning of the code you will see `// ADD ACTIONS` and `// ADD FILTERS`
-1. Comment out one of the actions/filters using `//` in the beginning of the line to comment it out
-1. Save the file and the feature will be disabled
-
-**Note**: This needs to be done every time the plugin updates.
-
-= I notice that there are still some blogging functions on WordPress, such as (insert_blogging_function_here) =
-This plugin tries its best to disable all blogging related features, if something is missed, please mention it in our [support forum](https://wordpress.org/support/plugin/disable-blogging).
+= I notice that there is a blogging functions isn't disabled =
+This plugin tries its best to disable all blogging related features, if something is missed, please mention it in our [support forum](https://wordpress.org/support/plugin/disable-blogging) or on our [GitHub repository](https://github.com/factmaven/disable-blogging/issues).
 
 == Screenshots ==
-1. Before: admin sidebar and toolbar
-2. After: admin sidebar and toolbar
-3. Before: user profile
-4. After: user profile
+1. General settings to toggle which blog functions to disable.
+1. Extra features to disable. Not necessarily blog related.
+1. Hide unused fields and options from the `Profile` page to reduce clutter.
+1. Hide unused menu items created by plugins or themes, and redirect them elsewhere.
 
 == Changelog ==
-= 1.3.0 (08/20/16) =
-* Added settings to toggle profile fields under "Users" > "Settings"
-* Posts & comments column removed (`dsbl_page_comments` is now `dsbl_columns`)
-* Author page is disabled and redirects to homepage (`dsbl_author_page` and `dsbl_author_link`)
-* Remove WP Engine meta box (`dsbl_meta_boxes`)
+= 2.0.0 [2016-10-23] =
+**Improvements**:
 
-=1.2.6 (07/30/16) =
-* Restored the "Dashboard" menu item
-* Hide blog related meta boxes in the dashboard
-* Default the reading settings to a static page
-* Organized `dsbl_filter_feeds` in appropriate order
-
-= 1.2.5 (07/19/16) =
-* Restored "Email" field in user profile
-
-= 1.2.4 (07/08/16) =
-* Simplified function to hide user profile fields
-
-= 1.2.3 (06/30/16) =
-* "Dashboard" redirects to "Profile" menu instead of "Pages"
-
-= 1.2.2 (06/25/16) =
-* Fixed redirect loop from `dsbl_feeds` (now `dsbl_header_feeds`)
-* The plugin's meta links function is in `includes/plugin-meta.php`
-* Replace `dsbl_false_return` function with `__return_false` instead
-
-= 1.2.1 (06/21/16) =
-* Removed plugin directory define
-
-= 1.2.0 (06/10/16) =
-* Restored "Nickname" and "Display name" fields in user profile
-* Restored default user roles
-* Renabled theme & plugin editor
-* Renabled post revisions
-* All blog links redirect to "Pages" menu
-* Update meta links on plugin page
-* Deactivate other related plugins to prevent conflicts
-* Remove comments column from "Media" menu
-* Disable additional pingbacks
-* Disable posting via email
-* Improved code structure
-* Improved other functions
-
-= 1.1.0 (05/31/16) =
-* Updated `readme.txt`
-* Added plugin meta links
-* Removes "Howdy," from the admin bar
-* Hide certain fields from user profile
-* Hide default user roles (except admin)
-* Feed links redirect to homepage if visited
-* Hide help tabs in admin dashboard
-* Disable "Press This"
-* Disable blog related widgets
-* Disable pings & trackbacks
-* Disable XML-RPC
-* Disable post revisions
-* Disable theme's comment template
+* Rebuilt plugin with new Settings API, everything is now 100% customizable
+* Reordered "*Pages*" menu further up underneath the "*Dashboard*" (thanks to [Piet Bos](https://github.com/senlin))
+* The "*Activity*" meta box will show custom post types instead (thanks to [SECT](https://github.com/sectsect))
+* **Extra Features**
+  * Remove code in header used to add support for [emojis](https://codex.wordpress.org/Emoji)
+  * Change or remove the admin footer
+* **Profile Features**
+  * Hide additional profile fields created by plugins/theme by their label ID
+* **Menu Features**
+  * Option to hide [dashicons](https://developer.wordpress.org/resource/dashicons)
+  * Option to remove separators
+* Blog related options are hidden from the Settings
+* Set the following blog options in the Settings:
+  * **Reading**: Set default the reading settings to a static page
+  * **Discussion**: Unchecked "*attempt to notify any blogs linked to from the article*"
+  * **Discussion**: Unchecked "*allow link notifications from other blogs (pingbacks and trackbacks) on new articles*"
+* More extensive features added to disable blog related features
 * Various code improvements
 
-= 1.0.0 (05/18/16) =
-* Initial release, huzzah!
+**Fixes**:
+
+* Comments column showing up in *Pages*
+* Custom `Taxonomy` redirecting to *Pages* upon update ([issue #3](https://github.com/factmaven/disable-blogging/pull/3))
+
+The rest of the changelog can be [viewed on GitHub](https://github.com/factmaven/disable-blogging/blob/master/CHANGELOG.md).
