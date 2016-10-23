@@ -1,0 +1,6 @@
+.options-permalink-php .form-table tr:nth-child(1),
+.options-permalink-php .form-table tr:nth-child(2),
+.options-permalink-php .form-table tr:nth-child(3),
+.options-permalink-php .form-table tr:nth-child(4) {
+    display: none;
+}
