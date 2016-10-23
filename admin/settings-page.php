@@ -97,7 +97,7 @@ class Fact_Maven_Disable_Blogging_Settings {
 
         global $menu;
         # Admin menu
-        $options_redirect['none'] = '- None -';
+        $options_redirect['none'] = __( '- None -', 'dsbl' );
         foreach ( $menu as $group => $item ) {
             # If the menu title isn't blank and a custom setting, continue
             if ( ! empty( $item[0] ) && strstr( $item[2], '.php' ) ) {
