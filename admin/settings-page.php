@@ -33,8 +33,8 @@ class Fact_Maven_Disable_Blogging_Settings {
     function admin_menu() {
         # Add the plugin settings page
         add_options_page(
-            'Blogging Settings', // Page title
-            'Blogging', // Menu title
+            __( 'Blogging Settings', 'dsbl' ), // Page title
+            __( 'Blogging', 'dsbl' ), // Menu title
             'manage_options', // Capability
             'blogging', // URL slug
             array( $this, 'plugin_page' ) // Callback function
