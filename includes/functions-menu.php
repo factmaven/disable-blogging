@@ -1,4 +1,12 @@
 <?php
+/**
+ * Menu Plugin Functions
+ * Hide additional menu items including ones
+ * created by plugins and themes.
+ *
+ * @author Fact Maven Corp.
+ * @link https://wordpress.org/plugins/disable-blogging/
+ */
 
 # If accessed directly, exit
 if ( ! defined( 'ABSPATH' ) ) exit;

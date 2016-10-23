@@ -140,7 +140,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                 array(
                     'name' => 'author_page',
                     'label' => __( 'Author Page', 'dsbl' ),
-                    'desc' => __( 'Redirects the author links to the homepage.', 'dsbl' ),
+                    'desc' => __( 'Helps prevent <a title="A common technique hackers use to reveal the usernames.">user enumeration</a>, redirects author links to homepage.', 'dsbl' ),
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
@@ -323,18 +323,6 @@ class Fact_Maven_Disable_Blogging_Settings {
         # Show each section form
         $this->settings_api->show_forms();
         echo '</div>';
-    }
-
-    function get_pages() {
-        # Get all of the pages
-        $pages = get_pages();
-        $pages_options = array();
-        if ( $pages ) {
-            foreach ( $pages as $page ) {
-                $pages_options[$page->ID] = $page->post_title;
-            }
-        }
-        return $pages_options;
     }
 }
 

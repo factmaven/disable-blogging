@@ -51,7 +51,7 @@ class Fact_Maven_Disable_Blogging_General {
             }
             # Disable all comment relating functions
             if ( $this->settings['comments'] == 'disable' ) {
-                # Disable support for comments & trackbacks  in all post types
+                # Disable support for comments & trackbacks in all post types
                 add_action( 'init', array( $this, 'comment_support' ), 10, 1 );
                 # Hide 'Recent Comments' section in the 'Activity' meta box
                 add_action( 'admin_enqueue_scripts', array( $this, 'activity_comments' ), 10, 1 );

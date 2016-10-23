@@ -1,28 +1,28 @@
 ## Changelog
-### 2.0.0 [2016-10-17]
+### 2.0.0 [2016-10-23]
 **Improvements**:
 * Rebuilt plugin with new Settings API, everything is now 100% customizable
-* Reordered "Pages" menu further up underneath "Dashboard" (thanks to [Piet Bos](https://wordpress.org/support/users/senlin/))
-* "Activity" meta box will show custom post types instead (thanks to [SECT](https://github.com/sectsect))
+* Reordered "*Pages*" menu further up underneath the "*Dashboard*" (thanks to [Piet Bos](https://github.com/senlin))
+* The "*Activity*" meta box will show custom post types instead (thanks to [SECT](https://github.com/sectsect))
 * **Extra Features**
   * Remove code in header used to add support for [emojis](https://codex.wordpress.org/Emoji)
-  * Change or admin footer
+  * Change or remove the admin footer
 * **Profile Features**
   * Hide additional profile fields created by plugins/theme by their label ID
 * **Menu Features**
   * Option to hide [dashicons](https://developer.wordpress.org/resource/dashicons)
   * Option to remove separators
-* Blog-related options are hidden from the Settings
+* Blog related options are hidden from the Settings
 * Set the following blog options in the Settings:
   * **Reading**: Set default the reading settings to a static page
   * **Discussion**: Unchecked "*attempt to notify any blogs linked to from the article*"
   * **Discussion**: Unchecked "*allow link notifications from other blogs (pingbacks and trackbacks) on new articles*"
-* Extra more extensive features added to disable blog-related features
+* More extensive features added to disable blog related features
 * Various code improvements
 
 **Fixes**:
-* Comments column showing up in Pages
-* Custom Taxonomy redirecting to Pages upon update ([issue #3](https://github.com/factmaven/disable-blogging/pull/3)
+* Comments column showing up in *Pages*
+* Custom `Taxonomy` redirecting to *Pages* upon update ([issue #3](https://github.com/factmaven/disable-blogging/pull/3))
 
 ### 1.3.0 [2016-08-14]
 * Added settings to toggle profile fields under "Users" > "Settings"
