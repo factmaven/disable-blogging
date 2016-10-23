@@ -9,7 +9,7 @@
 * Removes blog related [widgets](https://codex.wordpress.org/WordPress_Widgets)
 * Removes blog related meta boxes on the *Dashboard*
 * Removes *Posts* and *Comments* columns
-* Disable "[*Press This*](https://codex.wordpress.org/Press_This) and [post-by-email](https://codex.wordpress.org/Post_to_your_blog_using_email)"
+* Disable [Press This](https://codex.wordpress.org/Press_This) and [post-by-email](https://codex.wordpress.org/Post_to_your_blog_using_email)
 * Change & hide all blogging options in WordPress' settings
 * *and so more...*
 
@@ -74,6 +74,3 @@ No, this plugin simply disables, hides, and redirects all of the blogging functi
   * `custom-plugin`
 
 **Note**: Currently only the parent menu items can be hidden, entering the submenu slugs will not work.
-
-### I notice that there is a blogging functions isn't disabled 
-This plugin tries its best to disable all blogging related features, if something is missed, please mention it in our [support forum](https://wordpress.org/support/plugin/disable-blogging) or on our [GitHub repository](https://github.com/factmaven/disable-blogging/issues).

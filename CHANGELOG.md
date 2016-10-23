@@ -1,4 +1,8 @@
 ## Changelog
+### 2.0.1 [2016-10-23]
+**Fixes**:
+* Website would load a blank page when disabling feeds
+
 ### 2.0.0 [2016-10-23]
 **Improvements**:
 * Rebuilt plugin with new Settings API, everything is now 100% customizable

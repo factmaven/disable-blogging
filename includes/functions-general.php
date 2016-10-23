@@ -79,9 +79,6 @@ class Fact_Maven_Disable_Blogging_General {
                 add_action( 'pre_ping', array( $this, 'internal_pingbacks' ), 10, 1 );
                 # Disable x-pingback
                 add_filter( 'wp_headers', array( $this, 'x_pingback' ), 10, 1 );
-
-                # Filter feed related content
-                add_action( 'plugins_loaded', array( $this, 'output_buffering' ), 10, 1 );
                 # Set pingback URI to blank for blog info
                 add_filter( 'bloginfo_url', array( $this, 'pingback_url' ), 1, 2 );
                 add_filter( 'bloginfo', array( $this, 'pingback_url' ), 1, 2 );
@@ -394,33 +391,6 @@ class Fact_Maven_Disable_Blogging_General {
         # Unset x-pingback
         unset( $headers['X-Pingback'] );
         return $headers;
-    }
-
-    public function output_buffering() {
-        # Remove 'pingback' from header
-        ob_start( array( $this, 'pingback_header' ) );
-        # Remove 'GMPG' from header
-        ob_start( array( $this, 'gmpg_header' ) );
-    }
-
-    public function pingback_header( $buffer ) {
-        # If in the admin panel, don't run
-        if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
-            return $buffer;
-        }
-        # Find and remove 'pingback' meta tags
-        $buffer = preg_replace( '/(<link.*?rel=("|\')pingback("|\').*?href=("|\')(.*?)("|\')(.*?)?\/?>|<link.*?href=("|\')(.*?)("|\').*?rel=("|\')pingback("|\')(.*?)?\/?>)/i', '', $buffer );
-        return $buffer;
-    }
-
-    public function gmpg_header( $buffer ) {
-        # If in the admin panel, don't run
-        if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
-            return $buffer;
-        }
-        # Find and remove 'profile' meta tags
-        $buffer = preg_replace( '/(<link.*?rel=("|\')profile("|\').*?href=("|\')(.*?)("|\')(.*?)?\/?>|<link.*?href=("|\')(.*?)("|\').*?rel=("|\')profile("|\')(.*?)?\/?>)/i', '', $buffer );
-        return $buffer;
     }
 
     public function pingback_url( $output, $show ) {

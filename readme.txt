@@ -3,7 +3,7 @@ Contributors: factmaven, ethanosullivan
 Tags: wordpress, disable wordpress blogging, disable blogging, disable blog, disable feeds, feeds, blog, posts, comments, remove query strings, query strings, user profile, hide user profile fields, disable emoji, emoji, disable author pages, author pages, disable pingback, pingback, disable trackback, trackback, disable xml-rpc, xml-rpc, disable xmlrpc, xmlrpc, remove help tab, help tab, remove howdy, howdy, admin footer, hide dashicons, dashicons, hide menu separators, menu separators, separators, hide admin menu, admin menu
 Requires at least: 3.7.0
 Tested up to: 4.6.1
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -18,7 +18,7 @@ Disables posts, comments, feeds, and other related the blogging features. A must
 * Removes blog related [widgets](https://codex.wordpress.org/WordPress_Widgets)
 * Removes blog related meta boxes on the *Dashboard*
 * Removes *Posts* and *Comments* columns
-* Disable "[*Press This*](https://codex.wordpress.org/Press_This) and [post-by-email](https://codex.wordpress.org/Post_to_your_blog_using_email)"
+* Disable [Press This](https://codex.wordpress.org/Press_This) and [post-by-email](https://codex.wordpress.org/Post_to_your_blog_using_email)
 * Change & hide all blogging options in WordPress' settings
 * *and so more...*
 
@@ -77,16 +77,15 @@ No, this plugin simply disables, hides, and redirects all of the blogging functi
 = How do I find the slug name to hide additional admin menu items? =
 1. Navigate to the parent menu that you want to hide
 1. If you look at the URL of the menu item, you will see the menu slug, for example:
-  * `http://example.com/wp-admin/upload.php` (Media)
-  * `http://example.com/wp-admin/admin.php?page=custom-plugin`
+  * `../wp-admin/upload.php` (Media)
+  * `../wp-admin/admin.php?page=custom-plugin`
+  * `../wp-admin/edit.php?post_type=custom-post-type`
 1. At the end of each URL you will list them as the following in the option:
   * `upload.php`
   * `custom-plugin`
+  * `edit.php?post_type=custom-post-type`
 
 **Note**: Currently only the parent menu items can be hidden, entering the submenu slugs will not work.
-
-= I notice that there is a blogging functions isn't disabled =
-This plugin tries its best to disable all blogging related features, if something is missed, please mention it in our [support forum](https://wordpress.org/support/plugin/disable-blogging) or on our [GitHub repository](https://github.com/factmaven/disable-blogging/issues).
 
 == Screenshots ==
 1. General settings to toggle which blog functions to disable.
@@ -95,6 +94,11 @@ This plugin tries its best to disable all blogging related features, if somethin
 1. Hide unused menu items created by plugins or themes, and redirect them elsewhere.
 
 == Changelog ==
+= 2.0.1 [2016-10-23] =
+**Fixes**:
+
+* Website would load a blank page when disabling feeds
+
 = 2.0.0 [2016-10-23] =
 **Improvements**:
 
