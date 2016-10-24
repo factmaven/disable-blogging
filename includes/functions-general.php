@@ -32,6 +32,10 @@ class Fact_Maven_Disable_Blogging_General {
         add_action( 'widgets_init', array( $this, 'widgets' ), 11, 1 );
         # Remove blogging related meta boxes on the 'Dashboard'
         add_action( 'wp_dashboard_setup', array( $this, 'meta_boxes' ), 10, 1 );
+        # Handle localisation
+		add_action( 'plugins_loaded', array( $this, 'i18n' ), 0 );
+
+
 
         if ( is_array( $this->settings ) || is_object( $this->settings ) ) {
             # Disable all posting relate functions
@@ -222,6 +226,14 @@ class Fact_Maven_Disable_Blogging_General {
             remove_meta_box( $id, 'dashboard', $context ); 
         }
     }
+
+	/**
+	 * Loads the translation file.
+	 */
+	function i18n() {
+		/* Load the translation of the plugin. */
+		load_plugin_textdomain( 'dsbl', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+	}
 
     /* Disable Posts */
     public function post_column( $column ) {
