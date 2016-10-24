@@ -318,7 +318,7 @@ class Fact_Maven_Disable_Blogging_Settings {
     function plugin_page() {
         # Display the setting section and fields
         echo '<div class="wrap">
-        <h1>Blogging Settings</h1>';
+        <h1>' . __( 'Blogging Settings', 'dsbl' ) . '</h1>';
         $this->settings_api->show_navigation();
         # Show each section form
         $this->settings_api->show_forms();
