@@ -219,10 +219,10 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'admin_bar_front' => 'admin_bar_front', // Toolbar
                     ),
                     'options' => array(
-                        'rich_editing' => 'Visual Editor',
-                        'admin_color' => 'Admin Color Scheme',
-                        'comment_shortcuts' => 'Keyboard Shortcuts',
-                        'admin_bar_front' => 'Toolbar',
+                        'rich_editing' => __( 'Visual Editor', 'dsbl' ),
+                        'admin_color' => __( 'Admin Color Scheme', 'dsbl' ),
+                        'comment_shortcuts' => __( 'Keyboard Shortcuts', 'dsbl' ),
+                        'admin_bar_front' => __( 'Toolbar', 'dsbl' ),
                     ),
                 ),
                 array(
@@ -234,10 +234,10 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'display_name' => 'display_name',
                     ),
                     'options' => array(
-                        'first_name' => 'First Name',
-                        'last_name' => 'Last Name',
-                        'nickname' => 'Nickname',
-                        'display_name' => 'Display Name',
+                        'first_name' => __( 'First Name', 'dsbl' ),
+                        'last_name' => __( 'Last Name', 'dsbl' ),
+                        'nickname' => __( 'Nickname', 'dsbl' ),
+                        'display_name' => __( 'Display Name', 'dsbl' ),
                     ),
                 ),
                 array(
@@ -258,8 +258,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'description' => 'description',
                     ),
                     'options' => array(
-                        'description' => 'Biographical Info',
-                        'show_avatars' => 'Avatar Display',
+                        'description' => __( 'Biographical Info', 'dsbl' ),
+                        'show_avatars' => __( 'Avatar Display', 'dsbl' ),
                     ),
                 ),
                 array(
@@ -279,8 +279,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'select',
                     'default' => 'shown',
                     'options' => array(
-                        'shown' => 'Shown',
-                        'hidden' => 'Hidden',
+                        'shown' => __( 'Shown', 'dsbl' ),
+                        'hidden' => __( 'Hidden', 'dsbl' ),
                     ),
                 ),
                 array(
@@ -290,8 +290,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'select',
                     'default' => 'removed',
                     'options' => array(
-                        'shown' => 'Shown',
-                        'removed' => 'Removed',
+                        'shown' => __( 'Shown', 'dsbl' ),
+                        'removed' => __( 'Removed', 'dsbl' ),
                     ),
                 ),
                 array(
