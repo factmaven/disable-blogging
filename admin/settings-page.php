@@ -122,8 +122,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
-                        'enable' => 'Enable',
-                        'disable' => 'Disable',
+                        'enable' => __( 'Enable', 'dsbl' ),
+                        'disable' => __( 'Disable', 'dsbl' ),
                     ),
                 ),
                 array(
@@ -133,8 +133,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
-                        'enable' => 'Enable',
-                        'disable' => 'Disable',
+                        'enable' => __( 'Enable', 'dsbl' ),
+                        'disable' => __( 'Disable', 'dsbl' ),
                     ),
                 ),
                 array(
@@ -144,8 +144,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
-                        'enable' => 'Enable',
-                        'disable' => 'Disable',
+                        'enable' => __( 'Enable', 'dsbl' ),
+                        'disable' => __( 'Disable', 'dsbl' ),
                     ),
                 ),
                 array(
@@ -155,8 +155,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
-                        'enable' => 'Enable',
-                        'disable' => 'Disable',
+                        'enable' => __( 'Enable', 'dsbl' ),
+                        'disable' => __( 'Disable', 'dsbl' ),
                     ),
                 ),
             ),
@@ -183,8 +183,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'radio',
                     'default' => 'removed',
                     'options' => array(
-                        'shown' => '<strong>Shown</strong>: <code>../' . str_replace( ' ', '', strtolower( wp_get_theme() ) ) . '/style.css?ver=' . get_bloginfo( 'version' ) . '</code>',
-                        'removed' => '<strong>Removed</strong>: <code>../' . str_replace( ' ', '', strtolower( wp_get_theme() ) ) . '/style.css</code>',
+                        'shown' => sprintf( __( '<strong>Shown</strong>: %s', 'dsbl' ), '<code>../' . str_replace( ' ', '', strtolower( wp_get_theme() ) ) . '/style.css?ver=' . get_bloginfo( 'version' ) . '</code>' ),
+                        'removed' => sprintf( __( '<strong>Removed</strong>: %s', 'dsbl' ), '<code>../' . str_replace( ' ', '', strtolower( wp_get_theme() ) ) . '/style.css</code>' ),
                     ),
                 ),
                 array(
@@ -200,9 +200,9 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'radio',
                     'default' => 'site_info',
                     'options' => array(
-                        'default' => '<strong>Default</strong>: <code>Thank you for creating with <a href="https://wordpress.org/" target="_blank">WordPress</a>.</code>',
-                        'site_info' => '<strong>Site Info</strong>: <code>Copyright &copy; ' . date("Y") . ' <a href="' . site_url() . '">' . get_bloginfo( 'name' ) . '</a></code>',
-                        'remove' => '<strong>None</strong>: Remove the WordPress credits',
+                        'default' => __( '<strong>Default</strong>: <code>Thank you for creating with <a href="https://wordpress.org/" target="_blank">WordPress</a>.</code>', 'dsbl' ),
+                        'site_info' => __( '<strong>Site Info</strong>: <code>Copyright &copy; ' . date("Y") . ' <a href="' . site_url() . '">' . get_bloginfo( 'name' ) . '</a></code>', 'dsbl' ),
+                        'remove' => __( '<strong>None</strong>: Remove the WordPress credits', 'dsbl' ),
                     ),
                 ),
             ),
