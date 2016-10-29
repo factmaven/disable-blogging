@@ -63,20 +63,11 @@ class Fact_Maven_Disable_Blogging_Extra {
         get_current_screen() -> remove_help_tabs();
     }
 
-	public function howdy( $wp_admin_bar ) {
-		$current_user = wp_get_current_user();
-		$full = sprintf( __('Howdy, %1$s'), $current_user->display_name );
-		$remove = strstr($full, $current_user->display_name);
-		$replace = str_replace($remove, "", $full);
-		$title = str_replace( $replace, '', $wp_admin_bar -> get_node( 'my-account' ) -> title );
-		if(get_locale() == 'ja'){
-			$title = str_replace( ' さん !', '', $title );
-		}
-
+    public function howdy( $wp_admin_bar ) {
         # Replace 'Howdy,' with a blank
         $wp_admin_bar -> add_node( array(
             'id' => 'my-account',
-            'title' => $title,
+            'title' => str_replace( 'Howdy, ', '', $wp_admin_bar -> get_node( 'my-account' ) -> title ),
         ) );
     }
 
