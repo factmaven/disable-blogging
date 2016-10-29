@@ -7,7 +7,7 @@
  * Author: Fact Maven
  * Author URI: https://www.factmaven.com/
  * License: GPLv3
- * Text Domain: disable-blogging
+ * Text Domain: dsbl
  */
 
 # If accessed directly, exit
@@ -31,6 +31,11 @@ if ( ( get_option( 'factmaven_dsbl_version' ) < $disable_blogging['Version'] ) |
     # Add options for new plugin version
     update_option( 'factmaven_dsbl_version', $disable_blogging['Version'] );
 }
+
+function my_plugin_load_plugin_textdomain() {
+    load_plugin_textdomain( 'my-plugin', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+}
+add_action( 'plugins_loaded', 'my_plugin_load_plugin_textdomain' );
 
 # Call the required files
 require_once( plugin_dir_path( __FILE__ ) . 'admin/plugin-meta.php' );

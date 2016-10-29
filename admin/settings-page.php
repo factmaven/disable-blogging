@@ -33,8 +33,8 @@ class Fact_Maven_Disable_Blogging_Settings {
     function admin_menu() {
         # Add the plugin settings page
         add_options_page(
-            'Blogging Settings', // Page title
-            'Blogging', // Menu title
+            __( 'Blogging Settings', 'dsbl' ), // Page title
+            __( 'Blogging', 'dsbl' ), // Menu title
             'manage_options', // Capability
             'blogging', // URL slug
             array( $this, 'plugin_page' ) // Callback function
@@ -97,7 +97,7 @@ class Fact_Maven_Disable_Blogging_Settings {
 
         global $menu;
         # Admin menu
-        $options_redirect['none'] = '- None -';
+        $options_redirect['none'] = __( '- None -', 'dsbl' );
         foreach ( $menu as $group => $item ) {
             # If the menu title isn't blank and a custom setting, continue
             if ( ! empty( $item[0] ) && strstr( $item[2], '.php' ) ) {
@@ -122,8 +122,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
-                        'enable' => 'Enable',
-                        'disable' => 'Disable',
+                        'enable' => __( 'Enable', 'dsbl' ),
+                        'disable' => __( 'Disable', 'dsbl' ),
                     ),
                 ),
                 array(
@@ -133,8 +133,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
-                        'enable' => 'Enable',
-                        'disable' => 'Disable',
+                        'enable' => __( 'Enable', 'dsbl' ),
+                        'disable' => __( 'Disable', 'dsbl' ),
                     ),
                 ),
                 array(
@@ -144,8 +144,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
-                        'enable' => 'Enable',
-                        'disable' => 'Disable',
+                        'enable' => __( 'Enable', 'dsbl' ),
+                        'disable' => __( 'Disable', 'dsbl' ),
                     ),
                 ),
                 array(
@@ -155,8 +155,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
-                        'enable' => 'Enable',
-                        'disable' => 'Disable',
+                        'enable' => __( 'Enable', 'dsbl' ),
+                        'disable' => __( 'Disable', 'dsbl' ),
                     ),
                 ),
             ),
@@ -183,8 +183,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'radio',
                     'default' => 'removed',
                     'options' => array(
-                        'shown' => '<strong>Shown</strong>: <code>../' . str_replace( ' ', '', strtolower( wp_get_theme() ) ) . '/style.css?ver=' . get_bloginfo( 'version' ) . '</code>',
-                        'removed' => '<strong>Removed</strong>: <code>../' . str_replace( ' ', '', strtolower( wp_get_theme() ) ) . '/style.css</code>',
+                        'shown' => sprintf( __( '<strong>Shown</strong>: %s', 'dsbl' ), '<code>../' . str_replace( ' ', '', strtolower( wp_get_theme() ) ) . '/style.css?ver=' . get_bloginfo( 'version' ) . '</code>' ),
+                        'removed' => sprintf( __( '<strong>Removed</strong>: %s', 'dsbl' ), '<code>../' . str_replace( ' ', '', strtolower( wp_get_theme() ) ) . '/style.css</code>' ),
                     ),
                 ),
                 array(
@@ -200,9 +200,9 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'radio',
                     'default' => 'site_info',
                     'options' => array(
-                        'default' => '<strong>Default</strong>: <code>Thank you for creating with <a href="https://wordpress.org/" target="_blank">WordPress</a>.</code>',
-                        'site_info' => '<strong>Site Info</strong>: <code>Copyright &copy; ' . date("Y") . ' <a href="' . site_url() . '">' . get_bloginfo( 'name' ) . '</a></code>',
-                        'remove' => '<strong>None</strong>: Remove the WordPress credits',
+                        'default' => __( '<strong>Default</strong>: <code>Thank you for creating with <a href="https://wordpress.org/" target="_blank">WordPress</a>.</code>', 'dsbl' ),
+                        'site_info' => __( '<strong>Site Info</strong>: <code>Copyright &copy; ' . date("Y") . ' <a href="' . site_url() . '">' . get_bloginfo( 'name' ) . '</a></code>', 'dsbl' ),
+                        'remove' => __( '<strong>None</strong>: Remove the WordPress credits', 'dsbl' ),
                     ),
                 ),
             ),
@@ -219,10 +219,10 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'admin_bar_front' => 'admin_bar_front', // Toolbar
                     ),
                     'options' => array(
-                        'rich_editing' => 'Visual Editor',
-                        'admin_color' => 'Admin Color Scheme',
-                        'comment_shortcuts' => 'Keyboard Shortcuts',
-                        'admin_bar_front' => 'Toolbar',
+                        'rich_editing' => __( 'Visual Editor', 'dsbl' ),
+                        'admin_color' => __( 'Admin Color Scheme', 'dsbl' ),
+                        'comment_shortcuts' => __( 'Keyboard Shortcuts', 'dsbl' ),
+                        'admin_bar_front' => __( 'Toolbar', 'dsbl' ),
                     ),
                 ),
                 array(
@@ -234,10 +234,10 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'display_name' => 'display_name',
                     ),
                     'options' => array(
-                        'first_name' => 'First Name',
-                        'last_name' => 'Last Name',
-                        'nickname' => 'Nickname',
-                        'display_name' => 'Display Name',
+                        'first_name' => __( 'First Name', 'dsbl' ),
+                        'last_name' => __( 'Last Name', 'dsbl' ),
+                        'nickname' => __( 'Nickname', 'dsbl' ),
+                        'display_name' => __( 'Display Name', 'dsbl' ),
                     ),
                 ),
                 array(
@@ -258,8 +258,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                         'description' => 'description',
                     ),
                     'options' => array(
-                        'description' => 'Biographical Info',
-                        'show_avatars' => 'Avatar Display',
+                        'description' => __( 'Biographical Info', 'dsbl' ),
+                        'show_avatars' => __( 'Avatar Display', 'dsbl' ),
                     ),
                 ),
                 array(
@@ -279,8 +279,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'select',
                     'default' => 'shown',
                     'options' => array(
-                        'shown' => 'Shown',
-                        'hidden' => 'Hidden',
+                        'shown' => __( 'Shown', 'dsbl' ),
+                        'hidden' => __( 'Hidden', 'dsbl' ),
                     ),
                 ),
                 array(
@@ -290,8 +290,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'type' => 'select',
                     'default' => 'removed',
                     'options' => array(
-                        'shown' => 'Shown',
-                        'removed' => 'Removed',
+                        'shown' => __( 'Shown', 'dsbl' ),
+                        'removed' => __( 'Removed', 'dsbl' ),
                     ),
                 ),
                 array(
@@ -318,7 +318,7 @@ class Fact_Maven_Disable_Blogging_Settings {
     function plugin_page() {
         # Display the setting section and fields
         echo '<div class="wrap">
-        <h1>Blogging Settings</h1>';
+        <h1>' . __( 'Blogging Settings', 'dsbl' ) . '</h1>';
         $this->settings_api->show_navigation();
         # Show each section form
         $this->settings_api->show_forms();
