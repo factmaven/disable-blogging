@@ -64,6 +64,10 @@ msgstr ""
 msgid "Menu"
 msgstr ""
 
+#: admin/settings-page.php:92
+msgid "Website"
+msgstr ""
+
 #: admin/settings-page.php:100
 msgid "- None -"
 msgstr ""
@@ -233,9 +237,7 @@ msgid "About Yourself"
 msgstr ""
 
 #: admin/settings-page.php:255
-msgid ""
-"If Comments are enabled, additional avatar settings can be managed in <a "
-"href=\""
+msgid "If Comments are enabled, additional avatar settings can be managed in "
 msgstr ""
 
 #: admin/settings-page.php:261

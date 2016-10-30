@@ -1,0 +1,380 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Project-Id-Version: Disable Blogging\n"
+"POT-Creation-Date: 2016-10-29 13:37+0900\n"
+"PO-Revision-Date: 2016-10-31 03:38+0900\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.9\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: disable-blogging.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Last-Translator: \n"
+"Language: ja\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: admin/plugin-meta.php:23
+msgid "Support"
+msgstr "サポート"
+
+#: admin/plugin-meta.php:24
+msgid "Review"
+msgstr "レビュー"
+
+#: admin/plugin-meta.php:25
+msgid "GitHub"
+msgstr ""
+
+#: admin/plugin-meta.php:38
+msgid "Settings"
+msgstr "設定"
+
+#: admin/settings-api.php:368
+msgid "Choose File"
+msgstr "ファイルを選択"
+
+#: admin/settings-page.php:36 admin/settings-page.php:321
+msgid "Blogging Settings"
+msgstr "ブログ設定"
+
+#: admin/settings-page.php:37
+msgid "Blogging"
+msgstr "ブログ"
+
+#: admin/settings-page.php:72
+msgid "General"
+msgstr "一般"
+
+#: admin/settings-page.php:76
+msgid "Extra"
+msgstr "エキストラ"
+
+#: admin/settings-page.php:80
+msgid "Profile"
+msgstr "プロフィール\t"
+
+#: admin/settings-page.php:84
+msgid "Menu"
+msgstr "メニュー\t"
+
+#: admin/settings-page.php:92
+msgid "Website"
+msgstr "ウェブサイト"
+
+#: admin/settings-page.php:100
+msgid "- None -"
+msgstr ""
+
+#: admin/settings-page.php:120
+msgid "Posting"
+msgstr "投稿\t"
+
+#: admin/settings-page.php:121
+msgid "Links to previous posts will still be accessible."
+msgstr "以前の投稿にアクセスするためのリンク"
+
+#: admin/settings-page.php:125 admin/settings-page.php:136
+#: admin/settings-page.php:147 admin/settings-page.php:158
+msgid "Enable"
+msgstr "有効"
+
+#: admin/settings-page.php:126 admin/settings-page.php:137
+#: admin/settings-page.php:148 admin/settings-page.php:159
+msgid "Disable"
+msgstr "無効"
+
+#: admin/settings-page.php:131
+msgid "Comments"
+msgstr "コメント"
+
+#: admin/settings-page.php:132
+msgid "Previous comments will be hidden from view."
+msgstr "以前のコメントは非表示になります。"
+
+#: admin/settings-page.php:142
+msgid "Author Page"
+msgstr "Author ページ"
+
+#: admin/settings-page.php:143
+msgid ""
+"Helps prevent <a title=\"A common technique hackers use to reveal the "
+"usernames.\">user enumeration</a>, redirects author links to homepage."
+msgstr ""
+"<a title=\"ハッカーがユーザ名を明らかにするために使用する一般的な手法で"
+"す。\">ユーザー名列挙の脆弱性 (User Enumeration)</a>のリスクを回避するのに役"
+"立ちます。著者リンクからホームページにリダイレクトします。"
+
+#: admin/settings-page.php:153
+msgid "Feeds & Related"
+msgstr "フィードとその関連"
+
+#: admin/settings-page.php:154
+msgid ""
+"Includes <a href=\"https://codex.wordpress.org/Glossary#Pingback\" target="
+"\"_blank\">pingbacks</a>, <a href=\"https://codex.wordpress.org/"
+"Glossary#Trackback\" target=\"_blank\">trackbacks</a>, & <a href=\"https://"
+"codex.wordpress.org/XML-RPC_Support\" target=\"_blank\">XML-RPC</a>."
+msgstr ""
+"<a href=\"http://wpdocs.osdn.jp/%E7%94%A8%E8%AA%9E%E9%9B%86#Pingback\" "
+"target=\"_blank\">ピンバック</a> / <a href=\"http://wpdocs.osdn.jp/"
+"%E7%94%A8%E8%AA%9E%E9%9B%86#Trackback\" target=\"_blank\">トラックバック</"
+"a> / <a href=\"https://codex.wordpress.org/XML-RPC_Support\" target=\"_blank"
+"\">XML-RPC</a> を含む"
+
+#: admin/settings-page.php:167
+msgid "Help Tabs"
+msgstr "ヘルプ タブ"
+
+#: admin/settings-page.php:168
+msgid ""
+"Remove <span class=\"description\">Help</span> tabs from the admin header"
+msgstr "管理ヘッダーから<span class=\"description\">『ヘルプ』</span>を削除"
+
+#: admin/settings-page.php:174
+msgid "\"Howdy,\" greeting"
+msgstr "あいさつ文"
+
+#: admin/settings-page.php:175
+msgid "Remove the greeting in the admin bar next to the username"
+msgstr "管理バー・ユーザー名の前の挨拶文『こんにちは、』を削除"
+
+#: admin/settings-page.php:181
+msgid "Have query string version"
+msgstr "バージョンのクエリストリング"
+
+#: admin/settings-page.php:182
+msgid ""
+"It will improve cache performance and overall <a href=\"https://developers."
+"google.com/speed/pagespeed\" target=\"_blank\">page speed</a> score."
+msgstr ""
+"キャッシュのパフォーマンスと全体の<a href=\"https://developers.google.com/"
+"speed/pagespeed\" target=\"_blank\">ページスピード</a>のスコアが向上します。"
+
+#: admin/settings-page.php:186
+#, php-format
+msgid "<strong>Shown</strong>: %s"
+msgstr "<strong>表示</strong>: %s"
+
+#: admin/settings-page.php:187
+#, php-format
+msgid "<strong>Removed</strong>: %s"
+msgstr "<strong>除去</strong>: %s"
+
+#: admin/settings-page.php:192
+msgid ""
+"<a href=\"https://codex.wordpress.org/Emoji\" target=\"_blank\">Emoji</a> "
+"Support"
+msgstr ""
+"<a href=\"https://wpdocs.osdn.jp/%E7%B5%B5%E6%96%87%E5%AD%97\" target="
+"\"_blank\">絵文字</a> サポート"
+
+#: admin/settings-page.php:193
+msgid ""
+"Remove code in header used to add support for emojis<p class=\"description"
+"\">Emojis will still work in browsers which have built in support for them.</"
+"p>"
+msgstr ""
+"絵文字のためにヘッダ内に追加されるコードを削除<p class=\"description\">選択し"
+"てもブラウザのビルトインサポートで絵文字は表示されます。</p>"
+
+#: admin/settings-page.php:199
+msgid "Change admin footer to"
+msgstr "管理フッター"
+
+#: admin/settings-page.php:203
+msgid ""
+"<strong>Default</strong>: <code>Thank you for creating with <a href="
+"\"https://wordpress.org/\" target=\"_blank\">WordPress</a>.</code>"
+msgstr ""
+"<strong>デフォルト</strong>: <code><a href=\"https://ja.wordpress.org/\" "
+"target=\"_blank\">WordPress</a> のご利用ありがとうございます。</code>"
+
+#: admin/settings-page.php:204
+msgid "<strong>Site Info</strong>: <code>Copyright &copy; "
+msgstr "<strong>サイト情報</strong>: <code>Copyright &copy; "
+
+#: admin/settings-page.php:205
+msgid "<strong>None</strong>: Remove the WordPress credits"
+msgstr "<strong>なし</strong>: WordPressクレジットを削除"
+
+#: admin/settings-page.php:213
+msgid "Personal Options"
+msgstr "パーソナルオプション"
+
+#: admin/settings-page.php:222
+msgid "Visual Editor"
+msgstr "ビジュアルエディター"
+
+#: admin/settings-page.php:223
+msgid "Admin Color Scheme"
+msgstr "管理画面の配色"
+
+#: admin/settings-page.php:224
+msgid "Keyboard Shortcuts"
+msgstr "キーボードショートカット"
+
+#: admin/settings-page.php:225
+msgid "Toolbar"
+msgstr "ツールバー"
+
+#: admin/settings-page.php:230
+msgid "Name"
+msgstr "名前"
+
+#: admin/settings-page.php:237
+msgid "First Name"
+msgstr "名"
+
+#: admin/settings-page.php:238
+msgid "Last Name"
+msgstr "姓"
+
+#: admin/settings-page.php:239
+msgid "Nickname"
+msgstr "ニックネーム"
+
+#: admin/settings-page.php:240
+msgid "Display Name"
+msgstr "ブログ上の表示名"
+
+#: admin/settings-page.php:245
+msgid "Contact Info"
+msgstr "コンタクト情報"
+
+#: admin/settings-page.php:254
+msgid "About Yourself"
+msgstr "あなたについて"
+
+#: admin/settings-page.php:255
+msgid "If Comments are enabled, additional avatar settings can be managed in "
+msgstr ""
+"コメントが有効になっている場合、追加のアバター設定はディスカッションページで"
+"管理することができます。"
+
+#: admin/settings-page.php:261
+msgid "Biographical Info"
+msgstr "プロフィール情報"
+
+#: admin/settings-page.php:262
+msgid "Avatar Display"
+msgstr "プロフィール写真（アバター）"
+
+#: admin/settings-page.php:267
+msgid "Additional Fields"
+msgstr "追加フィールド"
+
+#: admin/settings-page.php:268
+msgid ""
+"Hide additional profile fields created by plugins/theme by their label ID."
+"<br>Read the <a href=\"https://wordpress.org/plugins/disable-blogging/faq\" "
+"target=\"_blank\">FAQ</a> on how to find the label IDs."
+msgstr ""
+"プラグイン/テーマで作成された追加のプロフィールフィールドをラベルIDによって非"
+"表示にします。<br>ラベルIDを検索する方法についての<a href=\"https://"
+"wordpress.org/plugins/disable-blogging/faq\" target=\"_blank\">FAQ</a>をお読"
+"みください。"
+
+#: admin/settings-page.php:269
+msgid ""
+"some_label\n"
+"another_label\n"
+"yet_another_label"
+msgstr ""
+
+#: admin/settings-page.php:277
+msgid ""
+"Have menu <a target=\"_blank\" href=\"https://developer.wordpress.org/"
+"resource/dashicons\">dashicons</a>"
+msgstr ""
+"<a target=\"_blank\" href=\"https://developer.wordpress.org/resource/"
+"dashicons\">dashicons</a> メニューアイコン"
+
+#: admin/settings-page.php:278
+msgid "Will only be shown when the menu is collapsed."
+msgstr "メニューが折りたたまれている場合にのみ表示されます。"
+
+#: admin/settings-page.php:282 admin/settings-page.php:293
+msgid "Shown"
+msgstr "表示"
+
+#: admin/settings-page.php:283
+msgid "Hidden"
+msgstr "非表示"
+
+#: admin/settings-page.php:288
+msgid "Menu separators will be"
+msgstr "メニューセパレータ\t"
+
+#: admin/settings-page.php:289
+msgid "This is the spacing between some of the menu items."
+msgstr "いくつかのメニュー項目の間隔です。"
+
+#: admin/settings-page.php:294
+msgid "Removed"
+msgstr "除去"
+
+#: admin/settings-page.php:299
+msgid "Redirect hidden menu items to"
+msgstr "隠されたメニュー項目を<br>リダイレクト"
+
+#: admin/settings-page.php:300
+msgid ""
+"If <strong>none</strong> is selected, hidden menu items will still be "
+"manually accessible."
+msgstr ""
+"『- None -』 が選択されている場合、非表示のメニュー項目は依然として手動でアク"
+"セスできます。"
+
+#: admin/settings-page.php:307
+msgid "Admin Menu<br><sup>(parent menu only)</sup>"
+msgstr "管理メニュー<br><sup>（親メニューのみ）</sup>"
+
+#: admin/settings-page.php:308
+msgid ""
+"Hide unwanted menu items by their slug - one per line.<br>Read the <a href="
+"\"https://wordpress.org/plugins/disable-blogging/faq\" target=\"_blank"
+"\">FAQ</a> on how to find the slug name."
+msgstr ""
+"スラッグによって不要なメニュー項目を非表示にします。 （1行に1つずつ）<br>ス"
+"ラッグ名を検索する方法についての<a href=\"https://wordpress.org/plugins/"
+"disable-blogging/faq\" target=\"_blank\">FAQ</a>をお読みください。"
+
+#: admin/settings-page.php:309
+msgid ""
+"index.php\n"
+"tools.php\n"
+"plugin-slug"
+msgstr ""
+
+#: includes/functions-extra.php:112
+msgid "Copyright &copy; "
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Disable Blogging"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/disable-blogging/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Turn WordPress into a non-blogging, CMS platform by disabling posts, "
+"comments, feeds, and other related the blogging features."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Fact Maven"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.factmaven.com/"
+msgstr ""

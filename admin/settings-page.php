@@ -89,7 +89,7 @@ class Fact_Maven_Disable_Blogging_Settings {
 
     function get_settings_fields() {
         # List all contact fields
-        $options_contact['url'] = 'Website';
+        $options_contact['url'] = __( 'Website', 'dsbl' );
         # List additional contact fields if they exist
         foreach ( wp_get_user_contact_methods() as $value => $label ) {
             $options_contact[$value] = $label;
@@ -201,7 +201,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'default' => 'site_info',
                     'options' => array(
                         'default' => __( '<strong>Default</strong>: <code>Thank you for creating with <a href="https://wordpress.org/" target="_blank">WordPress</a>.</code>', 'dsbl' ),
-                        'site_info' => __( '<strong>Site Info</strong>: <code>Copyright &copy; ' . date("Y") . ' <a href="' . site_url() . '">' . get_bloginfo( 'name' ) . '</a></code>', 'dsbl' ),
+                        'site_info' => __( '<strong>Site Info</strong>: <code>Copyright &copy; ', 'dsbl' ) . date("Y") . ' <a href="' . site_url() . '">' . get_bloginfo( 'name' ) . '</a></code>',
                         'remove' => __( '<strong>None</strong>: Remove the WordPress credits', 'dsbl' ),
                     ),
                 ),
@@ -252,7 +252,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                 array(
                     'name' => 'about_yourself',
                     'label' => __( 'About Yourself', 'dsbl' ),
-                    'desc' => __( 'If Comments are enabled, additional avatar settings can be managed in <a href="' . admin_url( 'options-discussion.php#show_avatars' ) . '">Discussion</a> page.', 'dsbl' ),
+                    'desc' => __( 'If Comments are enabled, additional avatar settings can be managed in ', 'dsbl' ) . '<a href="' . admin_url( 'options-discussion.php#show_avatars' ) . '">Discussion</a> page.',
                     'type' => 'multicheck',
                     'default' => array(
                         'description' => 'description',

@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 # Call the core Plugin API
 require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-# Get plugin's metadata 
+# Get plugin's metadata
 $disable_blogging = get_plugin_data( __FILE__ );
 
 # If the plugin version is lower or not defined, remove plugin options
@@ -32,10 +32,10 @@ if ( ( get_option( 'factmaven_dsbl_version' ) < $disable_blogging['Version'] ) |
     update_option( 'factmaven_dsbl_version', $disable_blogging['Version'] );
 }
 
-function my_plugin_load_plugin_textdomain() {
-    load_plugin_textdomain( 'my-plugin', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+function dsbl_load_plugin_textdomain() {
+    load_plugin_textdomain( 'dsbl', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
-add_action( 'plugins_loaded', 'my_plugin_load_plugin_textdomain' );
+add_action( 'plugins_loaded', 'dsbl_load_plugin_textdomain' );
 
 # Call the required files
 require_once( plugin_dir_path( __FILE__ ) . 'admin/plugin-meta.php' );
