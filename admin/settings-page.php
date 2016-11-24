@@ -172,8 +172,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'default' => 'on',
                 ),
                 array(
-                    'name' => 'howdy',
-                    'label' => __( '"Howdy," greeting', 'dsbl' ),
+                    'name' => 'admin_greeting',
+                    'label' => __( 'Admin Greeting', 'dsbl' ),
                     'desc' => __( 'Remove the greeting in the admin bar next to the username', 'dsbl' ),
                     'type' => 'checkbox',
                     'default' => 'on',

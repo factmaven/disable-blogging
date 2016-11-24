@@ -26,9 +26,9 @@ class Fact_Maven_Disable_Blogging_Extra {
                 # Remove all help tabs from admin header
                 add_action( 'admin_head', array( $this, 'help_tabs' ), PHP_INT_MAX, 1 );
             }
-            if ( $this->settings['howdy'] == 'on' ) {
-                # Remove 'Howdy,' from the admin bar
-                add_filter( 'admin_bar_menu', array( $this, 'howdy' ), 25, 1 );
+            if ( $this->settings['admin_greeting'] == 'on' ) {
+                # Remove greeting in the admin bar
+                add_filter( 'admin_bar_menu', array( $this, 'admin_greeting' ), 25, 1 );
             }
             if ( $this->settings['query_strings'] == 'removed' ) {
                 # Remove query strings from static resources
@@ -63,12 +63,17 @@ class Fact_Maven_Disable_Blogging_Extra {
         get_current_screen() -> remove_help_tabs();
     }
 
-    public function howdy( $wp_admin_bar ) {
-        # Replace 'Howdy,' with a blank
-        $wp_admin_bar -> add_node( array(
-            'id' => 'my-account',
-            'title' => str_replace( 'Howdy, ', '', $wp_admin_bar -> get_node( 'my-account' ) -> title ),
-        ) );
+    public function admin_greeting( $wp_admin_bar ) {
+        # Remove admin greeting in all languages
+        if ( 0 != get_current_user_id() ) {
+            $wp_admin_bar->add_menu( array(
+                'id' => 'my-account',
+                'parent' => 'top-secondary',
+                'title' => wp_get_current_user()->display_name . get_avatar( get_current_user_id(), 28 ),
+                'href' => get_edit_profile_url( get_current_user_id() ),
+                'meta' => array( 'class' => empty( get_avatar( get_current_user_id(), 28 ) ) ? '' : 'with-avatar', ),
+            ) );
+        }
     }
 
     public function query_strings( $query ) {
