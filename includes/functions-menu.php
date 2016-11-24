@@ -31,6 +31,11 @@ class Fact_Maven_Disable_Blogging_Menu {
             if ( $this->settings['separator'] == 'removed' ) {
                 add_action( 'admin_init', array( $this, 'separator' ), 10, 1 );
             }
+            # Reorder `Pages` menu below the `Dashboard`
+            if ( $this->settings['reorder_menu'] == 'on' ) {
+                add_filter( 'custom_menu_order', '__return_true', 10, 1 );
+                add_filter( 'menu_order', array( $this, 'reorder_menu' ), 10, 1 );
+            }
         }
         # Remove additional menu items
         add_action( 'admin_menu', array( $this, 'main_menu' ), 10, 1 );
@@ -55,6 +60,16 @@ class Fact_Maven_Disable_Blogging_Menu {
                 }
             }
         }
+    }
+
+    public function reorder_menu() {
+        # Reorder admin menu
+        $menu_slug = array(
+            'index.php', // Dashboard
+            'edit.php?post_type=page', // Pages
+            );
+        # Return new page order
+        return $menu_slug;
     }
 
     public function main_menu() {

@@ -2,8 +2,7 @@
 ### 2.0.2
 **2016-11-23**
 **Improvements**:
-* i18n support
-* Available in Japanese
+* i18n support: available in Japanese
 
 **Fixes**:
 * Empty array error

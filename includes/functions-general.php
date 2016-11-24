@@ -21,10 +21,6 @@ class Fact_Maven_Disable_Blogging_General {
         # Get the plugin options
         $this->settings = get_option( 'factmaven_dsbl_general' );
 
-        # Reorder `Pages` menu below the `Dashboard`
-        add_filter( 'custom_menu_order', '__return_true', 10, 1 );
-        add_filter( 'menu_order', array( $this, 'reorder_menu' ), 10, 1 );
-        # Remove blogging related toolbar menu items
         add_action( 'wp_before_admin_bar_render', array( $this, 'toolbar_menu' ), 10, 1 );
         # Remove blogging related menu items & redirect to 'Pages' menu
         add_action( 'admin_menu', array( $this, 'sidebar_menu' ), 10, 1 );
@@ -32,10 +28,6 @@ class Fact_Maven_Disable_Blogging_General {
         add_action( 'widgets_init', array( $this, 'widgets' ), 11, 1 );
         # Remove blogging related meta boxes on the 'Dashboard'
         add_action( 'wp_dashboard_setup', array( $this, 'meta_boxes' ), 10, 1 );
-        # Handle localisation
-		add_action( 'plugins_loaded', array( $this, 'i18n' ), 0 );
-
-
 
         if ( is_array( $this->settings ) || is_object( $this->settings ) ) {
             # Disable all posting relate functions
@@ -102,16 +94,6 @@ class Fact_Maven_Disable_Blogging_General {
     //==============================
     // BEGIN THE FUNCTIONS
     //==============================
-    public function reorder_menu() {
-        # Reorder 
-        $menu_slug = array(
-            'index.php', // Dashboard
-            'edit.php?post_type=page', // Pages
-            );
-        # Return new page order
-        return $menu_slug;
-    }
-
     public function toolbar_menu() {
         # Define the list of toolbar items to hide
         $toolbar = array(
@@ -223,14 +205,6 @@ class Fact_Maven_Disable_Blogging_General {
             remove_meta_box( $id, 'dashboard', $context ); 
         }
     }
-
-	/**
-	 * Loads the translation file.
-	 */
-	function i18n() {
-		/* Load the translation of the plugin. */
-		load_plugin_textdomain( 'dsbl', false, basename( dirname( __FILE__ ) ) . '/languages/' );
-	}
 
     /* Disable Posts */
     public function post_column( $column ) {

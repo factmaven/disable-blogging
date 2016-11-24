@@ -142,7 +142,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                 array(
                     'name' => 'author_page',
                     'label' => __( 'Author Page', 'dsbl' ),
-                    'desc' => __( 'Helps prevent <a title="A common technique hackers use to reveal the usernames.">user enumeration</a>, redirects author links to homepage.', 'dsbl' ),
+                    'desc' => __( 'Prevent <a title="A common technique hackers use to reveal the usernames.">user enumeration</a>, redirects author links to homepage.', 'dsbl' ),
                     'type' => 'radio',
                     'default' => 'disable',
                     'options' => array(
@@ -191,7 +191,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                 ),
                 array(
                     'name' => 'emojis',
-                    'label' => __( '<a href="https://codex.wordpress.org/Emoji" target="_blank">Emoji</a> Support', 'dsbl' ),
+                    'label' => __( '<a href="https://codex.wordpress.org/Emoji" target="_blank">Emojis</a> Support', 'dsbl' ),
                     'desc' => __( 'Remove code in header used to add support for emojis<p class="description">Emojis will still work in browsers which have built in support for them.</p>', 'dsbl' ),
                     'type' => 'checkbox',
                     'default' => 'on',
@@ -297,9 +297,16 @@ class Fact_Maven_Disable_Blogging_Settings {
                     ),
                 ),
                 array(
+                    'name'  => 'reorder_menu',
+                    'label' => __( 'Pages Menu', 'dsbl' ),
+                    'desc'  => __( 'Reorder Pages menu to the top', 'dsbl' ),
+                    'type'  => 'checkbox',
+                    'default' => 'on',
+                ),
+                array(
                     'name' => 'redirect_menu',
                     'label' => __( 'Redirect hidden menu items to', 'dsbl' ),
-                    'desc' => __( 'If <strong>none</strong> is selected, hidden menu items will still be manually accessible.', 'dsbl' ),
+                    'desc' => __( 'If <strong>none</strong> is selected, hidden menu items will still be accessible.', 'dsbl' ),
                     'type' => 'select',
                     'default' => 'none',
                     'options' => $options_redirect,
