@@ -136,7 +136,7 @@ class Fact_Maven_Disable_Blogging_General {
 
     public function sidebar_menu() {
         # Remove menu items based on the options
-        $menu_slug = [];
+        $menu_slug = array();
         if ( is_array( $this->settings ) || is_object( $this->settings ) ) {
             if ( $this->settings['posts'] == 'disable' ) {
                 $menu_slug[] = 'edit.php'; // Posts
@@ -162,7 +162,7 @@ class Fact_Maven_Disable_Blogging_General {
         }
         # Redirect menu items to 'Pages' depending on the options
         global $pagenow;
-        $page_slug = [];
+        $page_slug = array();
         if ( is_array( $this->settings ) || is_object( $this->settings ) ) {
             if ( $this->settings['posts'] == 'disable' ) {
                 $page_slug[] = 'edit.php'; // Posts
@@ -315,7 +315,7 @@ class Fact_Maven_Disable_Blogging_General {
 
     public function existing_comments( $comments ) {
         # Return empty array of comments
-        $comments = [];
+        $comments = array();
         return $comments;
     }
 

@@ -98,16 +98,18 @@ class Fact_Maven_Disable_Blogging_Settings {
         global $menu;
         # Admin menu
         $options_redirect['none'] = __( '- None -', 'dsbl' );
-        foreach ( $menu as $group => $item ) {
-            # If the menu title isn't blank and a custom setting, continue
-            if ( ! empty( $item[0] ) && strstr( $item[2], '.php' ) ) {
-                # Set each page slug as the value and display the label, also remove the number count
-                $options_redirect[$item[2]] = preg_replace( '/<span(.*?)span>/', '', $item[0] );
-            }
-            # If the menu title isn't blank and is a custom menu, continue
-            if ( ! empty( $item[0] ) && ! strstr( $item[2], '.php' ) ) {
-                # Set each page slug as the value and display the label, also remove the number count
-                $options_redirect['admin.php?page=' . $item[2]] = preg_replace( '/<span(.*?)span>/', '', $item[0] );
+        if ( is_array( $menu ) || is_object( $menu ) ) {
+            foreach ( $menu as $group => $item ) {
+                # If the menu title isn't blank and a custom setting, continue
+                if ( ! empty( $item[0] ) && strstr( $item[2], '.php' ) ) {
+                    # Set each page slug as the value and display the label, also remove the number count
+                    $options_redirect[$item[2]] = preg_replace( '/<span(.*?)span>/', '', $item[0] );
+                }
+                # If the menu title isn't blank and is a custom menu, continue
+                if ( ! empty( $item[0] ) && ! strstr( $item[2], '.php' ) ) {
+                    # Set each page slug as the value and display the label, also remove the number count
+                    $options_redirect['admin.php?page=' . $item[2]] = preg_replace( '/<span(.*?)span>/', '', $item[0] );
+                }
             }
         }
 

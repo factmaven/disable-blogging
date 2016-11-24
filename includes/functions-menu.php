@@ -47,10 +47,12 @@ class Fact_Maven_Disable_Blogging_Menu {
     public function separator() {
         # Remove all menu separators
         global $menu;
-        foreach ( $menu as $group => $item ) {
-            # If the menu title is blank, it's a separator
-            if ( empty( $item[0] ) ) {
-                remove_menu_page( $item[2] );
+        if ( is_array( $menu ) || is_object( $menu ) ) {
+            foreach ( $menu as $group => $item ) {
+                # If the menu title is blank, it's a separator
+                if ( empty( $item[0] ) ) {
+                    remove_menu_page( $item[2] );
+                }
             }
         }
     }
@@ -59,9 +61,11 @@ class Fact_Maven_Disable_Blogging_Menu {
         if ( isset( $this->settings['main_menu'] ) ) {
             # Convert each new line in the textarea as an array item
             $menu_slug = explode( "\n", str_replace( "\r", "", $this->settings['main_menu'] ) );
-            foreach ( $menu_slug as $key => $value ) {
-                # Remove each menu item
-                remove_menu_page( $value );
+            if ( is_array( $menu_slug ) || is_object( $menu_slug ) ) {
+                foreach ( $menu_slug as $key => $value ) {
+                    # Remove each menu item
+                    remove_menu_page( $value );
+                }
             }
         }
         global $pagenow;

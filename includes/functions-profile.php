@@ -72,9 +72,11 @@ class Fact_Maven_Disable_Blogging_Profile {
                     }
                     # Convert each new line in the textarea as an array item
                     $new_field = explode( "\n", str_replace( "\r", "", $this->settings['additional_fields'] ) );
-                    foreach ( $new_field as $key => $value ) {
-                        if ( $value != NULL ) {
-                            echo( "$('#" . $value . "').closest('tr').hide();" );
+                    if ( is_array( $new_field ) || is_object( $new_field ) ) {
+                        foreach ( $new_field as $key => $value ) {
+                            if ( $value != NULL ) {
+                                echo( "$('#" . $value . "').closest('tr').hide();" );
+                            }
                         }
                     }
                 }

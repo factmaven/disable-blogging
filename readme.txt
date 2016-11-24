@@ -94,12 +94,14 @@ No, this plugin simply disables, hides, and redirects all of the blogging functi
 1. Hide unused menu items created by plugins or themes, and redirect them elsewhere.
 
 == Changelog ==
-= 2.0.1 [2016-10-23] =
+= 2.0.1 =
+* **2016-10-23**
 **Fixes**:
 
 * Website would load a blank page when disabling feeds
 
-= 2.0.0 [2016-10-23] =
+= 2.0.0 =
+* **2016-10-23**
 **Improvements**:
 
 * Rebuilt plugin with new Settings API, everything is now 100% customizable
