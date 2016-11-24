@@ -33,7 +33,7 @@ class Fact_Maven_Disable_Blogging_Menu {
             }
         }
         # Remove additional menu items
-        add_action( 'admin_init', array( $this, 'main_menu' ), 10, 1 );
+        add_action( 'admin_menu', array( $this, 'main_menu' ), 10, 1 );
     }
 
     //==============================

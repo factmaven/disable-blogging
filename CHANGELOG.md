@@ -6,8 +6,8 @@
 * Available in Japanese
 
 **Fixes**:
-* Empty array
-* Invalid argument supplied for `foreach()` (#[10](https://github.com/factmaven/disable-blogging/issues/10))
+* Empty array error
+* Invalid argument supplied for `foreach()` warning (#[10](https://github.com/factmaven/disable-blogging/issues/10))
 
 ### 2.0.1
 **2016-10-23**
