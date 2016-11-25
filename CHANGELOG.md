@@ -1,21 +1,18 @@
 ## Changelog
 ### 2.0.2
 **2016-11-23**
-**Improvements**:
 * i18n support: available in Japanese
-
-**Fixes**:
-* Empty array error
-* Invalid argument supplied for `foreach()` warning (#[10](https://github.com/factmaven/disable-blogging/issues/10))
+* Disable alternative "Howdy" greetings in different languages (thanks to [Maël Conan](https://profiles.wordpress.org/maelconan))
+* **Menu Feature**: option to disable reordering of Pages menu
+* **Fix**: empty array error given for some websites
+* **Fix**: invalid argument supplied for `foreach()` warning ([issue #10](https://github.com/factmaven/disable-blogging/issues/10))
 
 ### 2.0.1
 **2016-10-23**
-**Fixes**:
-* Website would load a blank page when disabling feeds
+* **Fix**: website would load a blank page when disabling feeds
 
 ### 2.0.0
 **2016-10-23**
-**Improvements**:
 * Rebuilt plugin with new Settings API, everything is now 100% customizable
 * Reordered "*Pages*" menu further up underneath the "*Dashboard*" (thanks to [Piet Bos](https://github.com/senlin))
 * The "*Activity*" meta box will show custom post types instead (thanks to [SECT](https://github.com/sectsect))
@@ -34,10 +31,8 @@
   * **Discussion**: Unchecked "*allow link notifications from other blogs (pingbacks and trackbacks) on new articles*"
 * More extensive features added to disable blog related features
 * Various code improvements
-
-**Fixes**:
-* Comments column showing up in *Pages*
-* Custom `Taxonomy` redirecting to *Pages* upon update ([issue #3](https://github.com/factmaven/disable-blogging/pull/3))
+* **Fix**: comments column showing up in *Pages*
+* **Fix**: custom `Taxonomy` redirecting to *Pages* upon update ([issue #3](https://github.com/factmaven/disable-blogging/pull/3))
 
 ### 1.3.0
 **2016-08-14**

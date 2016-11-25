@@ -3,11 +3,11 @@ Contributors: factmaven, ethanosullivan
 Tags: wordpress, disable wordpress blogging, disable blogging, disable blog, disable feeds, feeds, blog, posts, comments, remove query strings, query strings, user profile, hide user profile fields, disable emoji, emoji, disable author pages, author pages, disable pingback, pingback, disable trackback, trackback, disable xml-rpc, xml-rpc, disable xmlrpc, xmlrpc, remove help tab, help tab, remove howdy, howdy, admin footer, hide dashicons, dashicons, hide menu separators, menu separators, separators, hide admin menu, admin menu
 Requires at least: 3.7.0
 Tested up to: 4.6.1
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Disables posts, comments, feeds, and other related the blogging features. A must have plugin to turn WordPress into a non-blogging CMS platform.
+Disable posts, comments, feeds, and other related the blogging features. A must have plugin to turn WordPress into a non-blogging CMS platform.
 
 == Description ==
 > Turn WordPress into a non-blogging CMS platform. **Disable Blogging** is a plugin that disables all blog related functionalities (posts, comments, feeds, etc.) on the front-end and back-end. This results in a cleaner and simpler WordPress platform to be used for static websites.
@@ -28,7 +28,7 @@ Disables posts, comments, feeds, and other related the blogging features. A must
 All author pages (`../author=?`) redirect to the the homepage. This helps prevent user enumeration - a common technique hackers use to revel usernames.
 
 = Disable all feeds & related =
-This includes [pingbacks](https://codex.wordpress.org/Glossary#Pingback), [trackbacks](https://codex.wordpress.org/Glossary#Trackback), and [https://codex.wordpress.org/XML-RPC_Support].
+This includes [pingbacks](https://codex.wordpress.org/Glossary#Pingback), [trackbacks](https://codex.wordpress.org/Glossary#Trackback), and [XML-RPC](https://codex.wordpress.org/XML-RPC_Support).
 
 = Simplify user profile page =
 Hide unused fields and options from the `Profile` page to reduce clutter. This includes custom fields created by plugins and themes.
@@ -52,7 +52,9 @@ Hide unused menu items created by plugins or themes, and redirect them elsewhere
 This plugin does not delete any data on WordPress. It simply hides and disables those features that are blog related. If you have any existing, posts, comments, categories and tags on your website; they must be manually deleted if you do not want to keep any of that information. All plugin features can be enabled or disabled in the plugin's settings (*Settings* > *Blogging*).
 
 = Contribute on GitHub =
-Want to help improve this plugin? Head over to our [GitHub page](https://github.com/factmaven/disable-blogging). A special thanks to those who've contributed so far: [Piet Bos](https://github.com/senlin), [SECT](https://github.com/sectsect), [cjbj](https://wordpress.org/support/profile/cjbj)
+Want to help improve this plugin? Head over to our [GitHub page](https://github.com/factmaven/disable-blogging).
+
+[Current contributors](https://wordpress.org/plugins/disable-blogging/other_notes).
 
 == Installation ==
 1. Upload the plugin to the `../wp-content/plugins/` directory.
@@ -94,15 +96,22 @@ No, this plugin simply disables, hides, and redirects all of the blogging functi
 1. Hide unused menu items created by plugins or themes, and redirect them elsewhere.
 
 == Changelog ==
-= 2.0.1 =
-* **2016-10-23**
-**Fixes**:
+= 2.0.2 =
+*2016-11-23*
 
-* Website would load a blank page when disabling feeds
+* i18n support: available in Japanese
+* Disable alternative "Howdy" greetings in different languages (thanks to [Maël Conan](https://profiles.wordpress.org/maelconan))
+* **Menu Feature**: option to disable reordering of Pages menu
+* **Fix**: empty array error given for some websites
+* **Fix**: invalid argument supplied for `foreach()` warning ([issue #10](https://github.com/factmaven/disable-blogging/issues/10))
+
+= 2.0.1 =
+*2016-10-23*
+
+* **Fix**: website would load a blank page when disabling feeds
 
 = 2.0.0 =
-* **2016-10-23**
-**Improvements**:
+*2016-10-23*
 
 * Rebuilt plugin with new Settings API, everything is now 100% customizable
 * Reordered "*Pages*" menu further up underneath the "*Dashboard*" (thanks to [Piet Bos](https://github.com/senlin))
@@ -122,10 +131,21 @@ No, this plugin simply disables, hides, and redirects all of the blogging functi
   * **Discussion**: Unchecked "*allow link notifications from other blogs (pingbacks and trackbacks) on new articles*"
 * More extensive features added to disable blog related features
 * Various code improvements
-
-**Fixes**:
-
-* Comments column showing up in *Pages*
-* Custom `Taxonomy` redirecting to *Pages* upon update ([issue #3](https://github.com/factmaven/disable-blogging/pull/3))
+* **Fix**: comments column showing up in *Pages*
+* **Fix**: custom `Taxonomy` redirecting to *Pages* upon update ([issue #3](https://github.com/factmaven/disable-blogging/pull/3))
 
 The rest of the changelog can be [viewed on GitHub](https://github.com/factmaven/disable-blogging/blob/master/CHANGELOG.md).
+
+== Contributors ==
+We'd like to thank those who've helped improve our plugin:
+
+* [Piet Bos](https://github.com/senlin)
+* [SECT](https://github.com/sectsect)
+* [Christian Jongeneel](https://profiles.wordpress.org/cjbj)
+* [John A. Huebner II](https://github.com/Hube2)
+* [Maël Conan](https://profiles.wordpress.org/maelconan)
+
+As well as those who've spotted bugs:
+
+* [Benjamin Danon](https://github.com/sphax3d)
+* [Saumya Majumder](https://github.com/isaumya)
