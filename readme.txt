@@ -3,7 +3,7 @@ Contributors: factmaven, ethanosullivan
 Tags: wordpress, disable wordpress blogging, disable blogging, disable blog, disable feeds, feeds, blog, posts, comments, remove query strings, query strings, user profile, hide user profile fields, disable emoji, emoji, disable author pages, author pages, disable pingback, pingback, disable trackback, trackback, disable xml-rpc, xml-rpc, disable xmlrpc, xmlrpc, remove help tab, help tab, remove howdy, howdy, admin footer, hide dashicons, dashicons, hide menu separators, menu separators, separators, hide admin menu, admin menu
 Requires at least: 3.7.0
 Tested up to: 4.6.1
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
