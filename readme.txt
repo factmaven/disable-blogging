@@ -96,8 +96,13 @@ No, this plugin simply disables, hides, and redirects all of the blogging functi
 1. Hide unused menu items created by plugins or themes, and redirect them elsewhere.
 
 == Changelog ==
+= 2.0.3 =
+*2016-11-26*
+
+* **Fix**: fatal error given on some websites (thanks to [CotswoldPhoto](https://profiles.wordpress.org/cotswoldphoto))
+
 = 2.0.2 =
-*2016-11-23*
+*2016-11-25*
 
 * i18n support: available in Japanese
 * Disable alternative "Howdy" greetings in different languages (thanks to [Maël Conan](https://profiles.wordpress.org/maelconan))
@@ -144,8 +149,9 @@ We'd like to thank those who've helped improve our plugin:
 * [Christian Jongeneel](https://profiles.wordpress.org/cjbj)
 * [John A. Huebner II](https://github.com/Hube2)
 * [Maël Conan](https://profiles.wordpress.org/maelconan)
+* [CotswoldPhoto](https://profiles.wordpress.org/cotswoldphoto)
 
-As well as those who've spotted bugs:
+As well as those who've spotted bugs for us:
 
 * [Benjamin Danon](https://github.com/sphax3d)
 * [Saumya Majumder](https://github.com/isaumya)

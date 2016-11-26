@@ -1,6 +1,10 @@
 ## Changelog
+### 2.0.3
+*2016-11-26*
+* **Fix**: fatal error given on some websites (thanks to [CotswoldPhoto](https://profiles.wordpress.org/cotswoldphoto))
+
 ### 2.0.2
-**2016-11-23**
+*2016-11-25*
 * i18n support: available in Japanese
 * Disable alternative "Howdy" greetings in different languages (thanks to [Maël Conan](https://profiles.wordpress.org/maelconan))
 * **Menu Feature**: option to disable reordering of Pages menu
@@ -8,11 +12,11 @@
 * **Fix**: invalid argument supplied for `foreach()` warning ([issue #10](https://github.com/factmaven/disable-blogging/issues/10))
 
 ### 2.0.1
-**2016-10-23**
+*2016-10-23*
 * **Fix**: website would load a blank page when disabling feeds
 
 ### 2.0.0
-**2016-10-23**
+*2016-10-23*
 * Rebuilt plugin with new Settings API, everything is now 100% customizable
 * Reordered "*Pages*" menu further up underneath the "*Dashboard*" (thanks to [Piet Bos](https://github.com/senlin))
 * The "*Activity*" meta box will show custom post types instead (thanks to [SECT](https://github.com/sectsect))
@@ -35,36 +39,36 @@
 * **Fix**: custom `Taxonomy` redirecting to *Pages* upon update ([issue #3](https://github.com/factmaven/disable-blogging/pull/3))
 
 ### 1.3.0
-**2016-08-14**
+*2016-08-14*
 * Added settings to toggle profile fields under "Users" > "Settings"
 * Posts & comments column removed
 * Author page is disabled and redirects to homepage
 * Remove WP Engine meta box
 
 ### 1.2.5
-**2016-07-19**
+*2016-07-19*
 * Restored "Email" field in user profile
 
 ### 1.2.4
-**2016-07-08**
+*2016-07-08*
 * Simplified function to hide user profile fields
 
 ### 1.2.3
-**2016-06-30**
+*2016-06-30*
 * "Dashboard" redirects to "Profile" menu instead of "Pages"
 
 ### 1.2.2
-**2016-06-25** 
+*2016-06-25*
 * Fixed redirect loop from `dsbl_feeds` (now `dsbl_header_feeds`)
 * The plugin's meta links function is in `includes/plugin-meta.php`
 * Replace `dsbl_false_return` function with `__return_false` instead
 
 ### 1.2.1
-**2016-06-21** 
+*2016-06-21*
 * Removed plugin directory define
 
 ### 1.2.0
-**2016-06-10** 
+*2016-06-10*
 * Restored "Nickname" and "Display name" fields in user profile
 * Restored default user roles
 * Renabled theme & plugin editor
@@ -79,7 +83,7 @@
 * Improved other functions
 
 ### 1.1.0
-**2016-05-31** 
+*2016-05-31*
 * Added plugin meta links
 * Removes "Howdy," from the admin bar
 * Hide certain fields from user profile
@@ -95,5 +99,5 @@
 * Various code improvements
 
 ### 1.0.0
-**2016-05-18** 
+*2016-05-18*
 * Initial release, huzzah!

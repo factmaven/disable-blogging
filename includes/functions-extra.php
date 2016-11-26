@@ -71,8 +71,9 @@ class Fact_Maven_Disable_Blogging_Extra {
                 'parent' => 'top-secondary',
                 'title' => wp_get_current_user()->display_name . get_avatar( get_current_user_id(), 28 ),
                 'href' => get_edit_profile_url( get_current_user_id() ),
-                'meta' => array( 'class' => empty( get_avatar( get_current_user_id(), 28 ) ) ? '' : 'with-avatar', ),
+                'meta' => array( 'class' => ( get_avatar( get_current_user_id(), 28 ) ) ? 'with-avatar' : '', ),
             ) );
+            return $wp_admin_bar;
         }
     }
 
