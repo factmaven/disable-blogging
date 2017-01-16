@@ -30,7 +30,7 @@ class Fact_Maven_Disable_Blogging_General {
         add_action( 'wp_dashboard_setup', array( $this, 'meta_boxes' ), 10, 1 );
 
         if ( is_array( $this->settings ) || is_object( $this->settings ) ) {
-            # Disable all posting relate functions
+            # Disable all posting related functions
             if ( $this->settings['posts'] == 'disable' ) {
                 # Remove 'Posts' column from 'Users' page
                 add_action( 'manage_users_columns', array( $this, 'post_column' ), 10, 1 );
@@ -42,6 +42,8 @@ class Fact_Maven_Disable_Blogging_General {
                 add_action( 'admin_init', array( $this, 'posting_options' ), 10, 1 );
                 # Hide post related options in the settings
                 add_action( 'admin_enqueue_scripts', array( $this, 'post_options' ), 10, 1 );
+                # Remove 'post' type from the REST API
+                add_action( 'init', array( $this, 'rest_api_posts' ), 25, 1 );
                 # Disable post-by-email functionality
                 add_filter( 'enable_post_by_email_configuration', '__return_false', 10, 1 );
             }
@@ -265,6 +267,16 @@ class Fact_Maven_Disable_Blogging_General {
         if ( $pagenow == 'options-reading.php' ) {
             wp_enqueue_style( 'factmaven-dsbl-options-reading', plugin_dir_url( __FILE__ ) . 'css/options-reading.css' );
         }
+    }
+
+    public function rest_api_posts() {
+        global $wp_post_types;
+        # If the API calls 'post', return false
+        if ( isset( $wp_post_types['post'] ) ) {
+            $wp_post_types['post']->show_in_rest = FALSE;
+            return TRUE;
+        }
+        return FALSE;
     }
 
     /* Disable Comments */

@@ -1,9 +1,10 @@
 === Disable Blogging in WordPress ===
 Contributors: factmaven, ethanosullivan
-Tags: wordpress, disable wordpress blogging, disable blogging, disable blog, disable feeds, feeds, blog, posts, comments, remove query strings, query strings, user profile, hide user profile fields, disable emoji, emoji, disable author pages, author pages, disable pingback, pingback, disable trackback, trackback, disable xml-rpc, xml-rpc, disable xmlrpc, xmlrpc, remove help tab, help tab, remove howdy, howdy, admin footer, hide dashicons, dashicons, hide menu separators, menu separators, separators, hide admin menu, admin menu
+Donate link: https://www.factmaven.com/
+Tags: admin footer, admin menu, author pages, blog, comments, dashicons, disable author pages, disable blog, disable blogging, disable emoji, disable feeds, disable pingback, disable trackback, disable wordpress blogging, disable xml-rpc, disable xmlrpc, emoji, feeds, help tab, hide admin menu, hide dashicons, hide menu separators, hide user profile fields, howdy, menu separators, pingback, posts, query strings, remove help tab, remove howdy, remove query strings, separators, trackback, user profile, wordpress, xml-rpc, xmlrpc
 Requires at least: 3.7.0
-Tested up to: 4.6.1
-Stable tag: 2.0.3
+Tested up to: 4.7.1
+Stable tag: 2.0.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -13,48 +14,24 @@ Disable posts, comments, feeds, and other related the blogging features. A must 
 > Turn WordPress into a non-blogging CMS platform. **Disable Blogging** is a plugin that disables all blog related functionalities (posts, comments, feeds, etc.) on the front-end and back-end. This results in a cleaner and simpler WordPress platform to be used for static websites.
 
 = Disable all posting & comments functions =
-*Posts*, *Comments*, and other blog related menu items are removed from sidebar and toolbar and redirected to *Pages* menu. Additionally, it also changes the following:
+At its core level, all posting and comment related functionalities are disabled - but that's not all. **Disable Blogging** includes 20+ additional features to disable and hide cumbersome functions that run on WordPress including:
 
-* Removes blog related [widgets](https://codex.wordpress.org/WordPress_Widgets)
-* Removes blog related meta boxes on the *Dashboard*
-* Removes *Posts* and *Comments* columns
-* Disable [Press This](https://codex.wordpress.org/Press_This) and [post-by-email](https://codex.wordpress.org/Post_to_your_blog_using_email)
-* Change & hide all blogging options in WordPress' settings
-* *and so more...*
-
-**Note**: Links to previous posts will still be accessible and previous comments will be hidden from view.
-
-= Disable author pages =
-All author pages (`../author=?`) redirect to the the homepage. This helps prevent user enumeration - a common technique hackers use to revel usernames.
-
-= Disable all feeds & related =
-This includes [pingbacks](https://codex.wordpress.org/Glossary#Pingback), [trackbacks](https://codex.wordpress.org/Glossary#Trackback), and [XML-RPC](https://codex.wordpress.org/XML-RPC_Support).
-
-= Simplify user profile page =
-Hide unused fields and options from the `Profile` page to reduce clutter. This includes custom fields created by plugins and themes.
-
-= Simplify the admin menu =
-Hide unused menu items created by plugins or themes, and redirect them elsewhere. Additional options include:
-
-* Hide menu [dashicons](https://developer.wordpress.org/resource/dashicons)
-* Hide menu separators, which is the spacing between some of the menu items
-
-= Extra features include =
-* Remove "*Help*" tabs from the admin header
-* Remove the "*Howdy,*" greeting in the admin bar next to the username
-* Have query string version removed form static resources
-  * **Before**: `../twentysixteen/style.css?ver=4.6.1`
-  * **After**: `../twentysixteen/style.css`
-* Remove code in header used to disable for [emoji](https://codex.wordpress.org/Emoji) support
-* Remove or modify the admin footer
+* Disable [Author](https://codex.wordpress.org/Author_Templates#Introduction) pages
+* Disable [feeds](https://codex.wordpress.org/WordPress_Feeds#Introduction_to_Feeds), [pingbacks](https://codex.wordpress.org/Glossary#Pingback), [trackbacks](https://codex.wordpress.org/Glossary#Trackback), and [XML-RPC](https://codex.wordpress.org/XML-RPC_Support)
+* Remove [Screen Options](http://www.wpbeginner.com/glossary/screen-options) and [Help](https://codex.wordpress.org/Class_Reference/WP_Screen/add_help_tab#Description) tabs from the admin header
+* Remove the admin bar greeting next to the username
+* Remove query strings from CSS & JS files
+* Remove extra code from the header for [emoji support](https://codex.wordpress.org/Emoji)
+* Simplify user profile
+* [*and so much more...*](https://wordpress.org/plugins/disable-blogging/screenshots/)
 
 = Notice =
 This plugin does not delete any data on WordPress. It simply hides and disables those features that are blog related. If you have any existing, posts, comments, categories and tags on your website; they must be manually deleted if you do not want to keep any of that information. All plugin features can be enabled or disabled in the plugin's settings (*Settings* > *Blogging*).
 
-= Contribute on GitHub =
-Want to help improve this plugin? Head over to our [GitHub page](https://github.com/factmaven/disable-blogging).
+Links to previous posts will still be accessible and previous comments will be hidden from view.
 
-[Current contributors](https://wordpress.org/plugins/disable-blogging/other_notes).
+= Contribute on GitHub =
+Want to help improve this plugin? Head over to our [GitHub page](https://github.com/factmaven/disable-blogging) and get listed as a [contributor to our plugin](https://wordpress.org/plugins/disable-blogging/other_notes)!
 
 == Installation ==
 1. Upload the plugin to the `../wp-content/plugins/` directory.
@@ -62,7 +39,7 @@ Want to help improve this plugin? Head over to our [GitHub page](https://github.
 1. Let it settle in a for a minute and be amazed.
 
 = Settings Page =
-By default all blogging functionality are disabled. However, these options can be updated in the plugin's *Settings* > *Blogging*.
+By default all blogging functionality are disabled. However, these options can be toggled in the plugin's *Settings* > *Blogging*.
 
 == Frequently Asked Questions ==
 = Are these changes permanent? =
@@ -76,19 +53,6 @@ No, this plugin simply disables, hides, and redirects all of the blogging functi
 1. For each `<label for=` tag, you will find the ID's of each field, for example:
   * `first_name`
 
-= How do I find the slug name to hide additional admin menu items? =
-1. Navigate to the parent menu that you want to hide
-1. If you look at the URL of the menu item, you will see the menu slug, for example:
-  * `../wp-admin/upload.php` (Media)
-  * `../wp-admin/admin.php?page=custom-plugin`
-  * `../wp-admin/edit.php?post_type=custom-post-type`
-1. At the end of each URL you will list them as the following in the option:
-  * `upload.php`
-  * `custom-plugin`
-  * `edit.php?post_type=custom-post-type`
-
-**Note**: Currently only the parent menu items can be hidden, entering the submenu slugs will not work.
-
 == Screenshots ==
 1. General settings to toggle which blog functions to disable.
 1. Extra features to disable. Not necessarily blog related.
@@ -96,6 +60,16 @@ No, this plugin simply disables, hides, and redirects all of the blogging functi
 1. Hide unused menu items created by plugins or themes, and redirect them elsewhere.
 
 == Changelog ==
+= 2.0.4 =
+
+*2017-01-14*
+
+* Screen Options tab can now be removed from the admin header
+* Both `post` and `comments` are removed from the [REST API](https://wordpress.org/plugins/rest-api)
+* Hiding additional admin menu items is no longer available
+* Removed depreciated plugin option from v1.3.0
+* **Fix**: fatal error with WooCommerce setup ([issue #12](https://github.com/factmaven/disable-blogging/issues/12))
+
 = 2.0.3 =
 *2016-11-26*
 
@@ -141,6 +115,10 @@ No, this plugin simply disables, hides, and redirects all of the blogging functi
 
 The rest of the changelog can be [viewed on GitHub](https://github.com/factmaven/disable-blogging/blob/master/CHANGELOG.md).
 
+== Upgrade Notice ==
+= 2.0.4 =
+Upgrading will reset all the settings to their default values.
+
 == Contributors ==
 We'd like to thank those who've helped improve our plugin:
 
@@ -155,3 +133,9 @@ As well as those who've spotted bugs for us:
 
 * [Benjamin Danon](https://github.com/sphax3d)
 * [Saumya Majumder](https://github.com/isaumya)
+* [youpain](https://profiles.wordpress.org/youpain)
+
+= Contribute on GitHub =
+Want to help improve this plugin? Head over to our [GitHub page](https://github.com/factmaven/disable-blogging).
+
+[Current contributors](https://wordpress.org/plugins/disable-blogging/other_notes).

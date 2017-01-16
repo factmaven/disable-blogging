@@ -15,6 +15,3 @@ foreach ( wp_load_alloptions() as $option => $value ) {
         delete_option( $option );
     }
 }
-
-# Delete previous option from v1.3.0
-delete_option( 'dsbl_remove_profile_fields' );

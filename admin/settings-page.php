@@ -1,8 +1,8 @@
 <?php
 /**
  * Settings page with all of the options to
- * choose which functions to run. This depends
- * on the Settings API Wrapper to generate the fields.
+ * choose which functions to run. This depends on
+ * the Settings API Wrapper to generate the fields.
  *
  * @author Fact Maven Corp.
  * @link https://wordpress.org/plugins/disable-blogging/
@@ -100,15 +100,10 @@ class Fact_Maven_Disable_Blogging_Settings {
         $options_redirect['none'] = __( '- None -', 'dsbl' );
         if ( is_array( $menu ) || is_object( $menu ) ) {
             foreach ( $menu as $group => $item ) {
-                # If the menu title isn't blank and a custom setting, continue
-                if ( ! empty( $item[0] ) && strstr( $item[2], '.php' ) ) {
+                # If the menu title isn't blank, a custom setting, and the `Dashboard`, continue
+                if ( ! empty( $item[0] ) && strstr( $item[2], '.php' ) && $item[2] != 'index.php' ) {
                     # Set each page slug as the value and display the label, also remove the number count
                     $options_redirect[$item[2]] = preg_replace( '/<span(.*?)span>/', '', $item[0] );
-                }
-                # If the menu title isn't blank and is a custom menu, continue
-                if ( ! empty( $item[0] ) && ! strstr( $item[2], '.php' ) ) {
-                    # Set each page slug as the value and display the label, also remove the number count
-                    $options_redirect['admin.php?page=' . $item[2]] = preg_replace( '/<span(.*?)span>/', '', $item[0] );
                 }
             }
         }
@@ -165,6 +160,12 @@ class Fact_Maven_Disable_Blogging_Settings {
             /* Extra Setting Fields */
             'factmaven_dsbl_extra' => array(
                 array(
+                    'name' => 'screen_options',
+                    'label' => __( 'Screen Options', 'dsbl' ),
+                    'desc' => __( 'Remove <span class="description">Screen Options</span> tab from the admin header', 'dsbl' ),
+                    'type' => 'checkbox',
+                ),
+                array(
                     'name' => 'help_tabs',
                     'label' => __( 'Help Tabs', 'dsbl' ),
                     'desc' => __( 'Remove <span class="description">Help</span> tabs from the admin header', 'dsbl' ),
@@ -174,7 +175,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                 array(
                     'name' => 'admin_greeting',
                     'label' => __( 'Admin Greeting', 'dsbl' ),
-                    'desc' => __( 'Remove the greeting in the admin bar next to the username', 'dsbl' ),
+                    'desc' => __( 'Remove the admin bar greeting next to the username', 'dsbl' ),
                     'type' => 'checkbox',
                     'default' => 'on',
                 ),
@@ -191,8 +192,8 @@ class Fact_Maven_Disable_Blogging_Settings {
                 ),
                 array(
                     'name' => 'emojis',
-                    'label' => __( '<a href="https://codex.wordpress.org/Emoji" target="_blank">Emojis</a> Support', 'dsbl' ),
-                    'desc' => __( 'Remove code in header used to add support for emojis<p class="description">Emojis will still work in browsers which have built in support for them.</p>', 'dsbl' ),
+                    'label' => __( 'Emojis Support', 'dsbl' ),
+                    'desc' => __( 'Remove code in header used to add support for emojis<p class="description"><a href="https://codex.wordpress.org/Emoji" target="_blank">Emojis</a> will still work in browsers which have built in support for them.</p>', 'dsbl' ),
                     'type' => 'checkbox',
                     'default' => 'on',
                 ),
@@ -275,9 +276,17 @@ class Fact_Maven_Disable_Blogging_Settings {
             /* Admin Menu Setting Fields */
             'factmaven_dsbl_menu' => array(
                 array(
+                    'name' => 'redirect_dashboard',
+                    'label' => __( 'Redirect Dashboard menu to', 'dsbl' ),
+                    'desc' => __( 'This will be the new default page when visiting the admin panel.', 'dsbl' ),
+                    'type' => 'select',
+                    'default' => 'none',
+                    'options' => $options_redirect,
+                ),
+                array(
                     'name' => 'dashicons',
-                    'label' => __( 'Have menu <a target="_blank" href="https://developer.wordpress.org/resource/dashicons">dashicons</a>', 'dsbl' ),
-                    'desc' => __( 'Will only be shown when the menu is collapsed.', 'dsbl' ),
+                    'label' => __( 'Have menu dashicons', 'dsbl' ),
+                    'desc' => __( '<a target="_blank" href="https://developer.wordpress.org/resource/dashicons">Dashicons</a> will only be shown when the menu is collapsed.', 'dsbl' ),
                     'type' => 'select',
                     'default' => 'shown',
                     'options' => array(
@@ -302,21 +311,6 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'desc'  => __( 'Reorder Pages menu to the top', 'dsbl' ),
                     'type'  => 'checkbox',
                     'default' => 'on',
-                ),
-                array(
-                    'name' => 'redirect_menu',
-                    'label' => __( 'Redirect hidden menu items to', 'dsbl' ),
-                    'desc' => __( 'If <strong>none</strong> is selected, hidden menu items will still be accessible.', 'dsbl' ),
-                    'type' => 'select',
-                    'default' => 'none',
-                    'options' => $options_redirect,
-                ),
-                array(
-                    'name' => 'main_menu',
-                    'label' => __( 'Admin Menu<br><sup>(parent menu only)</sup>', 'dsbl' ),
-                    'desc' => __( 'Hide unwanted menu items by their slug - one per line.<br>Read the <a href="https://wordpress.org/plugins/disable-blogging/faq" target="_blank">FAQ</a> on how to find the slug name.', 'dsbl' ),
-                    'placeholder' => __( "index.php\ntools.php\nplugin-slug", 'dsbl' ),
-                    'type' => 'textarea',
                 ),
             ),
         );

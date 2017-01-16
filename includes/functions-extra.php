@@ -22,9 +22,13 @@ class Fact_Maven_Disable_Blogging_Extra {
         $this->settings = get_option( 'factmaven_dsbl_extra' );
 
         if ( is_array( $this->settings ) || is_object( $this->settings ) ) {
+            if ( $this->settings['screen_options'] == 'on' ) {
+                # Remove all screen options tab from admin header
+                add_filter( 'screen_options_show_screen', '__return_false' );
+            }
             if ( $this->settings['help_tabs'] == 'on' ) {
                 # Remove all help tabs from admin header
-                add_action( 'admin_head', array( $this, 'help_tabs' ), PHP_INT_MAX, 1 );
+                add_action( 'contextual_help', array( $this, 'help_tabs' ), PHP_INT_MAX, 1 );
             }
             if ( $this->settings['admin_greeting'] == 'on' ) {
                 # Remove greeting in the admin bar
@@ -60,7 +64,7 @@ class Fact_Maven_Disable_Blogging_Extra {
     //==============================
     public function help_tabs() {
         # Remove help tabs
-        get_current_screen() -> remove_help_tabs();
+        get_current_screen()->remove_help_tabs();
     }
 
     public function admin_greeting( $wp_admin_bar ) {

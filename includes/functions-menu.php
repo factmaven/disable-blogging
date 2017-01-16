@@ -36,14 +36,27 @@ class Fact_Maven_Disable_Blogging_Menu {
                 add_filter( 'custom_menu_order', '__return_true', 10, 1 );
                 add_filter( 'menu_order', array( $this, 'reorder_menu' ), 10, 1 );
             }
+            # Remove and redirect `Dashboard` menu
+            if ( $this->settings['redirect_dashboard'] != 'none' ) {
+                add_action( 'admin_menu', array( $this, 'redirect_dashboard' ), 10, 1 );
+            }
         }
-        # Remove additional menu items
-        add_action( 'admin_menu', array( $this, 'main_menu' ), 10, 1 );
     }
 
     //==============================
     // BEGIN THE FUNCTIONS
     //==============================
+    public function redirect_dashboard() {
+        # Remove the `Dashboard` menu item
+        remove_menu_page( 'index.php' );
+        # Redirect the `Dashboard` to the selected page
+        global $pagenow;
+        if ( $pagenow == 'index.php' ) {
+            wp_safe_redirect( admin_url( $this->settings['redirect_dashboard'] ), 301 );
+            exit;
+        }
+    }
+
     public function admin_icons() {
         # Apply CSS script to hide admin dashicons
         wp_enqueue_style( 'factmaven-dsbl-admin-icons', plugin_dir_url( __FILE__ ) . 'css/admin-icons.css' );
@@ -70,25 +83,6 @@ class Fact_Maven_Disable_Blogging_Menu {
             );
         # Return new page order
         return $menu_slug;
-    }
-
-    public function main_menu() {
-        if ( isset( $this->settings['main_menu'] ) ) {
-            # Convert each new line in the textarea as an array item
-            $menu_slug = explode( "\n", str_replace( "\r", "", $this->settings['main_menu'] ) );
-            if ( is_array( $menu_slug ) || is_object( $menu_slug ) ) {
-                foreach ( $menu_slug as $key => $value ) {
-                    # Remove each menu item
-                    remove_menu_page( $value );
-                }
-            }
-        }
-        global $pagenow;
-        # If the menu items accessed and option is not set to 'none', redirect to selected page
-        if ( isset( $menu_slug ) && in_array( $pagenow, $menu_slug, TRUE ) && $this->settings['redirect_menu'] != 'none' ) {
-            wp_safe_redirect( admin_url( $this->settings['redirect_menu'] ), 301 );
-            exit;
-        }
     }
 }
 

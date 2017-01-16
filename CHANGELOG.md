@@ -1,4 +1,12 @@
 ## Changelog
+### 2.0.4
+*2017-01-15*
+* Screen Options tab can now be removed from the admin header
+* Both `post` and `comments` are removed from the [REST API](https://wordpress.org/plugins/rest-api)
+* Hiding additional admin menu items is no longer available
+* Removed depreciated plugin option from v1.3.0
+* **Fix**: fatal error with WooCommerce setup ([issue #12](https://github.com/factmaven/disable-blogging/issues/12))
+
 ### 2.0.3
 *2016-11-26*
 * **Fix**: fatal error given on some websites (thanks to [CotswoldPhoto](https://profiles.wordpress.org/cotswoldphoto))
