@@ -134,6 +134,7 @@ As well as those who've spotted bugs for us:
 * [Benjamin Danon](https://github.com/sphax3d)
 * [Saumya Majumder](https://github.com/isaumya)
 * [youpain](https://profiles.wordpress.org/youpain)
+* [Bart Kuijper](https://github.com/Spartelfant)
 
 = Contribute on GitHub =
 Want to help improve this plugin? Head over to our [GitHub page](https://github.com/factmaven/disable-blogging).

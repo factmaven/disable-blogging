@@ -1,4 +1,8 @@
 ## Changelog
+### 2.1.0
+*yyyy-mm-dd*
+* **Fix**: large plugin icon ([issue #12](https://github.com/factmaven/disable-blogging/issues/12))
+
 ### 2.0.4
 *2017-01-15*
 * Screen Options tab can now be removed from the admin header
