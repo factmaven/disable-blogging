@@ -3,8 +3,8 @@ Contributors: factmaven, ethanosullivan
 Donate link: https://www.factmaven.com/
 Tags: admin footer, admin menu, author pages, blog, comments, dashicons, disable author pages, disable blog, disable blogging, disable emoji, disable feeds, disable pingback, disable trackback, disable wordpress blogging, disable xml-rpc, disable xmlrpc, emoji, feeds, help tab, hide admin menu, hide dashicons, hide menu separators, hide user profile fields, howdy, menu separators, pingback, posts, query strings, remove help tab, remove howdy, remove query strings, separators, trackback, user profile, wordpress, xml-rpc, xmlrpc
 Requires at least: 3.7.0
-Tested up to: 4.7.1
-Stable tag: 2.0.4
+Tested up to: 5.3.2
+Stable tag: 2.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 

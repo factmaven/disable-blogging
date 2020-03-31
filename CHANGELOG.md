@@ -1,6 +1,7 @@
 ## Changelog
 ### 2.1.0
 *yyyy-mm-dd*
+* 
 * **Fix**: large plugin icon ([issue #12](https://github.com/factmaven/disable-blogging/issues/12))
 
 ### 2.0.4
