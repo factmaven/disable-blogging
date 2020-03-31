@@ -14,8 +14,6 @@ class Fact_Maven_Disable_Blogging {
         add_action( 'plugins_loaded', array( $this, 'i18n' ), 0, 1 );
         # Add meta links to plugin page
         add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
-        # Add link to plugin settings
-        add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
     }
 
     public function i18n() {
@@ -34,18 +32,6 @@ class Fact_Maven_Disable_Blogging {
             $links = array_merge( $links, $meta );
         }
         # Return plugin meta links
-        return $links;
-    }
-
-    public function plugin_action_links( $links, $file ) {
-        # Display settings link
-        if ( $file == 'disable-blogging/disable-blogging.php' && current_user_can( 'manage_options' ) ) {
-            array_unshift(
-                $links,
-                '<a href="options-general.php?page=blogging"><span class="dashicons dashicons-admin-settings"></span> ' . __( 'Settings', 'dsbl' ) . '</a>'
-            );
-        }
-        # Return the settings link
         return $links;
     }
 }
