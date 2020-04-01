@@ -24,7 +24,7 @@ class Fact_Maven_Disable_Blogging_Menu {
 
         if ( is_array( $this->settings ) || is_object( $this->settings ) ) {
             # Hide all menu dashicons
-            if ( $this->settings['dashicons'] == 'hidden' ) {
+            if ( $this->settings['menu_dashicons'] == 'hidden' ) {
                 add_action( 'admin_enqueue_scripts', array( $this, 'admin_icons' ), 10, 1 );
             }
             # Remove menu separators

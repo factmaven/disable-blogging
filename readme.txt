@@ -3,7 +3,8 @@ Contributors: factmaven, ethanosullivan
 Donate link: https://www.factmaven.com/
 Tags: admin footer, admin menu, author pages, blog, comments, dashicons, disable author pages, disable blog, disable blogging, disable emoji, disable feeds, disable pingback, disable trackback, disable wordpress blogging, disable xml-rpc, disable xmlrpc, emoji, feeds, help tab, hide admin menu, hide dashicons, hide menu separators, hide user profile fields, howdy, menu separators, pingback, posts, query strings, remove help tab, remove howdy, remove query strings, separators, trackback, user profile, wordpress, xml-rpc, xmlrpc
 Requires at least: 3.7.0
-Tested up to: 5.3.2
+Tested up to: 5.4
+Requires PHP: 5.2
 Stable tag: 2.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -116,25 +117,13 @@ No, this plugin simply disables, hides, and redirects all of the blogging functi
 The rest of the changelog can be [viewed on GitHub](https://github.com/factmaven/disable-blogging/blob/master/CHANGELOG.md).
 
 == Upgrade Notice ==
-= 2.0.4 =
+= 2.1.0 =
 Upgrading will reset all the settings to their default values.
 
 == Contributors ==
-We'd like to thank those who've helped improve our plugin:
+We'd like to thank those who've helped improve our plugin: [Piet Bos](https://github.com/senlin), [SECT](https://github.com/sectsect), [Christian Jongeneel](https://profiles.wordpress.org/cjbj), [John A. Huebner II](https://github.com/Hube2), [Maël Conan](https://profiles.wordpress.org/maelconan), [CotswoldPhoto](https://profiles.wordpress.org/cotswoldphoto)
 
-* [Piet Bos](https://github.com/senlin)
-* [SECT](https://github.com/sectsect)
-* [Christian Jongeneel](https://profiles.wordpress.org/cjbj)
-* [John A. Huebner II](https://github.com/Hube2)
-* [Maël Conan](https://profiles.wordpress.org/maelconan)
-* [CotswoldPhoto](https://profiles.wordpress.org/cotswoldphoto)
-
-As well as those who've spotted bugs for us:
-
-* [Benjamin Danon](https://github.com/sphax3d)
-* [Saumya Majumder](https://github.com/isaumya)
-* [youpain](https://profiles.wordpress.org/youpain)
-* [Bart Kuijper](https://github.com/Spartelfant)
+As well as those who've spotted bugs for us: [Benjamin Danon](https://github.com/sphax3d), [Saumya Majumder](https://github.com/isaumya), [youpain](https://profiles.wordpress.org/youpain), [Bart Kuijper](https://github.com/Spartelfant)
 
 = Contribute on GitHub =
 Want to help improve this plugin? Head over to our [GitHub page](https://github.com/factmaven/disable-blogging).

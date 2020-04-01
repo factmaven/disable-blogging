@@ -284,7 +284,7 @@ class Fact_Maven_Disable_Blogging_Settings {
                     'options' => $options_redirect,
                 ),
                 array(
-                    'name' => 'dashicons',
+                    'name' => 'menu_dashicons',
                     'label' => __( 'Have menu dashicons', 'dsbl' ),
                     'desc' => __( '<a target="_blank" href="https://developer.wordpress.org/resource/dashicons">Dashicons</a> will only be shown when the menu is collapsed.', 'dsbl' ),
                     'type' => 'select',
