@@ -123,7 +123,7 @@ Upgrading will reset all the settings to their default values.
 == Contributors ==
 We'd like to thank those who've helped improve our plugin: [Piet Bos](https://github.com/senlin), [SECT](https://github.com/sectsect), [Christian Jongeneel](https://profiles.wordpress.org/cjbj), [John A. Huebner II](https://github.com/Hube2), [Maël Conan](https://profiles.wordpress.org/maelconan), [CotswoldPhoto](https://profiles.wordpress.org/cotswoldphoto)
 
-As well as those who've spotted bugs for us: [Benjamin Danon](https://github.com/sphax3d), [Saumya Majumder](https://github.com/isaumya), [youpain](https://profiles.wordpress.org/youpain), [Bart Kuijper](https://github.com/Spartelfant)
+As well as those who've spotted bugs for us: [Benjamin Danon](https://github.com/sphax3d), [Saumya Majumder](https://github.com/isaumya), [youpain](https://profiles.wordpress.org/youpain), [Bart Kuijper](https://github.com/Spartelfant) [Timothée Moulin](https://wordpress.org/support/users/timotheemoulin/)
 
 = Contribute on GitHub =
 Want to help improve this plugin? Head over to our [GitHub page](https://github.com/factmaven/disable-blogging).

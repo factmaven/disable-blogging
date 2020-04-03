@@ -2,6 +2,8 @@
 ### 2.1.0
 *yyyy-mm-dd*
 * Added minimum required PHP version in readme
+* Updated Settings API wrapper
+* **Fix**: depreciation warning for Extra > Help Tabs (thanks to [Timothée Moulin](https://wordpress.org/support/users/timotheemoulin/))
 * **Fix**: large plugin icon ([issue #12](https://github.com/factmaven/disable-blogging/issues/12))
 
 ### 2.0.4

@@ -3,7 +3,7 @@
  * Settings API wrapper class.
  *
  * @version 1.3.2 (2020-04-01)
- * Different then official version due to improvements from pulls
+ * Different then official version due to improvements from pulls.
  *
  * @author Tareq Hasan
  * @link https://github.com/tareq1988/wordpress-settings-api-class
