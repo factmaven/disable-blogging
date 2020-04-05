@@ -28,7 +28,6 @@ class Fact_Maven_Disable_Blogging_Extra {
             }
             if ( $this->settings['help_tabs'] == 'on' ) {
                 # Remove all help tabs from admin header
-                // add_action( 'contextual_help', array( $this, 'help_tabs' ), PHP_INT_MAX, 1 );
                 add_action( 'admin_head', array( $this, 'help_tabs' ), PHP_INT_MAX, 1 );
             }
             if ( $this->settings['admin_greeting'] == 'on' ) {
@@ -65,10 +64,7 @@ class Fact_Maven_Disable_Blogging_Extra {
     //==============================
     public function help_tabs() {
         # Remove help tabs
-        // get_current_screen()->remove_help_tabs();
-        /*global $current_screen;
-        $current_screen->remove_help_tabs();*/
-        if(is_admin()){
+        if( is_admin() ) {
         echo '<style type="text/css">
                 #contextual-help-link-wrap { display: none !important; }
               </style>';
