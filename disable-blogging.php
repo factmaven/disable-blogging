@@ -6,7 +6,6 @@
  * Version: 2.1.0
  * Author: Fact Maven
  * Author URI: https://www.factmaven.com/
- * Requires at least: 5.5.0
  * License: GPLv3
  * Text Domain: dsbl
  * Domain Path: /languages
