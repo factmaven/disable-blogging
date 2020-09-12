@@ -296,7 +296,8 @@ class Fact_Maven_Disable_Blogging_General {
         # 'Comment must be manually approved' (checked)
         update_option( 'comment_moderation', 1 );
         # 'Comment author must have a previously approved comment' (checked)
-        update_option( 'comment_whitelist', 1 );
+        @update_option( 'comment_whitelist', 1 ); # deprecated since WP 5.5.0
+        update_option( 'comment_previously_approved', 1 );
     }
 
     public function existing_comments( $comments ) {
