@@ -2,9 +2,9 @@
 Contributors: factmaven, ethanosullivan
 Donate link: https://www.factmaven.com/
 Tags: admin footer, admin menu, author pages, blog, comments, dashicons, disable author pages, disable blog, disable blogging, disable emoji, disable feeds, disable pingback, disable trackback, disable wordpress blogging, disable xml-rpc, disable xmlrpc, emoji, feeds, help tab, hide admin menu, hide dashicons, hide menu separators, hide user profile fields, howdy, menu separators, pingback, posts, query strings, remove help tab, remove howdy, remove query strings, separators, trackback, user profile, wordpress, xml-rpc, xmlrpc
-Requires at least: 3.7.0
-Tested up to: 5.4
-Requires PHP: 5.2
+Requires at least: 4.9
+Tested up to: 5.5.1
+Requires PHP: 7.4
 Stable tag: 2.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,7 +12,7 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Disable posts, comments, feeds, and other related blogging features. A must have plugin to turn WordPress into a non-blogging CMS platform.
 
 == Description ==
-> Turn WordPress into a non-blogging CMS platform. **Disable Blogging** is a plugin that disables all blog related functionalities (posts, comments, feeds, etc.) on the front-end and back-end. This results in a cleaner and simpler WordPress platform to be used for static websites.
+> Turn WordPress into a non-blogging CMS platform. **Disable Blogging** is a plugin that disables all blog related functionalities on the front-end and back-end. This includes posts, comments, feeds, and so much more. As a result, you will have a cleaner and simpler WordPress platform to be used for static websites.
 
 = Disable all posting & comments functions =
 At its core level, all posting and comment related functionalities are disabled - but that's not all. **Disable Blogging** includes 20+ additional features to disable and hide cumbersome functions that run on WordPress including:
