@@ -1,12 +1,14 @@
 # Disable Blogging in WordPress ![Version](https://img.shields.io/wordpress/plugin/v/disable-blogging.svg?style=flat-square) ![Downloads](https://img.shields.io/wordpress/plugin/dt/disable-blogging.svg?style=flat-square) ![Rating](https://img.shields.io/wordpress/plugin/r/disable-blogging.svg?style=flat-square)
 ---
-Turn WordPress into a non-blogging CMS platform. Disable Blogging is a plugin that disables all blog related functionalities on the front-end and back-end. This includes posts, comments, feeds, and so much more. As a result, you will have a cleaner and simpler WordPress platform to be used for static websites.
+Turn WordPress into a non-blogging CMS platform without code. **Disable Blogging** is a plugin that disables all blog related functionalities on the front-end and back-end. This includes posts, comments, feeds, and so much more. As a result, you will have a cleaner and simpler WordPress platform to be used for static websites.
 
 ##### Read more on [WordPress](https://wordpress.org/plugins/disable-blogging/)
 ---
 
 ### Featured Articles
 Disable Blogging been mentioned in a variety of reputable articles around the world, here's what some of them have to say.
+
+> Easily disable blog features in WordPress without writing any code. — [WPBeginner](https://www.wpbeginner.com/plugins/how-to-easily-disable-blog-features-in-wordpress/)
 
 > Disable Blogging should be especially interesting for developers that often develop and sell pure business websites without a blog.
 — [NOUPE](http://www.noupe.com/wordpress/best-may-2016-ten-free-wordpress-plugins.html)
@@ -25,3 +27,8 @@ Disable Blogging been mentioned in a variety of reputable articles around the wo
 
 > It removes all the blogging features you do not need when you use WordPress for websites or even niche pages.
 — [Nischenseiten Guide](http://www.nischenseiten-guide.de/wordpress-fuer-nischenseiten-dieses-plugin-entfernt-alle-blog-features/)
+
+## Contributors
+We'd like to thank those who've helped improve our plugin: [Piet Bos](https://github.com/senlin), [SECT](https://github.com/sectsect), [Christian Jongeneel](https://profiles.wordpress.org/cjbj), [John A. Huebner II](https://github.com/Hube2), [Maël Conan](https://profiles.wordpress.org/maelconan), [CotswoldPhoto](https://profiles.wordpress.org/cotswoldphoto)
+
+As well as those who've spotted bugs for us: [Benjamin Danon](https://github.com/sphax3d), [Saumya Majumder](https://github.com/isaumya), [youpain](https://profiles.wordpress.org/youpain), [Bart Kuijper](https://github.com/Spartelfant) [Timothée Moulin](https://wordpress.org/support/users/timotheemoulin/), [vee w](https://github.com/ve3), [Niels Lange](https://github.com/nielslange), [Damian](https://github.com/dkress59)

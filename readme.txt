@@ -9,13 +9,13 @@ Stable tag: 2.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Disable posts, comments, feeds, and other related blogging features. A must have plugin to turn WordPress into a non-blogging CMS platform.
+Disable posts, comments, feeds, and other blogging features. A must-have plugin to turn WordPress into a non-blogging CMS platform without code.
 
 == Description ==
 > Turn WordPress into a non-blogging CMS platform. **Disable Blogging** is a plugin that disables all blog related functionalities on the front-end and back-end. This includes posts, comments, feeds, and so much more. As a result, you will have a cleaner and simpler WordPress platform to be used for static websites.
 
 = Disable all posting & comments functions =
-At its core level, all posting and comment related functionalities are disabled - but that's not all. **Disable Blogging** includes 20+ additional features to disable and hide cumbersome functions that run on WordPress including:
+At its core level, all posting and comment related functionalities are disabled - but that's not all. **Disable Blogging** includes 20+ extra features to disable and hide cumbersome functions that run on WordPress including:
 
 * Disable [Author](https://codex.wordpress.org/Author_Templates#Introduction) pages
 * Disable [feeds](https://codex.wordpress.org/WordPress_Feeds#Introduction_to_Feeds), [pingbacks](https://codex.wordpress.org/Glossary#Pingback), [trackbacks](https://codex.wordpress.org/Glossary#Trackback), and [XML-RPC](https://codex.wordpress.org/XML-RPC_Support)
@@ -27,12 +27,12 @@ At its core level, all posting and comment related functionalities are disabled 
 * [*and so much more...*](https://wordpress.org/plugins/disable-blogging/screenshots/)
 
 = Notice =
-This plugin does not delete any data on WordPress. It simply hides and disables those features that are blog related. If you have any existing, posts, comments, categories and tags on your website; they must be manually deleted if you do not want to keep any of that information. All plugin features can be enabled or disabled in the plugin's settings (*Settings* > *Blogging*).
+This plugin does not delete any data on WordPress. It hides and disables those features that are blog related. If you have any existing, posts, comments, categories, and tags on your website: **they must be manually deleted**. That's if you do not want to keep any of the blog information. All plugin features are available in the plugin's settings (*Settings* > *Blogging*).
 
 Links to previous posts will still be accessible and previous comments will be hidden from view.
 
 = Contribute on GitHub =
-Want to help improve this plugin? Head over to our [GitHub page](https://github.com/factmaven/disable-blogging) and get listed as a [contributor to our plugin](https://wordpress.org/plugins/disable-blogging/other_notes)!
+Want to help improve this plugin? Head over to our [GitHub page](https://github.com/factmaven/disable-blogging/tree/dev). Please make all contributions to our **`dev` branch**.
 
 == Installation ==
 1. Upload the plugin to the `../wp-content/plugins/` directory.
@@ -68,7 +68,7 @@ No, this plugin simply disables, hides, and redirects all of the blogging functi
 * Added minimum required PHP version in readme
 * Updated Settings API wrapper
 * **Fix**: depreciation warning for Extra > Help Tabs (thanks to [Timothée Moulin](https://wordpress.org/support/users/timotheemoulin/))
-* **Fix**: depreciation warning for 'Comment must be manually approved' option ([])
+* **Fix**: depreciation warning for "Comment must be manually approved" option ([pull #18](https://github.com/factmaven/disable-blogging/pull/18))
 * **Fix**: large plugin icon ([issue #12](https://github.com/factmaven/disable-blogging/issues/12))
 
 = 2.0.4 =
@@ -133,9 +133,4 @@ Upgrading will reset all the settings to their default values.
 == Contributors ==
 We'd like to thank those who've helped improve our plugin: [Piet Bos](https://github.com/senlin), [SECT](https://github.com/sectsect), [Christian Jongeneel](https://profiles.wordpress.org/cjbj), [John A. Huebner II](https://github.com/Hube2), [Maël Conan](https://profiles.wordpress.org/maelconan), [CotswoldPhoto](https://profiles.wordpress.org/cotswoldphoto)
 
-As well as those who've spotted bugs for us: [Benjamin Danon](https://github.com/sphax3d), [Saumya Majumder](https://github.com/isaumya), [youpain](https://profiles.wordpress.org/youpain), [Bart Kuijper](https://github.com/Spartelfant) [Timothée Moulin](https://wordpress.org/support/users/timotheemoulin/)
-
-= Contribute on GitHub =
-Want to help improve this plugin? Head over to our [GitHub page](https://github.com/factmaven/disable-blogging).
-
-[Current contributors](https://wordpress.org/plugins/disable-blogging/other_notes).
+As well as those who've spotted bugs for us: [Benjamin Danon](https://github.com/sphax3d), [Saumya Majumder](https://github.com/isaumya), [youpain](https://profiles.wordpress.org/youpain), [Bart Kuijper](https://github.com/Spartelfant) [Timothée Moulin](https://wordpress.org/support/users/timotheemoulin/), [vee w](https://github.com/ve3), [Niels Lange](https://github.com/nielslange), [Damian](https://github.com/dkress59)
