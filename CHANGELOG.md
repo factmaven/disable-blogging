@@ -1,9 +1,10 @@
 ## Changelog
 ### 2.1.0
-*yyyy-mm-dd*
+*2020-09-14*
 * Added minimum required PHP version in readme
 * Updated Settings API wrapper
 * **Fix**: depreciation warning for Extra > Help Tabs (thanks to [Timothée Moulin](https://wordpress.org/support/users/timotheemoulin/))
+* **Fix**: depreciation warning for 'Comment must be manually approved' option ([])
 * **Fix**: large plugin icon ([issue #12](https://github.com/factmaven/disable-blogging/issues/12))
 
 ### 2.0.4
