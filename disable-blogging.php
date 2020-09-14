@@ -5,7 +5,7 @@
  * Description: Turn WordPress into a non-blogging, CMS platform by disabling posts, comments, feeds, and other related blogging features.
  * Version: 2.1.0
  * Author: Fact Maven
- * Author URI: https://www.factmaven.com/
+ * Author URI: https://factmaven.com/
  * License: GPLv3
  * Text Domain: dsbl
  * Domain Path: /languages

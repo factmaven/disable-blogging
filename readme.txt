@@ -1,6 +1,6 @@
 === Disable Blogging in WordPress ===
 Contributors: factmaven, ethanosullivan
-Donate link: https://www.factmaven.com/
+Donate link: https://factmaven.com/
 Tags: admin footer, admin menu, author pages, blog, comments, dashicons, disable author pages, disable blog, disable blogging, disable emoji, disable feeds, disable pingback, disable trackback, disable wordpress blogging, disable xml-rpc, disable xmlrpc, emoji, feeds, help tab, hide admin menu, hide dashicons, hide menu separators, hide user profile fields, howdy, menu separators, pingback, posts, query strings, remove help tab, remove howdy, remove query strings, separators, trackback, user profile, wordpress, xml-rpc, xmlrpc
 Requires at least: 4.9
 Tested up to: 5.5.1

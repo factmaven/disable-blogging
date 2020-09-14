@@ -368,7 +368,7 @@ msgid "Fact Maven"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "https://www.factmaven.com/"
+msgid "https://factmaven.com/"
 msgstr ""
 
 #~ msgid "\"Howdy,\" greeting"
